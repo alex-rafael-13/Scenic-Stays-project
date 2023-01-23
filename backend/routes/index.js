@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 
-//Import API router
+//------------------------ Routers ------------------------//
 const apiRouter = require('./api');
 router.use('/api', apiRouter)
+
 
 
 //Use to test API
