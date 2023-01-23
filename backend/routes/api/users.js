@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router()
@@ -20,7 +20,5 @@ router.post('/', async (req, res, next) => {
         user: user
     })
 })
-
-
 
 module.exports = router;
