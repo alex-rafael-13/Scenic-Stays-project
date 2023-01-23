@@ -30,6 +30,12 @@ router.post('/', async (req, res, next) => {
     });
 });
 
+//Logout of Session 
+router.delete('/', (_req, res, next) => {
+    res.clearCookie('token')
+    return res.json({message:'Success'})
+})
+
 
 
 
