@@ -68,6 +68,11 @@ module.exports = (sequelize, DataTypes) => {
   //------------------------ Associations ------------------------//
     static associate(models) {
       // define association here
+      User.hasMany(
+        models.Spot, {
+          foreignKey: 'ownerdId'
+        }
+      )
     }
   }
   User.init({
