@@ -53,6 +53,11 @@ const routes = require('./routes')
 app.use(routes)
 
 
+//Checking if app is running
+app.get('/', (req, res) => {
+  res.json({message: "SERVER IS RUNNING"})
+})
+
 //------------------------ Error Handling ------------------------//
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
