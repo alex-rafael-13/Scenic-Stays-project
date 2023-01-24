@@ -10,6 +10,22 @@ const router = express.Router()
 
 //Validation middleware for signups
 const validateSignup = [
+    check('firstName')
+        .exists({ checkFalsy: true})
+        .isLength({min: 2})
+        .withMessage('First Name must be at least 2 characters long'),
+    check('firstName')
+        .not()
+        .isEmail()
+        .withMessage('First Name cannot be an email.'),
+    check('lastName')
+        .exists({ checkFalsy: true})
+        .isLength({min: 2})
+        .withMessage('Last Name must be at least 2 characters long'),
+    check('lastName')
+        .not()
+        .isEmail()
+        .withMessage('Last Name cannot be an email.'),
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
@@ -32,10 +48,10 @@ const validateSignup = [
 //Signup a new user
 router.post('/', validateSignup, async (req, res, next) => {
 
-    const { email, username, password} = req.body;
+    const { firstName, lastName, email, username, password} = req.body;
 
     //Create new User using signup method
-    const user = await User.signup({username, email, password});
+    const user = await User.signup({firstName, lastName, username, email, password});
 
     //Set token cookie
     await setTokenCookie(res, user)

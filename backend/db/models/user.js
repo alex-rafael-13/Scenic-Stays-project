@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   //------------------------ Instance Methods ------------------------//
     //Returns object with the info that is safe to save in the JWT
     toSafeObject() {
-      const { id, username, email} = this
-      return {id, username, email}
+      const { id, firstName, lastName, username, email} = this
+      return {id, firstName, lastName, username, email}
     };
     
     //Checks if inputed password matches the hashed password
@@ -51,10 +51,12 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     //Signs up an user if inputs are valid
-    static async signup({username, email, password}){
+    static async signup({firstName, lastName, username, email, password}){
       //hash the password
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword
@@ -69,6 +71,30 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
+    firstName:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        len: [2,30],
+        isNotEmail(value){
+          if(Validator.isEmail(value)){
+            throw new Error('Cannot be an email')
+          }
+        }
+      }
+    },
+    lastName:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        len: [2,30],
+        isNotEmail(value){
+          if(Validator.isEmail(value)){
+            throw new Error('Cannot be an email')
+          }
+        }
+      }
+    },
     username: {
       type:DataTypes.STRING,
       allowNull: false,
@@ -109,7 +135,7 @@ module.exports = (sequelize, DataTypes) => {
     scopes:{
       currentUser:{
         attributes:{
-          exclude: ['hashedPassword']
+          exclude: ['hashedPassword', 'createdAt', 'updatedAt']
         }
       },
       loginUser:{
