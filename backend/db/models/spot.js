@@ -13,7 +13,16 @@ module.exports = (sequelize, DataTypes) => {
       //Association to Users for ownerId
       Spot.belongsTo(
         models.User
-      )
+      );
+
+      //Associating Spot Images
+      Spot.hasMany(
+        models.SpotImage, {
+          foreignKey: 'spotId'
+        }
+      )  
+
+
     }
   }
   Spot.init({
