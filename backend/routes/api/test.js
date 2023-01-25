@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { Spot, SpotImage, Booking } = require('../../db/models') 
+const { Spot, SpotImage, Booking, Review } = require('../../db/models') 
 
 router.post('/', (req, res) => {
     res.json({reqBody: req.body})
@@ -9,34 +9,37 @@ router.post('/', (req, res) => {
 
 //GET api/test/spots to check if spots are in db
 router.get('/spots', async (req, res) => {
-    const spots = await Spot.findAll({
-        attributes: ['id']
-    })
+    const spots = await Spot.count()
 
     res.json({
-        spots: spots
+        spotsCount: spots
     })
 });
 
 //GET api/test/spotImages to check if spotImages are in db
 router.get('/spotImages', async (req, res) => {
-    const spotImages = await SpotImage.findAll({
-        attributes: ['id']
-    })
+    const spotImages = await SpotImage.count()
 
     res.json({
-        spots: spotImages
+        spotsCount: spotImages
     })
 });
 
 //GET api/test/Bookings to check if Bookings are in db
 router.get('/bookings', async (req, res) => {
-    const bookings = await Booking.findAll({
-        attributes: ['id']
-    })
+    const bookings = await Booking.count()
 
     res.json({
-        bookings: bookings
+        bookingsCount: bookings
+    })
+});
+
+//GET api/test/reviews to check if Bookings are in db
+router.get('/reviews', async (req, res) => {
+    const reviews = await Review.count()
+
+    res.json({
+        reviewsCount: reviews
     })
 });
 
