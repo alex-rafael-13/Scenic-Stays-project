@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
 
+      //Creating association to reviewImage
+      Review.belongsTo(models.ReviewImage, {
+        foreignKey: 'reviewId'
+      });
+
     }
   }
   Review.init({
