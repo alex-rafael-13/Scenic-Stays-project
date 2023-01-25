@@ -45,7 +45,9 @@ router.get('/reviews', async (req, res) => {
 
 //GET api/test/reviewImages to check if Bookings are in db
 router.get('/reviewImages', async (req, res) => {
-    const reviewImages = await ReviewImage.count()
+    const reviewImages = await ReviewImage.findAll({
+        attributes: ['reviewId']
+    })
 
     res.json({
         reviewImageCount: reviewImages
