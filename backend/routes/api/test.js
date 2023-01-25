@@ -21,7 +21,7 @@ router.get('/spotImages', async (req, res) => {
     const spotImages = await SpotImage.count()
 
     res.json({
-        spotsCount: spotImages
+        spotImagesCount: spotImages
     })
 });
 
