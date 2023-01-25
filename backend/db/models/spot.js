@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         models.SpotImage, {
           foreignKey: 'spotId'
         }
-      )  
+      );
+      
+      //Connecting association to Booking
+      Spot.hasMany(models.Booking)
 
 
     }
