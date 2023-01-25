@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'spotId'
       })
 
+      //Connecting associationg to Review
+      Spot.hasMany(models.Review, {
+        foreignKey: 'spotId'
+      })
+
 
     }
   }

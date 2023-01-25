@@ -79,6 +79,13 @@ module.exports = (sequelize, DataTypes) => {
         models.Booking, {
           foreignKey: 'userId'
         } 
+      );
+
+      //Creating association to reviews
+      User.hasMany(
+        models.Review, {
+          foreignKey: 'userId'
+        }
       )
     }
   }
