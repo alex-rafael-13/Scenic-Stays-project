@@ -74,7 +74,7 @@ module.exports = {
         const user = await User.findOne({where: {username: review.username}})
         const details = review.details
 
-        await Review.create({where:{
+        await Review.destroy({where:{
           spotId: spot.id,
           userId: user.id,
           ...details
