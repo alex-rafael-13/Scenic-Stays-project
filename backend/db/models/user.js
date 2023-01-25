@@ -75,7 +75,11 @@ module.exports = (sequelize, DataTypes) => {
       );
 
       //Connecting association to Booking
-      // User.hasMany(models.Booking)
+      User.hasMany(
+        models.Booking, {
+          foreignKey: 'userId'
+        } 
+      )
     }
   }
   User.init({

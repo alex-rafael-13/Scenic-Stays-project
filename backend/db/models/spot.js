@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.SpotImage);
       
       //Connecting association to Booking
-      // Spot.hasMany(models.Booking)
+      Spot.hasMany(models.Booking)
 
 
     }

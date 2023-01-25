@@ -43,7 +43,7 @@ const ownerSpots = [
         country: "United States of America",
         lat: 37.7645358,
         lng: 122.4730327,
-        name: "Erk Killmonger Outreach Center",
+        name: "Erik Killmonger Outreach Center",
         description: "Home of Prince N'Jadaka and a Wakanda outreach center",
         price: 70
       },

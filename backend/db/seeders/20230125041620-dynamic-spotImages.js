@@ -25,7 +25,7 @@ const spotImages = [
     ]
   },
   {
-    name: 'Erk Killmonger Outreach Center',
+    name: 'Erik Killmonger Outreach Center',
     images: [
       {
         url: "outreach-image-url-1",
