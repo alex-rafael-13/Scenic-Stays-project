@@ -70,12 +70,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(
         models.Spot, {
-          foreignKey: 'ownerdId'
+          foreignKey: 'ownerId'
         }
       );
 
       //Connecting association to Booking
-      User.hasMany(models.Booking)
+      // User.hasMany(models.Booking)
     }
   }
   User.init({
