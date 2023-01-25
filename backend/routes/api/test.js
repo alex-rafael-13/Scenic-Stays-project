@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { Spot, SpotImage, Booking, Review } = require('../../db/models') 
+const { Spot, SpotImage, Booking, Review, ReviewImage } = require('../../db/models') 
 
 router.post('/', (req, res) => {
     res.json({reqBody: req.body})
@@ -40,6 +40,15 @@ router.get('/reviews', async (req, res) => {
 
     res.json({
         reviewsCount: reviews
+    })
+});
+
+//GET api/test/reviewImages to check if Bookings are in db
+router.get('/reviewImages', async (req, res) => {
+    const reviewImages = await ReviewImage.count()
+
+    res.json({
+        reviewImageCount: reviewImages
     })
 });
 
