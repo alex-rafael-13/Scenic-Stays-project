@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const spotimage = require('./spotimage');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -18,10 +19,14 @@ module.exports = (sequelize, DataTypes) => {
       );
 
       //Associating Spot Images
-      Spot.hasMany(models.SpotImage);
+      Spot.hasMany(models.SpotImage,{
+        foreignKey: 'spotId'
+      });
       
       //Connecting association to Booking
-      Spot.hasMany(models.Booking)
+      Spot.hasMany(models.Booking, {
+        foreignKey: 'spotId'
+      })
 
 
     }
