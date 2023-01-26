@@ -387,14 +387,4 @@ router.delete('/:spotId', [restoreUser, requireAuth], async (req, res, next) => 
 })
 
 
-
-
-
-
-
-
-
-
-
-
 module.exports = router
