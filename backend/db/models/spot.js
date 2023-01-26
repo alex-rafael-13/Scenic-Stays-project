@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       //Association to Users for ownerId
       Spot.belongsTo(
         models.User, {
-          foreignKey: 'ownerId'
+          foreignKey: 'ownerId',
+          as: 'Owner'
         }
       );
 

@@ -8,7 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { check, withMessage } = require('express-validator');
 
 //Import models needed
-const { Spot, Review, SpotImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User } = require('../../db/models');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -124,6 +124,7 @@ router.get('/', async (req, res) => {
     - GET /api/spots
     - Does not require body
     - Include avgRating and and one previewImage
+    - Auth required 
 */
 router.get('/current', [restoreUser, requireAuth], async (req, res) => {
 
@@ -189,7 +190,77 @@ router.get('/current', [restoreUser, requireAuth], async (req, res) => {
     }
 
     res.json({Spots: spotsList})
-})
+});
+
+/* Get all spots by id in req.params
+    - GET /api/spots/:spotId
+    - Does not require body
+    - Include avgRating and and one previewImage
+    - Include SpotImages
+    - Auth not required
+*/
+
+router.get('/:spotId', async (req, res, next) => {
+    //get id from parms
+    const id = req.params.spotId
+
+    const spots = await Spot.findByPk(id , {
+        include: [
+            { model: Review },
+            { 
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview'],
+            },
+            {
+                model: User,
+                as: 'Owner',
+                attributes: ['id', 'firstName', 'lastName']   
+            }
+        ]
+    });
+
+    if(!spots){
+        let err = {
+            message: "Spot couldn't be found",
+            status: 404
+        }
+        next(err)
+    }else{
+        //Create a spots list array
+        const spot = spots.toJSON()
+        
+        let avgRating = 0
+        let totalStars = await Review.sum('stars', {where:{
+            spotId: spot.id
+        }})
+        let totalReviews = await Review.count({
+            where:{
+                spotId: spot.id
+            }
+        })
+        //If spot has stars & reviews, find avgRating 
+        if(totalStars && totalReviews){
+            avgRating = parseFloat(totalStars / totalReviews).toFixed(1)
+            avgRating = parseFloat(avgRating)
+        } 
+        //save totalReviews attributes
+        spot.numReviews = totalReviews
+
+        //save avgRating to spot Object
+        spot.avgStarRating = avgRating
+
+        //remove Reviews
+        delete spot.Reviews;
+       
+    
+       
+        
+            //If no reviews, avgRating will be set to 0
+        
+    
+        res.json(spot)
+    }
+});
 
 
 
