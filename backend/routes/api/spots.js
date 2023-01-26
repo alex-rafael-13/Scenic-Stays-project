@@ -8,7 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { check, withMessage } = require('express-validator');
 
 //Import models needed
-const { User, Spot } = require('../../db/models');
+const { Spot, Review, SpotImage } = require('../../db/models');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -52,6 +52,73 @@ const validateSpot = [
         .isDecimal()
     ,handleValidationErrors
 ]
+
+/* Get all spots, it does not need authentication
+    - GET /api/spots
+    - Does not require body
+    - Include avgRating and and one previewImage
+*/
+router.get('/', async (req, res) => {
+    //get all spots from db as POJOS
+    const spots = await Spot.findAll({
+        include: [
+            { model: Review },
+            { model: SpotImage }
+        ]
+    });
+
+    //Create a spots list array
+    let spotsList = []
+    //Iterate through spots to make it into a POJO using .toJSON()
+    for(let spot of spots){
+        spotsList.push(spot.toJSON())
+    }
+
+    // console.log(spotsList)
+    //iterate through each spot to find avgRating
+    for(let spot of spotsList){
+        //If no reviews, avgRating will be set to 0
+        let avgRating = 0
+        let totalStars = await Review.sum('stars', {where:{
+            spotId: spot.id
+        }})
+        let totalReviews = await Review.count({
+            where:{
+                spotId: spot.id
+            }
+        })
+        //If spot has stars & reviews, find avgRating 
+        if(totalStars && totalReviews){
+            avgRating = parseFloat(totalStars / totalReviews).toFixed(1)
+            avgRating = parseFloat(avgRating)
+        } 
+        //save avgRating to spot Object
+        spot.avgRating = avgRating
+
+        //remove Reviews
+        delete spot.Reviews;
+    }
+
+    //iterate spotsList to find previewImages
+    for(let spot of spotsList){
+        //iterate through each image to see where preview === true
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true){
+                spot.previewImage = image.url
+            }
+        })
+        //if no previewImage, set it to not found
+        if(!spot.previewImage){
+            spot.previewImage = "NOT FOUND"
+        }
+
+        //delete SpotImages
+        delete spot.SpotImages
+    }
+
+    res.json({Spots: spotsList})
+})
+
 
 /*Create a spot owned by the signed in user
     - POST /api/spots
@@ -110,8 +177,8 @@ router.put('/:spotId', [restoreUser, requireAuth, validateSpot], async (req, res
     //Check if userId equals ownerId to auth edit
     else if(spot.ownerId !== user.id){
         let err = {
-            message: "Authentication required - Not the owner",
-            status: 401
+            message: "Forbidden",
+            status: 403
         }
         next(err)
     }
@@ -132,7 +199,7 @@ router.put('/:spotId', [restoreUser, requireAuth, validateSpot], async (req, res
         const editedSpot = await Spot.findByPk(id)
         res.json(editedSpot)
     }
-})
+});
 
 
 
