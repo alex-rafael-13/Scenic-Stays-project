@@ -9,7 +9,6 @@ const { check, withMessage } = require('express-validator');
 
 //Import models needed
 const { User, Spot } = require('../../db/models');
-const { test } = require('mocha');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
