@@ -54,10 +54,11 @@ const validateSpot = [
 ]
 
 /*Create a spot owned by the signed in user
-    -POST /api/spots
+    - POST /api/spots
     - restoreUser checks if a valid JWT cookie exists, 
         then requireAuth checks if user is logged in 
     - get user.id from req.user created by restoreUser
+    - use validateSpot middleware to validate req.body
 */
 router.post('/', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
     //extract user from req.user attr created by restoreUser
@@ -81,6 +82,58 @@ router.post('/', [restoreUser, requireAuth, validateSpot], async (req, res, next
 
     res.json(newSpot)
 });
+
+/* Edit a spot using its id but only if the signed in user owns it
+    - PUT /api/spots/:spotId
+    - Make sure user is logged in 
+    - Get user Id using restoreUser middleware
+    - use validateSpot middleware to validate req.body
+*/
+router.put('/:spotId', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+
+    //extract necessary data
+    const { user } = req
+    const id = req.params.spotId
+    const { address, city, state, country,
+    lat, lng, name, description, price} = req.body
+
+    const spot = await Spot.findByPk(id)
+
+    //Check if spot exists
+    if(!spot){  
+        let err = {
+            message: "Spot couldn't be found",
+            status: 404
+        }
+        next(err)
+    }
+    //Check if userId equals ownerId to auth edit
+    else if(spot.ownerId !== user.id){
+        let err = {
+            message: "Authentication required - Not the owner",
+            status: 401
+        }
+        next(err)
+    }
+    //If both pass, update the spot
+    else{
+        await Spot.update({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price            
+        }, {where: {id}});
+
+        const editedSpot = await Spot.findByPk(id)
+        res.json(editedSpot)
+    }
+})
+
 
 
 
