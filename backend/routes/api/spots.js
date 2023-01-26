@@ -346,7 +346,45 @@ router.put('/:spotId', [restoreUser, requireAuth, validateSpot], async (req, res
     }
 });
 
+/* Delete a spot using its id but only if the signed in user owns it
+    - DELETE /api/spots/:spotId
+    - Make sure user is logged in 
+    - Get user Id using restoreUser middleware
+    - use validateSpot middleware to validate req.body
+*/
+router.delete('/:spotId', [restoreUser, requireAuth], async (req, res, next) => {
+    //Get user and spotId data
+    const { user } = req
+    const id = req.params.spotId
 
+    const spot = await Spot.findByPk(id)
+
+    //Check if spot exists
+    if(!spot){  
+        let err = {
+            message: "Spot couldn't be found",
+            status: 404
+        }
+        next(err)
+    }
+    //Check if userId equals ownerId to auth edit
+    else if(spot.ownerId !== user.id){
+        let err = {
+            message: "Forbidden",
+            status: 403
+        }
+        next(err)
+    } else{
+        //Delete spot
+        await Spot.destroy({where:{id: spot.id}})
+
+        //send message that it was deleted
+        res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        })
+    }
+})
 
 
 
