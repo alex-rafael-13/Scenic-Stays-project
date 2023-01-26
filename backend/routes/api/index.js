@@ -19,7 +19,7 @@ const usersRouter = require('./users.js')
 router.use('/users', usersRouter)
 
 //Spots Router
-const spotsRouter = require('./spots')
+const spotsRouter = require('./spots.js')
 router.use('/spots', spotsRouter)
 
 
