@@ -21,6 +21,7 @@ const validateLogin = [
 ];
 
 //Login to Session
+  //POST /api/session
 router.post('/', validateLogin, async (req, res, next) => {
 
     const { credential, password} = req.body
@@ -46,12 +47,13 @@ router.post('/', validateLogin, async (req, res, next) => {
 });
 
 //Logout of Session 
+  //DELETE /api/session
 router.delete('/', (_req, res, next) => {
     res.clearCookie('token')
     return res.json({message:'Success'})
 })
 
-//Get Session
+//Get Session /api/session
 router.get('/', restoreUser, (req, res) => {
     const { user } = req;
     if (user) {

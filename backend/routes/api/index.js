@@ -4,7 +4,7 @@ const router = require('express').Router();
 //Import files
 const sessionRouter = require('./session.js');
 const { restoreUser } = require('../../utils/auth.js');
-const { User } = require('../../db/models');
+// const { User } = require('../../db/models');
 
 
 //------------------------ Middleware ------------------------//
