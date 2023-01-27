@@ -24,7 +24,7 @@ router.use('/spots', spotsRouter)
 
 //Bookings Router
 const bookingsRouter = require('./bookings')
-router.user('/bookings', bookingsRouter)
+router.use('/bookings', bookingsRouter)
 
 //MY TEST FILE:
 const testRouter  = require('./test.js')

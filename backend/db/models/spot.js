@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const spotimage = require('./spotimage');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -10,6 +9,29 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
+    //Method to find preview images only
+    async findPreviewImages(id){
+      //get SpotImage model
+      const SpotImage = this.sequelize.models.SpotImage
+      const images = await SpotImage.findOne({
+        where:{
+          spotId: id,
+          preview: true
+        },
+        attributes: ['url']
+      });
+
+      if(!images){
+        return "Preview image not set"
+      }
+
+      return images.url
+    }
+
+
+
+
     static associate(models) {
       //Association to Users for ownerId
       Spot.belongsTo(
