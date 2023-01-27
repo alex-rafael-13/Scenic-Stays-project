@@ -48,7 +48,14 @@ router.get('/current', [ restoreUser, requireAuth], async (req, res, next) => {
         let spotPOJO = spot.toJSON()
         //method from Spot model to find previewImages
         const previewImages = await spot.findPreviewImages(spot.id)
-            
+
+        // ???????????????
+        // spotPOJO.lat = parseFloat(spotPOJO.lat)
+        // spotPOJO.lng = parseFloat(spotPOJO.lng)
+        // spotPOJO.price = parseFloat(spotPOJO.price)
+
+
+
         spotPOJO.previewImage = previewImages
         booking.Spot = spotPOJO
     }
