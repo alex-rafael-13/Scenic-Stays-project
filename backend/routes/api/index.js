@@ -34,6 +34,10 @@ router.use('/reviews', reviewRouter)
 const reviewImagesRouter = require('./review-images')
 router.use('/review-images', reviewImagesRouter)
 
+//SpotImages Router
+const spotImageRouter = require('./spot-images')
+router.use('/spot-images', spotImageRouter)
+
 //MY TEST FILE:
 const testRouter  = require('./test.js')
 //TEST ROUTER
