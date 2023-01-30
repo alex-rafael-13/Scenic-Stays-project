@@ -585,3 +585,5 @@ router.get('/:spotId/reviews', async(req,res, next) => {
 
 
 module.exports = router
+
+
