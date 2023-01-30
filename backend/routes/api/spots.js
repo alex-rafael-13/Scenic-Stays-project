@@ -1,6 +1,7 @@
 //Init express router
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize')
 
 //Import middleware from utils folder and Validation library
 const { restoreUser ,requireAuth } = require('../../utils/auth');
@@ -9,6 +10,7 @@ const { check, withMessage } = require('express-validator');
 
 //Import models needed
 const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
+const { query } = require('express');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -53,71 +55,166 @@ const validateSpot = [
     ,handleValidationErrors
 ]
 
+
 /* Get all spots, it does not need authentication
     - GET /api/spots
     - Does not require body
     - Include avgRating and and one previewImage
 */
-router.get('/', async (req, res) => {
-    //get all spots from db as POJOS
-    const spots = await Spot.findAll({
-        include: [
-            { model: Review },
-            { model: SpotImage }
-        ]
-    });
+router.get('/', async (req, res, next) => {
+    let errMessages = {}
 
-    //Create a spots list array
-    let spotsList = []
-    //Iterate through spots to make it into a POJO using .toJSON()
-    for(let spot of spots){
-        spotsList.push(spot.toJSON())
+    // Phase 2A: Use query params for page & size
+    // Your code here
+    let {page, size} = req.query
+
+    const pagination = {}
+    
+    if(!page) page = 1
+    if(!size) size = 20
+
+    page = Number(page)
+    size = Number(size)
+
+    //Checking if page and size are numbers
+    if(isNaN(page) || page <= 0){
+        // throw new Error('Requires valid page and size params')
+        errMessages.page = "Page must be greater than or equal to 1"
+    }
+    if(isNaN(size) || size <= 0){
+        errMessages.size = "Size must be greater than or equal to 1"
+    }
+    if(page > 10) page = 10
+    if(size > 20) size = 20
+
+    if(page >= 1 && size >= 1){
+        pagination.limit = size
+        pagination.offset = size * (page - 1)
     }
 
-    // console.log(spotsList)
-    //iterate through each spot to find avgRating
-    for(let spot of spotsList){
-        //If no reviews, avgRating will be set to 0
-        let avgRating = 0
-        let totalStars = await Review.sum('stars', {where:{
-            spotId: spot.id
-        }})
-        let totalReviews = await Review.count({
-            where:{
-                spotId: spot.id
-            }
-        })
-        //If spot has stars & reviews, find avgRating 
-        if(totalStars && totalReviews){
-            avgRating = parseFloat(totalStars / totalReviews).toFixed(1)
-            avgRating = parseFloat(avgRating)
-        } 
-        //save avgRating to spot Object
-        spot.avgRating = avgRating
+    const where = {}
 
-        //remove Reviews
-        delete spot.Reviews;
-    }
-
-    //iterate spotsList to find previewImages
-    for(let spot of spotsList){
-        //iterate through each image to see where preview === true
-        spot.SpotImages.forEach(image => {
-            if(image.preview === true){
-                spot.previewImage = image.url
-            }
-        })
-        //if no previewImage, set it to not found
-        if(!spot.previewImage){
-            spot.previewImage = "NOT FOUND"
+    if(req.query.minLat){
+        if(req.query.minLat <= 90 && req.query.minLat >= -90){
+            where.lat = {[Op.gt]: req.query.minLat}
+        } else{
+            errMessages.minLat = "Minimum latitude is invalid"
         }
-
-        //delete SpotImages
-        delete spot.SpotImages
     }
 
-    res.json({Spots: spotsList})
+    if(req.query.maxLat){
+        if(req.query.maxLat <= 90 && req.query.maxLat >= -90){
+            where.lat = {[Op.lt]: req.query.maxLat}
+        } else{
+            errMessages.maxLat = "Maximum latitude is invalid"
+        }
+    }
+
+    if(req.query.minLng){
+        if(req.query.minLng <= 180 && req.query.minLng >= -180){
+            where.lng = {[Op.gt]: req.query.minLng}
+        } else{
+            errMessages.minLng = "Minimum longitude is invalid"
+        }
+    }
+
+    if(req.query.maxLng){
+        if(req.query.maxLng <= 180 && req.query.maxLng >= -180){
+            where.lng = {[Op.lt]: req.query.maxLng}
+        } else{
+            errMessages.maxLng = "Maximum longitude is invalid"
+        }
+    }
+    if(req.query.minPrice){
+        if(req.query.minPrice >= 0){
+            where.price = {[Op.gt]: req.query.minPrice}
+        } else{
+            errMessages.minPrice = "Minimum price must be greater than or equal to 0"
+        }
+    }
+    if(req.query.maxPrice){
+        if(req.query.maxPrice >= 0){
+            where.price = {[Op.gt]: req.query.maxPrice}
+        } else{
+            errMessages.maxPrice = "Maximum price must be greater than or equal to 0"
+        }
+    }
+
+
+
+    //Check if any errors occur
+    if(Object.keys(errMessages).length !== 0){
+        const err = Error("Validation Error")
+        err.status = 400
+        err.errors = errMessages
+
+        next(err)
+    } else {
+        //get all spots from db as POJOS
+        const spots = await Spot.findAll({
+            include: [
+                { model: Review },
+                { model: SpotImage }
+            ],
+            where,
+            ...pagination
+        });
+    
+        //Create a spots list array
+        let spotsList = []
+        //Iterate through spots to make it into a POJO using .toJSON()
+        for(let spot of spots){
+            spotsList.push(spot.toJSON())
+        }
+    
+        // console.log(spotsList)
+        //iterate through each spot to find avgRating
+        for(let spot of spotsList){
+            //If no reviews, avgRating will be set to 0
+            let avgRating = 0
+            let totalStars = await Review.sum('stars', {where:{
+                spotId: spot.id
+            }})
+            let totalReviews = await Review.count({
+                where:{
+                    spotId: spot.id
+                }
+            })
+            //If spot has stars & reviews, find avgRating 
+            if(totalStars && totalReviews){
+                avgRating = parseFloat(totalStars / totalReviews).toFixed(1)
+                avgRating = parseFloat(avgRating)
+            } 
+            //save avgRating to spot Object
+            spot.avgRating = avgRating
+    
+            //remove Reviews
+            delete spot.Reviews;
+        }
+    
+        //iterate spotsList to find previewImages
+        for(let spot of spotsList){
+            //iterate through each image to see where preview === true
+            spot.SpotImages.forEach(image => {
+                if(image.preview === true){
+                    spot.previewImage = image.url
+                }
+            })
+            //if no previewImage, set it to not found
+            if(!spot.previewImage){
+                spot.previewImage = "NOT FOUND"
+            }
+    
+            //delete SpotImages
+            delete spot.SpotImages
+        }
+    
+        res.json({Spots: spotsList, page: page, size: size})
+
+    }
 })
+
+
 
 
 /* Get all spots owned by the current user
