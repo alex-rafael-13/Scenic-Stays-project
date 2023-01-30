@@ -420,12 +420,11 @@ router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next
         }
         
         //find spot data
-        const spot = await Spot.findByPk(id)
-        console.log(spot)    
+        const spot = await Spot.findByPk(id)  
 
         //check if user is owner of the spot
         for(let booking of bookingsArr){
-            if(spot.id === user.id){
+            if(spot.ownerId === user.id){
                 const user = await User.findByPk(booking.userId,{
                     attributes: ['id', 'firstName', 'lastName']
                 })
