@@ -155,13 +155,64 @@ router.put('/:bookingId', [restoreUser, requireAuth], async(req, res, next) => {
             const updatedBooking = await Booking.findByPk(bookingId)
             res.json(updatedBooking)
         }
+    }    
+})
 
 
+/* Delete a booking if either user made the booking or owns spot
+    - DELETE /api/bookings/:bookingId
+    - require auth
+*/
+router.delete('/:bookingId', [restoreUser, requireAuth], async(req, res, next) => {
+    const { user } = req
+    const bookingId = req.params.bookingId
+    
+    const booking = await Booking.findByPk(bookingId)
+    
+    //Check if the booking exists
+    if(!booking){
+        const err = Error("Couldn't find a booking with the specified id")
+        err.message = "Booking couldn't be found"
+        err.status = 404
+        
+        next(err)
+    } else{
+        const spot = await Spot.findByPk(booking.spotId)
+        const startDate = new Date(booking.startDate).getTime()
+        const dateNow = Date.now()
+        
+        //Check if user is auth to delete booking
+        if(spot.ownerId !== user.id && booking.userId !== user.id){
+            const err = Error('User role error')
+            err.message = "Forbidden"
+            err.status = 403
+
+            next(err)
+        } 
+        //Check if booking already started
+        else if(startDate < dateNow){
+            const err = Error('Booking that have been started cannot be deleted')
+            err.message = "Bookings that have been started can't be deleted"
+            err.status = 403
+
+            next(err)
+        } else{
+            await Booking.destroy({
+                where:{
+                    id: booking.id
+                }
+            })
+
+            res.json({
+                message: "Successfully deleted",
+                statusCode: "200"
+            })
+
+        }
 
     }
 
-
-    
 })
+
 
 module.exports = router
