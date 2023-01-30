@@ -8,7 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { check, withMessage } = require('express-validator');
 
 //Import models needed
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -385,6 +385,64 @@ router.delete('/:spotId', [restoreUser, requireAuth], async (req, res, next) => 
         })
     }
 })
+
+//------------------------------- BOOKINGS -------------------------------//
+
+/* GET all Bookings of a spot by spotId 
+    - Require Auth
+    - If not owner, see just booking info
+    - If owner, see user that booked it plus createdAt and updatedAT
+*/
+router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next) => {
+    //get necessary data
+    const { user } = req
+    const id = req.params.spotId
+
+
+    const bookings = await Booking.findAll({
+        where:{
+            spotId: id
+        }
+    })
+
+    if(bookings.length === 0){
+        const err = {}
+        err.message = "Spot couldn't be found"
+        err.status = 404
+
+        next(err)
+    } else{
+        //Turn into POJO
+        let bookingsArr = []
+        for(let booking of bookings){
+            bookingsArr.push(booking.toJSON())
+        }
+        
+        //find spot data
+        const spot = await Spot.findByPk(id)
+        console.log(spot)    
+
+        //check if user is owner of the spot
+        for(let booking of bookingsArr){
+            if(spot.id === user.id){
+                const user = await User.findByPk(booking.userId,{
+                    attributes: ['id', 'firstName', 'lastName']
+                })
+                
+                booking.User = user
+            } else{
+                delete booking.id
+                delete booking.userId
+                delete booking.createdAt
+                delete booking.updatedAt
+            }   
+        }
+        res.json({Bookings: bookingsArr})
+    }
+})
+
+
+
 
 
 module.exports = router
