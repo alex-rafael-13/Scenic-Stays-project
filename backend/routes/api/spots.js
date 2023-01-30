@@ -134,7 +134,7 @@ router.get('/', async (req, res, next) => {
     }
     if(req.query.maxPrice){
         if(req.query.maxPrice >= 0){
-            where.price = {[Op.gt]: req.query.maxPrice}
+            where.price = {[Op.lt]: req.query.maxPrice}
         } else{
             errMessages.maxPrice = "Maximum price must be greater than or equal to 0"
         }
