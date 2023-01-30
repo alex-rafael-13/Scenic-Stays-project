@@ -60,13 +60,6 @@ router.get('/current', [restoreUser, requireAuth], async(req, res, next) => {
 
 })
 
-// const checkUrl = [
-//     check('url', 'URL needed')
-//         .notEmpty()
-//         .bail()
-//         .isString(),
-//         handleValidationErrors
-// ]
 /* Post a review image using its id
     - POST /reviews/:reviewId/images
     - require Auth
@@ -121,6 +114,56 @@ router.post('/:reviewId/images', [restoreUser, requireAuth], async (req, res, ne
     }
 })
 
+const valReview = [
+    check('review', 'Review text is required')
+        .notEmpty()
+        .bail()
+        .isString(),
+    check('stars', 'Stars must be an integer from 1 to 5')
+        .isInt()
+        .bail() 
+        .custom(value => {return (value <= 5 && value >= 1)}),
+    handleValidationErrors
+]
+
+/* Edit a review if the owner is logged in
+    - PUT /:reviewId
+    - require Auth
+*/
+
+router.put('/:reviewId', [restoreUser, requireAuth, valReview], async(req, res, next) => {
+    const { user } = req
+    const reviewId = req.params.reviewId
+    const { review, stars} = req.body
+
+    const checkReview = await Review.findByPk(reviewId)
+
+    if(!checkReview){
+        const err = Error('Couldn\'t find a Review with the specified id')
+        err.message = "Review couldn't be found",
+        err.status = 404 
+
+        next(err)
+    }else if(checkReview.userId !== user.id){
+        const err = Error('Forbidden')
+        err.message = "Forbidden",
+        err.status = 403 
+
+        next(err)
+    } else{
+        await Review.update({
+            stars,
+            review
+        }, {where:{id: reviewId}})
+
+        const updated = await Review.findByPk(reviewId)
+        res.json(updated)
+    }
+
+    // else if()
+
+
+})
 
 
 module.exports = router
