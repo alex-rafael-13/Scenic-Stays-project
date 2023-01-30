@@ -459,7 +459,7 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
 
     //Check if spot exists
     if(!spot){
-        const err = new Error('Couldn\'t find a Spot with the specified id')
+        const err = Error('Couldn\'t find a Spot with the specified id')
         err.message = "Spot couldn't be found",
         err.status = 404 
 
