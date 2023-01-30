@@ -159,11 +159,42 @@ router.put('/:reviewId', [restoreUser, requireAuth, valReview], async(req, res, 
         const updated = await Review.findByPk(reviewId)
         res.json(updated)
     }
-
-    // else if()
-
-
 })
 
+/* Delete a review if the user created it
+    - DELETE /reviews/:reviewId
+    - Require auth
+*/
+router.delete('/:reviewId', [restoreUser, requireAuth], async(req, res, next) => {
+    const { user } = req
+    const reviewId = req.params.reviewId
+
+    const checkReview = await Review.findByPk(reviewId)
+
+    if(!checkReview){
+        const err = Error('Couldn\'t find a Review with the specified id')
+        err.message = "Review couldn't be found",
+        err.status = 404 
+
+        next(err)
+    }else if(checkReview.userId !== user.id){
+        const err = Error('Forbidden')
+        err.message = "Forbidden",
+        err.status = 403 
+
+        next(err)
+    } else{
+        await Review.destroy({
+            where: {
+                id: reviewId
+            }
+        })
+
+        res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        })
+    }
+})
 
 module.exports = router
