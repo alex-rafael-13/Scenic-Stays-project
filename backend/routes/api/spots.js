@@ -405,8 +405,11 @@ router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next
             spotId: id
         }
     })
+    
+    //find spot data
+    const spot = await Spot.findByPk(id)  
 
-    if(bookings.length === 0){
+    if(!spot){
         const err = {}
         err.message = "Spot couldn't be found"
         err.status = 404
@@ -419,8 +422,6 @@ router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next
             bookingsArr.push(booking.toJSON())
         }
         
-        //find spot data
-        const spot = await Spot.findByPk(id)  
 
         //check if user is owner of the spot
         for(let booking of bookingsArr){
