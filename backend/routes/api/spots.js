@@ -8,7 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { check, withMessage } = require('express-validator');
 
 //Import models needed
-const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -529,6 +529,55 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
             res.json(newBooking)
         }
     }
+})
+
+/* GET reviews by spotId
+    - NO Auth required
+    - GET /api/spots/:spotId/review
+*/
+router.get('/:spotId/reviews', async(req,res, next) => {
+    const spotId = req.params.spotId
+
+    const spot = await Spot.findByPk(spotId)
+    if(!spot){
+        const err = Error('Couldn\'t find a Spot with the specified id')
+        err.message = "Spot couldn't be found",
+        err.status = 404 
+
+        next(err)
+    } else{
+        const reviews = await Review.findAll({
+            where:{
+                spotId: spot.id
+            }
+        });
+
+        console.log(reviews)
+
+        //Turn reviews into POJO
+        let reviewList = []
+        for(let review of reviews){
+            reviewList.push(review.toJSON())
+        }
+
+        for(let review of reviewList){
+            const user = await User.findByPk(review.userId, {
+                attributes: ['id', 'firstName', 'lastName']
+            })
+            const reviewImages = await ReviewImage.findAll({
+                where:{
+                    reviewId: review.id
+                },
+                attributes: ['id', 'url']
+            })
+
+            review.User = user
+            review.reviewImages = reviewImages
+        }
+
+        res.json({Reviews:reviewList})
+    }
+
 })
 
 
