@@ -634,6 +634,58 @@ router.post('/:spotId/reviews', [restoreUser, requireAuth, valReview], async(req
         res.json(newReview)
     }
 
+})
+
+const valImage = [
+    check('url', 'URL needed')
+        .notEmpty()
+        .bail()
+        .isString(),
+    check('preview', 'Preview needs to be a boolean')
+        .notEmpty()
+        .bail()
+        .isBoolean(),
+    handleValidationErrors
+]
+
+/* Add image to spot using its id
+    - Logged in user needs to be logged in
+    - POST /:spotId/images
+    - Auth required
+*/
+router.post('/:spotId/images', [restoreUser, requireAuth, valImage], async(req, res, next) => {
+    const { user } = req
+    const { url, preview } = req.body
+    const spotId = req.params.spotId
+
+    const spot = await Spot.findByPk(spotId)
+    
+    if(!spot){
+        const err = Error('Couldn\'t find a Spot with the specified id')
+        err.message = "Spot couldn't be found",
+        err.status = 404 
+
+        next(err)
+    } else if(spot.ownerId !== user.id){
+        const err = Error('Forbidden')
+        err.message = "Forbidden",
+        err.status = 403 
+
+        next(err)
+    } else {
+        const image = await SpotImage.create({
+            spotId: spotId,
+            url: url,
+            preview: preview
+        })
+
+        let newImage = image.toJSON()
+        delete newImage.spotId
+        delete newImage.createdAt
+        delete newImage.updatedAt
+
+        res.json(newImage)
+    }
 
 
 })
