@@ -389,6 +389,7 @@ router.delete('/:spotId', [restoreUser, requireAuth], async (req, res, next) => 
 //------------------------------- BOOKINGS -------------------------------//
 
 /* GET all Bookings of a spot by spotId 
+    - GET /:spotId/bookings
     - Require Auth
     - If not owner, see just booking info
     - If owner, see user that booked it plus createdAt and updatedAT
@@ -438,6 +439,96 @@ router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next
             }   
         }
         res.json({Bookings: bookingsArr})
+    }
+})
+
+/* Create a Booking using the spot spotId 
+    - POST /:spotId/bookings
+    - Require Auth
+    - If not owner, see just booking info
+    - If owner, see user that booked it plus createdAt and updatedAT
+*/
+router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, next) => {
+    //Get necessary data
+    const { user } = req
+    const {startDate, endDate} = req.body
+    const spotId = req.params.spotId
+
+    const spot = await Spot.findByPk(spotId)
+    const start = new Date(startDate).getTime()
+    const end = new Date(endDate).getTime()
+
+    //Check if spot exists
+    if(!spot){
+        const err = new Error('Couldn\'t find a Spot with the specified id')
+        err.message = "Spot couldn't be found",
+        err.status = 404 
+
+        next(err)
+    } 
+    //Check if spot is owned by user
+    else if(spot.ownerId === user.id){
+        const err = Error('User role error')
+        err.message = "Forbidden"
+        err.status = 403
+
+        next(err)
+    } 
+    //Check if start date is after end date
+    else if(start > end){
+        const err = Error('Validation error')
+        err.message = "endDate cannot be on or before startDate"
+        err.status = 400
+
+        next(err)
+    } 
+    else{
+        //Get data
+        const bookings = await Booking.findAll({
+            where:{
+                spotId: spotId
+            }
+        })
+        // const renter = await User.findByPk(user.id)
+
+        //Check if dates are available
+        let errMessages = {}
+        for(let booking of bookings){
+            const startBooking = new Date(booking.startDate).getTime()
+            const endBooking = new Date(booking.endDate).getTime()
+
+            if(start >= startBooking && start <= endBooking ){
+                if(!errMessages.startDate){
+                    errMessages.startDate = "Start date conflicts with an existing booking"
+                    console.log('----------------------------')    
+                }
+            } 
+            if(end >= startBooking && end <= endBooking ){
+                if(!errMessages.endDate){
+                    errMessages.endDate = "End date conflicts with an existing booking"
+                }
+            }
+        }
+        //Check if there is error messafes
+        if(Object.keys(errMessages).length !== 0){
+            const err = Error('Booking conflict')
+            err.status = 403
+            err.errors = errMessages
+
+            next(err)
+        } 
+        //If not, create a booking
+        else {
+
+            const newBooking = await Booking.create({
+                spotId: parseInt(spotId),
+                userId: parseInt(user.id),
+                startDate: startDate,
+                endDate: endDate
+            });
+
+            res.json(newBooking)
+        }
     }
 })
 
