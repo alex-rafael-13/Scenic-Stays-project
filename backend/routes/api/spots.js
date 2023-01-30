@@ -422,7 +422,6 @@ router.get('/:spotId/bookings',[restoreUser, requireAuth], async (req, res, next
             bookingsArr.push(booking.toJSON())
         }
         
-
         //check if user is owner of the spot
         for(let booking of bookingsArr){
             if(spot.ownerId === user.id){
@@ -498,15 +497,15 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
             const endBooking = new Date(booking.endDate).getTime()
 
             if(start >= startBooking && start <= endBooking ){
-                if(!errMessages.startDate){
-                    errMessages.startDate = "Start date conflicts with an existing booking"
-                    console.log('----------------------------')    
-                }
+                errMessages.startDate = "Start date conflicts with an existing booking"
             } 
             if(end >= startBooking && end <= endBooking ){
-                if(!errMessages.endDate){
-                    errMessages.endDate = "End date conflicts with an existing booking"
-                }
+                errMessages.endDate = "End date conflicts with an existing booking"
+
+            }
+            if(start < startBooking && end > endBooking){
+                errMessages.startDate = "Start date conflicts with an existing booking"   
+                errMessages.endDate = "End date conflicts with an existing booking"
             }
         }
         //Check if there is error messafes
