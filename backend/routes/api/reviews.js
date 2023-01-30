@@ -60,5 +60,67 @@ router.get('/current', [restoreUser, requireAuth], async(req, res, next) => {
 
 })
 
+// const checkUrl = [
+//     check('url', 'URL needed')
+//         .notEmpty()
+//         .bail()
+//         .isString(),
+//         handleValidationErrors
+// ]
+/* Post a review image using its id
+    - POST /reviews/:reviewId/images
+    - require Auth
+*/
+router.post('/:reviewId/images', [restoreUser, requireAuth], async (req, res, next) => {
+    const { user } = req
+    const { url } = req.body
+    const reviewId = req.params.reviewId
+
+    const review = await Review.findByPk(reviewId)
+    
+    if(!review){
+        const err = Error('Couldn\'t find a Review with the specified id')
+        err.message = "Review couldn't be found",
+        err.status = 404 
+
+        next(err)
+    } else if(review.userId !== user.id){
+        const err = Error('Forbidden')
+        err.message = "Forbidden",
+        err.status = 403 
+
+        next(err)
+    } else{
+        const reviewImageCount = await ReviewImage.count({
+            where:{
+                reviewId: reviewId
+            }
+        });
+
+        //Check if max is met alreade
+        if(reviewImageCount >= 10){
+            const err = Error("Maximum number of images for this resource was reached")
+            err.message = "Maximum number of images for this resource was reached"
+            err.status = 403
+
+            next(err)
+        } else{
+            const newReviewImage = await ReviewImage.create({
+                reviewId: parseInt(reviewId),
+                url: url
+            })
+
+            let resBody = newReviewImage.toJSON()
+            delete resBody.reviewId
+            delete resBody.updatedAt
+            delete resBody.createdAt
+
+            res.json(resBody)
+        }
+        
+    }
+})
+
+
 
 module.exports = router
