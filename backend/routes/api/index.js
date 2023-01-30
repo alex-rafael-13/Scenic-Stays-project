@@ -30,6 +30,10 @@ router.use('/bookings', bookingsRouter)
 const reviewRouter = require('./reviews')
 router.use('/reviews', reviewRouter)
 
+//ReviewImages Router
+const reviewImagesRouter = require('./review-images')
+router.use('/review-images', reviewImagesRouter)
+
 //MY TEST FILE:
 const testRouter  = require('./test.js')
 //TEST ROUTER

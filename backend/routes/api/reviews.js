@@ -9,7 +9,6 @@ const { check, withMessage } = require('express-validator');
 
 //Import models needed
 const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
-const review = require('../../db/models/review');
 
 /* GET reviews by current user
     - Auth required
