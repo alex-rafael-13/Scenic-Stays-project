@@ -649,7 +649,7 @@ router.get('/:spotId/reviews', async(req,res, next) => {
             }
         });
 
-        console.log(reviews)
+        // console.log(reviews)
 
         //Turn reviews into POJO
         let reviewList = []
