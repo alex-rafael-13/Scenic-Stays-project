@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 const CURRENT_USER = 'session/CURRENT_USER'
+const SIGNUP_USER = 'session/SIGNUP'
 const LOGIN_USER = 'session/LOGIN'
 const LOGOUT_USER = 'session/LOGOUT'
 
@@ -41,6 +42,23 @@ export const login = (user) => async (dispatch) => {
         return response
     }
 }
+
+export const signup = (user) => async (dispatch) => {
+    const { username, firstName, lastName, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+  };
 
 export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
