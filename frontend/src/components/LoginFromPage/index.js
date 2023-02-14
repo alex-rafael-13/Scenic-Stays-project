@@ -11,8 +11,10 @@ export default function LoginFormPage() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState([])
 
+    console.log(sessionUser)
+
     if(sessionUser){
-        <Redirect to='/' />
+       return(<Redirect to='/' />)
     }
 
     //Submission 

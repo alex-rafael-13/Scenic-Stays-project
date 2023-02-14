@@ -1,9 +1,16 @@
 import { csrfFetch } from './csrf';
-
+const CURRENT_USER = 'session/CURRENT_USER'
 const LOGIN_USER = 'session/LOGIN'
 const LOGOUT_USER = 'session/LOGOUT'
 
 //normal action creators
+const setUser = (user) => {
+    return {
+        type: CURRENT_USER,
+        user
+    }
+}
+
 const loginUser = (user) => {
     return {
         type: LOGIN_USER,
@@ -35,11 +42,23 @@ export const login = (user) => async (dispatch) => {
     }
 }
 
+export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+};
+
 //Session reducer
 const initialState = {user: null}
 function sessionReducer (state = initialState, action){
     let newState;
     switch(action.type){
+        case CURRENT_USER:{
+            newState = {...state}
+            newState.user = action.user
+            return newState
+        }
         case LOGIN_USER:{
             newState = {...state}
             newState.user = action.user
