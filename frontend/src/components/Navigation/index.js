@@ -13,16 +13,17 @@ function Navigation({ isLoaded }){
     <div className='header'>
       <div className='header-contents'>
         <div className='logo-container'>
-          <NavLink exact to="/">
+          <NavLink to="/" >
             <img src={logo}/>
           </NavLink>
         </div>
         {isLoaded && (
           <div className='profile-container'>
-            <div className='message' ref={ulRef}>
-            {sessionUser ?
-              (<div>Welcome {sessionUser.firstName}!</div>) : (<div>Sign In or Sign Up!</div>)}
-            </div> 
+            {sessionUser && (
+              <div className='message' ref={ulRef}>
+                Create a new spot
+              </div> 
+            )}
             <div>
               <ProfileButton user={sessionUser} />
             </div>
