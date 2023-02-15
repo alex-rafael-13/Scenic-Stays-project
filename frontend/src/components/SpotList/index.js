@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from '../../store/spots'
 import SpotCard from "../SpotCard/SpotCard";
+import {NavLink} from 'react-router-dom'
 import './SpotList.css'
+import { Switch, Route } from "react-router-dom";
+import SingleSpot from "../SingleSpot/index";
 
 export default function SpotList(){
     const dispatch = useDispatch()
@@ -12,14 +15,18 @@ export default function SpotList(){
         dispatch(spotActions.retrieveAllSpots())
     }, [dispatch])
     
-    console.log(spots)
-
-
     return(
+        <>
         <div className="spot-list">
             {spots?.map(spot => (
-                <SpotCard spot={spot}/>
+                <SpotCard key={spot.id} spot={spot}/>
             ))}
         </ div>
+        <Switch>
+            <Route path='/spots/:spotId'>
+                <SingleSpot />
+            </Route>
+        </Switch>
+        </>
     )
 }
