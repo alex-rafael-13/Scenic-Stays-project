@@ -1,0 +1,9 @@
+.spot-list{
+    max-width: 1200px;
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+
+
+    /* background-color: aqua; */
+}
