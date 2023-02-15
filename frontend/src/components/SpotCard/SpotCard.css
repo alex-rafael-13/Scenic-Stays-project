@@ -1,0 +1,38 @@
+.spot-card{
+    width: 270px;
+    height: 300px;
+    margin: 10px;
+    border-radius: 10px;
+
+    /* background-color: antiquewhite;
+    border: solid; */
+}
+
+.preview-image{
+    width: 270px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20px;
+    width: 100%;
+}
+
+.info-container > div{
+    font-size: 15px;
+    /* margin: 0px 10px; */
+}
+.info-container > div > i{
+    font-size: 13px;
+    padding-right: 5px;
+}
+
+.price-details{
+    /* padding-left: 15px; */
+    font-size: 15px;
+}

@@ -16,7 +16,7 @@ export default function SpotList(){
 
 
     return(
-        <div className="spotList">
+        <div className="spot-list">
             {spots?.map(spot => (
                 <SpotCard spot={spot}/>
             ))}
