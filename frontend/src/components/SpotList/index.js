@@ -29,14 +29,7 @@ export default function SpotList(){
                         <SpotCard key={spot.id} spot={spot}/>
                     ))}
                 </ div>
-                <Switch>
-                    <Route path='/spots/:spotId'>
-                        <SingleSpot />
-                    </Route>
-                </Switch>
             </>
         )
-    }
-
-    
+    }    
 }

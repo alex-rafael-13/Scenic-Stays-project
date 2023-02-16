@@ -7,3 +7,8 @@
 
     /* background-color: aqua; */
 }
+
+.spot-list > a{
+    text-decoration: none;
+    color: black;
+}
