@@ -1,17 +1,25 @@
 import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import { restoreUser } from "../../store/session"
 import { retrieveSingleSpot } from "../../store/spots"
 import './SingleSpot.css'
+import SpotReviews from "./SpotReviews"
 
 export default function SingleSpot(){
     const {spotId} = useParams()
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots.singleSpot)
-    
+    const user = useSelector(state => state.session.user)
+
     useEffect(() => {
         dispatch(retrieveSingleSpot(spotId))
     }, [dispatch])
+
+    useEffect(() => {
+        dispatch(restoreUser())
+    },[dispatch])
+    console.log('user ------- ',user)
 
     const handleClick = () => {
         alert('FEATURE COMING SOON...')
@@ -51,6 +59,22 @@ export default function SingleSpot(){
             <i className="fa-solid fa-circle"></i> 
             {reviewNum} Reviews</>)
         }
+    }
+
+    const setReviewHeader = (reviewNum) => {
+
+        if(reviewNum === 0 && user.id !== spot.Owner.id){
+            return (<h1>Be The first to post a review!</h1>)
+        } else{
+            return(
+                <>
+                    <i className="fa-solid fa-star"></i>
+                    {reviews(spot?.numReviews)}
+                </>
+            )
+        }
+
+
     }
 
     return(
@@ -96,6 +120,16 @@ export default function SingleSpot(){
                             <button onClick={handleClick}>Reserve</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <hr />
+            <div className="review-section">
+                <div className="reviews-info-header">
+                    {setReviewHeader(spot?.numReviews)}
+                </div>
+                <div className="review-container">
+                    {/* {spot?.numReviews > 0 && <SpotReviews id={spotId}/>} */}
+                    <SpotReviews id={spotId}/>
                 </div>
             </div>
 
