@@ -21,15 +21,13 @@ export default function SpotList(){
         )
     }
     
-    else{
-        return( 
-            <>
-                <div className="spot-list">
-                    {spots?.map(spot => (
-                        <SpotCard key={spot.id} spot={spot}/>
-                    ))}
-                </ div>
-            </>
-        )
-    }    
+    return( 
+        <>
+            <div className="spot-list">
+                {spots?.map(spot => (
+                    <SpotCard key={spot.id} spot={spot}/>
+                ))}
+            </ div>
+        </>
+    )    
 }

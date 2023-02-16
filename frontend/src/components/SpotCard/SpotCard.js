@@ -5,11 +5,13 @@ import './SpotCard.css'
 
 export default function SpotCard({spot}) {
     const defImage = 'https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg'
+    const image = spot.previewImage
+    console.log(image)
     return(
         <>
         <NavLink exact to={`/spots/${spot.id}`}>
             <div className="spot-card">
-                <img className="preview-image"src={defImage} alt={spot.name}/>
+                <img className="preview-image"src={image} alt={spot.name}/>
                 <div className="info-container">
                     <div>{spot.name}</div>
                     <div>
