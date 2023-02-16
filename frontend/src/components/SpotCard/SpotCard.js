@@ -15,11 +15,11 @@ export default function SpotCard({spot}) {
                     <div>{spot.name}</div>
                     <div>
                         <i className="fa-solid fa-star"></i>
-                        {spot.avgRating ? (spot.avgRating.toFixed(1)): ('New!')} 
+                        {spot.avgRating ? (parseFloat(spot.avgRating).toFixed(1)): ('New!')} 
                     </div>
                 </div>
                 <div className="price-details">
-                    ${spot.price.toFixed(2)} a Night
+                    ${parseFloat(spot.price).toFixed(2)} a Night
                 </div>
             </div>
         </NavLink>

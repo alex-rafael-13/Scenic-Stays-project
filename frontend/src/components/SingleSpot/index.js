@@ -41,15 +41,15 @@ export default function SingleSpot(){
         }
         else if(reviewNum === 1){
             return (<>
-            {spot?.avgStarRating.toFixed(1)} 
+            {parseFloat(spot?.avgStarRating).toFixed(1)} 
             <i className="fa-solid fa-circle"></i> 
-            {spot?.numReviews} Review</>)
+            {reviewNum} Review</>)
         }
         else{
             return (<>
-            {spot?.avgStarRating.toFixed(1)} 
+            {parseFloat(spot?.avgStarRating).toFixed(1)} 
             <i className="fa-solid fa-circle"></i> 
-            {spot?.numReviews} Reviews</>)
+            {reviewNum} Reviews</>)
         }
     }
 
@@ -69,7 +69,7 @@ export default function SingleSpot(){
                 <img className="single-image" src={preview?.url} alt='house image'/>
                 <div className="image-group">
                         {spotImages.map(image => (
-                            <img className='little-image'src={image?.url} />
+                            <img key={image?.id}className='little-image'src={image?.url} />
                         ))}
                 </div>
             </div>
@@ -86,7 +86,7 @@ export default function SingleSpot(){
                 <div className="spot-reservation">
                     <div className="reservation-box">
                         <div className="upper-box">
-                            <nav className="price">${spot?.price.toFixed(2)} a Night</nav>
+                            <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
                             <nav className="review-info">
                                 <i className="fa-solid fa-star"></i>
                                 {reviews(spot?.numReviews)}
