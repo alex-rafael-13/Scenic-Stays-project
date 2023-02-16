@@ -27,6 +27,30 @@ export default function SingleSpot(){
         alert('FEATURE COMING SOON...')
     }
 
+    if(!spot){
+        return (
+            <h1>Unable to Retrieve Details. Please Try Again Later</h1>
+        )
+    }
+
+    const reviews = (reviewNum) => {
+        if(reviewNum === 0){
+            return(<>New!</>)
+        }
+        else if(reviewNum === 1){
+            return (<>
+            {spot?.avgStarRating.toFixed(1)} 
+            <i className="fa-solid fa-circle"></i> 
+            {spot?.numReviews} Review</>)
+        }
+        else{
+            return (<>
+            {spot?.avgStarRating.toFixed(1)} 
+            <i className="fa-solid fa-circle"></i> 
+            {spot?.numReviews} Reviews</>)
+        }
+    }
+
     return(
         <div className="spot-page">
 
@@ -60,13 +84,11 @@ export default function SingleSpot(){
                 <div className="spot-reservation">
                     <div className="reservation-box">
                         <div className="upper-box">
-                            <nav className="price">${spot?.price} a Night</nav>
+                            <nav className="price">${spot?.price.toFixed(2)} a Night</nav>
                             <nav className="review-info">
                                 <i className="fa-solid fa-star"></i>
-                                {spot?.avgStarRating} 
-                                <i class="fa-solid fa-circle"></i> 
-                                {spot?.numReviews} {spot?.numReviews === 1 ?
-                                ('Review'): ('Reviews')}
+                                {reviews(spot?.numReviews)}
+                                {/* {reviews(spot?.reviewNum)} */}
                             </nav>
                         </div>
                         <div className="lower-box">
