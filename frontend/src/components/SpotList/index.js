@@ -14,19 +14,29 @@ export default function SpotList(){
     useEffect(() => {
         dispatch(spotActions.retrieveAllSpots())
     }, [dispatch])
+
+    if(!spots || spots.length === 0){
+        return(
+            <h1>Unable to Retrieve Spots, Try Again Shortly</h1>
+        )
+    }
     
-    return(
-        <>
-        <div className="spot-list">
-            {spots?.map(spot => (
-                <SpotCard key={spot.id} spot={spot}/>
-            ))}
-        </ div>
-        <Switch>
-            <Route path='/spots/:spotId'>
-                <SingleSpot />
-            </Route>
-        </Switch>
-        </>
-    )
+    else{
+        return( 
+            <>
+                <div className="spot-list">
+                    {spots?.map(spot => (
+                        <SpotCard key={spot.id} spot={spot}/>
+                    ))}
+                </ div>
+                <Switch>
+                    <Route path='/spots/:spotId'>
+                        <SingleSpot />
+                    </Route>
+                </Switch>
+            </>
+        )
+    }
+
+    
 }

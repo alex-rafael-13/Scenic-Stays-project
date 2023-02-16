@@ -11,14 +11,14 @@ export default function SpotCard({spot}) {
             <div className="spot-card">
                 <img className="preview-image"src={defImage} alt={spot.name}/>
                 <div className="info-container">
-                    <div>{spot.state}, {spot.city}</div>
+                    <div>{spot.name}</div>
                     <div>
                         <i className="fa-solid fa-star"></i>
-                        {spot.avgRating} 
+                        {spot.avgRating ? (spot.avgRating.toFixed(1)): ('New!')} 
                     </div>
                 </div>
                 <div className="price-details">
-                    ${spot.price} a Night
+                    ${spot.price.toFixed(2)} a Night
                 </div>
             </div>
         </NavLink>
