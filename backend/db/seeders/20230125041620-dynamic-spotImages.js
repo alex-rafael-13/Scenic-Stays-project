@@ -7,38 +7,102 @@ const { Spot, SpotImage } = require('../models')
 //Create data
 const spotImages = [
   {
-    name: 'Avengers Tower',
+    name: 'Home by the Clouds',
     images: [
       {
-        url: "tower-image-url-1",
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg",
         preview: true
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg",
+        preview: false
       }
     ]
   },
   {
-    name: 'Royal Palace',
+    name: 'Rural Retreat',
     images: [
       {
-        url: "palace-image-url-1",
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/a617c97d-92e7-477a-bb7d-12470d02ed55-high-altitude-homes-snowdonia.jpg",
         preview: true
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/a617c97d-92e7-477a-bb7d-12470d02ed55-high-altitude-homes-snowdonia.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/a617c97d-92e7-477a-bb7d-12470d02ed55-high-altitude-homes-snowdonia.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/a617c97d-92e7-477a-bb7d-12470d02ed55-high-altitude-homes-snowdonia.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/a617c97d-92e7-477a-bb7d-12470d02ed55-high-altitude-homes-snowdonia.jpg",
+        preview: false
       }
     ]
   },
   {
-    name: 'Erik Killmonger Outreach Center',
+    name: 'Modern Style in Nature',
     images: [
       {
-        url: "outreach-image-url-1",
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/f050368a-04a2-492d-97e4-5640e8ba3cfe-high-altitude-homes-for-sale-mount-macedon-oz.jpg",
         preview: true
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/f050368a-04a2-492d-97e4-5640e8ba3cfe-high-altitude-homes-for-sale-mount-macedon-oz.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/f050368a-04a2-492d-97e4-5640e8ba3cfe-high-altitude-homes-for-sale-mount-macedon-oz.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/f050368a-04a2-492d-97e4-5640e8ba3cfe-high-altitude-homes-for-sale-mount-macedon-oz.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/f050368a-04a2-492d-97e4-5640e8ba3cfe-high-altitude-homes-for-sale-mount-macedon-oz.jpg",
+        preview: false
       }
     ]
   },
   {
-    name: 'Home of The First Avenger',
+    name: 'Ski Haven',
     images: [
       {
-        url: "home-image-url-1",
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/29155d88-9247-4ece-8c70-76eb7525a7a0-high-altitude-homes-for-sale-piedmont-qc-ext.jpg",
         preview: true
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/29155d88-9247-4ece-8c70-76eb7525a7a0-high-altitude-homes-for-sale-piedmont-qc-ext.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/29155d88-9247-4ece-8c70-76eb7525a7a0-high-altitude-homes-for-sale-piedmont-qc-ext.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/29155d88-9247-4ece-8c70-76eb7525a7a0-high-altitude-homes-for-sale-piedmont-qc-ext.jpg",
+        preview: false
+      },
+      {
+        url: "https://loveincorporated.blob.core.windows.net/contentimages/gallery/29155d88-9247-4ece-8c70-76eb7525a7a0-high-altitude-homes-for-sale-piedmont-qc-ext.jpg",
+        preview: false
       }
     ]
   }

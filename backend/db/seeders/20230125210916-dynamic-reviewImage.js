@@ -4,7 +4,7 @@ const { Review, ReviewImage } = require('../models')
 
 const images = [
   {
-    review: 'Love what Shuri has done with the place!',
+    review: 'Modern lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi ipsum faucibus vitae aliquet nec. Mauris augue neque gravida in. Hendrerit gravida rutrum quisque non tellus orci. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Nibh cras pulvinar mattis nunc sed blandit libero. Felis eget nunc lobortis mattis aliquam.',
     urls: [
       {
         url: 'review-url-1'
@@ -15,7 +15,7 @@ const images = [
       ]
   },
   {
-    review: 'Kind of destroyed after Loki attacked it',
+    review: 'Clouds lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi ipsum faucibus vitae aliquet nec. Mauris augue neque gravida in. Hendrerit gravida rutrum quisque non tellus orci. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Nibh cras pulvinar mattis nunc sed blandit libero. Felis eget nunc lobortis mattis aliquam.',
     urls: [
       {
         url: 'review-url-1'
@@ -50,7 +50,7 @@ const images = [
     ]
   },
   {
-    review: 'Historic place, 10/10 would recommend',
+    review: 'Ski lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi ipsum faucibus vitae aliquet nec. Mauris augue neque gravida in. Hendrerit gravida rutrum quisque non tellus orci. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Nibh cras pulvinar mattis nunc sed blandit libero. Felis eget nunc lobortis mattis aliquam.',
     urls: [
       {
         url: 'review-url-1'
