@@ -8,17 +8,7 @@ export default function SingleSpot(){
     const {spotId} = useParams()
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots.singleSpot)
-
-    //demo
-    let demoImages = []
-    for(let i = 0; i < 5; i++){
-        demoImages.push('https://loveincorporated.blob.core.windows.net/contentimages/gallery/2389c1f4-1775-4a42-a0b5-126d3c7d6aa6-high-altitude-homes-for-sale-evergreen-co.jpg')
-    }
-
-    let previewImg = demoImages[0]
-    let newImgArr = demoImages.slice(1)
-    console.log(newImgArr)
-
+    
     useEffect(() => {
         dispatch(retrieveSingleSpot(spotId))
     }, [dispatch])
@@ -31,6 +21,18 @@ export default function SingleSpot(){
         return (
             <h1>Unable to Retrieve Details. Please Try Again Later</h1>
         )
+    }
+
+    let preview;
+    let spotImages = []
+    let images = spot?.SpotImages
+    
+    for(let image of images){
+        if(image.preview === true){
+            preview = image
+        } else {
+            spotImages.push(image)
+        }
     }
 
     const reviews = (reviewNum) => {
@@ -64,10 +66,10 @@ export default function SingleSpot(){
             </div>
 
             <div className="spot-images">
-                <img className="single-image" src={previewImg} alt='house image'/>
+                <img className="single-image" src={preview?.url} alt='house image'/>
                 <div className="image-group">
-                        {newImgArr.map(image => (
-                            <img className='little-image'src={image} />
+                        {spotImages.map(image => (
+                            <img className='little-image'src={image?.url} />
                         ))}
                 </div>
             </div>
@@ -88,7 +90,6 @@ export default function SingleSpot(){
                             <nav className="review-info">
                                 <i className="fa-solid fa-star"></i>
                                 {reviews(spot?.numReviews)}
-                                {/* {reviews(spot?.reviewNum)} */}
                             </nav>
                         </div>
                         <div className="lower-box">
