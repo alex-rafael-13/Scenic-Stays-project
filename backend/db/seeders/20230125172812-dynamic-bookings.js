@@ -4,7 +4,7 @@ const { Spot, User , Booking} = require('../models')
 
 const bookingInfo = [
   {
-    name: 'Royal Palace',
+    name: 'Modern Style in Nature',
     bookings:[
       {
         username: 'Ironman',
@@ -16,7 +16,7 @@ const bookingInfo = [
     ]
   },
   {
-    name: 'Avengers Tower',
+    name: 'Home by the Clouds',
     bookings:[
       {
         username: 'Captain-America',
@@ -28,7 +28,7 @@ const bookingInfo = [
     ]
   },
   {
-    name: 'Home of The First Avenger',
+    name: 'Ski Haven',
     bookings:[
       {
         username: 'Black-Panther',
