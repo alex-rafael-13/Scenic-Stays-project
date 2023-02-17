@@ -1,4 +1,7 @@
 import { NavLink, useHistory } from "react-router-dom"
+import DeleteSpotFormModal from "../DeleteSpotFormModal"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import OpenModalButton from "../OpenModalButton"
 
 
 export default function CurrentSpotCard({spot}){
@@ -8,6 +11,7 @@ export default function CurrentSpotCard({spot}){
     const testClick = () => {
         history.push('/')
     }
+
     return(
         <>
         <div className="spot-card">
@@ -29,7 +33,11 @@ export default function CurrentSpotCard({spot}){
                 </NavLink>
                 <div className="button-container">
                     <button className='manage-button' onClick={testClick}>Update</button>
-                    <button className="manage-button">Delete</button>
+                    <OpenModalButton 
+                        className='manage-button'
+                        buttonText='Delete'
+                        modalComponent={<DeleteSpotFormModal id={spot.id}/>}
+                    />
                 </div>
             </div>
         </div>
