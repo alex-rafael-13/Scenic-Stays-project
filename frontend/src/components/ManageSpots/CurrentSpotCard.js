@@ -25,7 +25,7 @@ export default function CurrentSpotCard({spot}){
                     <div className="price-details">
                         ${parseFloat(spot.price).toFixed(2)} a Night
                     </div>
-                    <div>
+                    <div className="button-container">
                         <button className='manage-button' onClick={testClick}>Update</button>
                         <button className="manage-button">Delete</button>
                     </div>

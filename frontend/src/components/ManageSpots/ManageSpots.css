@@ -1,0 +1,69 @@
+.manage-spots-page{
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.manage-header{
+    display: flex;
+    flex-direction: column;
+}
+
+.manage-title{
+    font-size: 25px;
+}
+
+.create-button{
+    width: 150px;
+    height: 30px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #5E8A75;
+    color: white;
+    cursor: pointer;
+}
+
+.create-button:hover{
+    color: #5E8A75;
+    border: solid #5E8A75 2px;
+    background-color: white;
+}
+
+.manage-spots-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.spot-card > a{
+    text-decoration: none;
+    color: black;
+}
+
+.price-and-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.manage-button{
+    border: none;
+    border-radius: 5px;
+    background-color: #5E8A75;
+    color: white;
+    cursor: pointer;
+}
+
+.manage-button:hover{
+    color: #5E8A75;
+    border: solid #5E8A75;
+    background-color: white;
+}
+
+.button-container > button:first-child{
+    margin-right: 5px;
+}

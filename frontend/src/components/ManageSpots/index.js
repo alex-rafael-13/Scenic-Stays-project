@@ -20,7 +20,7 @@ export default function ManageSpots(){
                 <div className="manage-title">Manage Your Spots</div>
                 <button className="create-button">Create a New Spot</button>
             </div>
-            <div className="manage-spot-list">
+            <div className="manage-spots-list">
                 {spots?.map(spot => (
                     <CurrentSpotCard key={spot.id} spot={spot}/>
                 ))}
