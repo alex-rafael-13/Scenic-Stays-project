@@ -81,3 +81,7 @@ ul{
     border-radius: 10px;
     border-width: 1px;
 }
+
+.profile-container > a{
+    text-decoration: none;
+}

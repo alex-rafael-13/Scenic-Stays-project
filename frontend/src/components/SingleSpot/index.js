@@ -9,7 +9,7 @@ import SpotReviews from "./SpotReviews"
 export default function SingleSpot(){
     const {spotId} = useParams()
     const dispatch = useDispatch()
-    const spot = useSelector(state => state.spots.singleSpot)
+    let spot = useSelector(state => state.spots.singleSpot)
     const user = useSelector(state => state.session.user)
 
     useEffect(() => {
@@ -42,6 +42,7 @@ export default function SingleSpot(){
             spotImages.push(image)
         }
     }
+    
 
     const reviews = (reviewNum) => {
         if(reviewNum === 0){

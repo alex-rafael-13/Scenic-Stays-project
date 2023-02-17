@@ -20,9 +20,11 @@ function Navigation({ isLoaded }){
         {isLoaded && (
           <div className='profile-container'>
             {sessionUser && (
-              <div className='message' ref={ulRef}>
-                Create a new spot
-              </div> 
+              <NavLink to='/spots/new'>
+                <div className='message' ref={ulRef}>
+                  Create a new spot
+                </div> 
+              </NavLink>
             )}
             <div>
               <ProfileButton user={sessionUser} />

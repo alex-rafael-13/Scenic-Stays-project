@@ -3,6 +3,8 @@ import {csrfFetch} from './csrf'
 const GET_ALL_SPOTS = 'spots/ALL_SPOTS'
 const GET_ONE_SPOT = 'spots/SINGLE_SPOT'
 const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
+const RESET_SPOT = 'spots/RESET_SPOT'
+const CREATE_SPOT = 'spot/CREATE'
 
 //Regular action creators
 const getAllSpots = (spots) => {
@@ -23,6 +25,19 @@ const loadSpotReviews = (reviews) => {
     return {
         type:GET_SPOT_REVIEWS,
         reviews
+    }
+}
+
+export const resetSpot = () => {
+    return {
+        type: RESET_SPOT
+    }
+}
+
+const createSpot = (spot) => {
+    return{
+        type: CREATE_SPOT,
+        spot
     }
 }
 
@@ -56,9 +71,53 @@ export const retrieveSpotReviews = id => async dispatch => {
     }
 }
 
+export const createNewSpot = spotInfo => async dispatch => {
+    const { address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        images
+    } = spotInfo
 
+    const spotResponse = await csrfFetch('/api/spots',{
+        method:'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+        })
+    })
+    
+    const spotData = await spotResponse.json()
+    spotData.SpotImages = []
+    for(let image of images){
+        const imageResponse = await csrfFetch(`/api/spots/${spotData.id}/images`,{
+            method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(image)
+        })
 
-const initialState = {spots: null}
+        const newImage = await imageResponse.json()
+        spotData.SpotImages.push(newImage)
+    }
+    console.log(spotData)
+    dispatch(createSpot(spotData))
+    return spotData
+}
+
+const initialState = {spots: null, singleSpot: null}
 export default function spotsReducer(state = initialState, action){
     let newState;
     switch(action.type){
@@ -79,6 +138,17 @@ export default function spotsReducer(state = initialState, action){
             newState = {...state}
             const reviewInfo = {...action.reviews}
             newState.spotReviews = {...reviewInfo}
+            return newState
+        }
+        case RESET_SPOT:{
+            newState = {...state}
+            newState.singleSpot = {}
+            return newState
+        }
+        case CREATE_SPOT:{
+            newState = {...state}
+            console.log(newState)
+            newState.spots.push(action.spot)
             return newState
         }
         default:
