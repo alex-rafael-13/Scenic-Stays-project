@@ -10,6 +10,10 @@ import SingleSpot from "../SingleSpot/index";
 export default function SpotList(){
     const dispatch = useDispatch()
     const spots = useSelector(state => state.spots.spots)
+    
+    // useEffect(() => {
+    //     dispatch(spotActions.resetSpot())
+    // }, [])
 
     useEffect(() => {
         dispatch(spotActions.retrieveAllSpots())

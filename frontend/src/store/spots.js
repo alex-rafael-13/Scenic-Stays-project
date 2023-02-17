@@ -3,6 +3,7 @@ import {csrfFetch} from './csrf'
 const GET_ALL_SPOTS = 'spots/ALL_SPOTS'
 const GET_ONE_SPOT = 'spots/SINGLE_SPOT'
 const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
+const RESET_SPOT = 'spots/RESET_SPOT'
 
 //Regular action creators
 const getAllSpots = (spots) => {
@@ -23,6 +24,12 @@ const loadSpotReviews = (reviews) => {
     return {
         type:GET_SPOT_REVIEWS,
         reviews
+    }
+}
+
+export const resetSpot = () => {
+    return {
+        type: RESET_SPOT
     }
 }
 
@@ -56,8 +63,6 @@ export const retrieveSpotReviews = id => async dispatch => {
     }
 }
 
-
-
 const initialState = {spots: null}
 export default function spotsReducer(state = initialState, action){
     let newState;
@@ -79,6 +84,11 @@ export default function spotsReducer(state = initialState, action){
             newState = {...state}
             const reviewInfo = {...action.reviews}
             newState.spotReviews = {...reviewInfo}
+            return newState
+        }
+        case RESET_SPOT:{
+            newState = {...state}
+            newState.singleSpot = {}
             return newState
         }
         default:
