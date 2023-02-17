@@ -21,15 +21,17 @@ export default function CurrentSpotCard({spot}){
                     </div>
                 </div>
             </NavLink>
-                <div className="price-and-buttons">
+            <div className="price-and-buttons">
+                <NavLink exact to={`/spots/${spot.id}`}>
                     <div className="price-details">
                         ${parseFloat(spot.price).toFixed(2)} a Night
                     </div>
-                    <div className="button-container">
-                        <button className='manage-button' onClick={testClick}>Update</button>
-                        <button className="manage-button">Delete</button>
-                    </div>
+                </NavLink>
+                <div className="button-container">
+                    <button className='manage-button' onClick={testClick}>Update</button>
+                    <button className="manage-button">Delete</button>
                 </div>
+            </div>
         </div>
         </>
     )
