@@ -1,4 +1,7 @@
-import { useState } from "react"
+import { useState} from "react"
+import { useDispatch } from "react-redux"
+import { createNewSpot } from "../../store/spots"
+import {Redirect, useHistory} from 'react-router-dom'
 
 export default function CreateSpot(){
     const [country, setCountry] = useState('')
@@ -6,7 +9,7 @@ export default function CreateSpot(){
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [lat, setLat] = useState('')
-    const [long, setLong] = useState('')
+    const [lng, setLong] = useState('')
     const [description, setDescription] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
@@ -15,10 +18,128 @@ export default function CreateSpot(){
     const [image2, setImage2] = useState('')
     const [image3, setImage3] = useState('')
     const [image4, setImage4] = useState('')
-
+    const [imageArr, setImageArr] = useState([])
     const [errors, setErrors] = useState({})
+    const dispatch = useDispatch()
+    const history = useHistory()
 
 
+    //HANDLE SUBMIT FORM 
+    const handleSubmit = async e =>{
+        e.preventDefault()
+        let submitErrors = {}
+        //CHECKING FOR ERRORS
+        
+        if(!country.length){
+            submitErrors.country = 'Country Required' 
+        }
+        if(!address.length){
+            submitErrors.address = 'Address is required'
+        }
+        if(!city.length){
+            submitErrors.city = 'City is required'
+        }
+        if(!state.length){
+            submitErrors.state = 'State is required'
+        }
+        if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
+            submitErrors.lat = 'Latitude not valid'
+        }
+        if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
+            submitErrors.lng = 'Longitude not valid'
+        }
+        if(description.length < 30){
+            submitErrors.description = 'Description needs at least 30 characters '
+        }
+        if(!price.length || Number.isNaN(price)){
+            submitErrors.price = 'Invalid price'
+        }
+        if(!previewImage.length){
+            submitErrors.previewImage = 'Preview image is required'
+        }
+
+        let images = []
+        if(previewImage.length){
+            if(previewImage.endsWith('.png') || previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')){
+                let previewImg = {
+                    url: previewImage,
+                    preview: true
+                }
+                images.push(previewImg)
+            }else{
+                submitErrors.previewImage = 'Preview image must end in .png, .jpg, or .jpeg'
+            }
+        }
+        if(image1.length){
+            if(image1.endsWith('.png') || image1.endsWith('.jpeg') || image1.endsWith('.jpg')){
+                let image = {
+                    url: image1,
+                    preview: false
+                }
+                images.push(image)
+            }else{
+                submitErrors.image1 = 'Image URL must end in .png, .jpg, or .jpeg'
+            }
+        }
+        if(image2.length){
+            if(image2.endsWith('.png') || image2.endsWith('.jpeg') || image2.endsWith('.jpg')){
+                let image = {
+                    url: image2,
+                    preview: false
+                }
+                images.push(image)
+            }else{
+                submitErrors.image2 = 'Image URL must end in .png, .jpg, or .jpeg'
+            }
+        }
+        if(image3.length){
+            if(image3.endsWith('.png') || image3.endsWith('.jpeg') || image3.endsWith('.jpg')){
+                let image = {
+                    url: image3,
+                    preview: false
+                }
+                images.push(image)
+            }else{
+                submitErrors.image3 = 'Image URL must end in .png, .jpg, or .jpeg'
+            }
+        }
+        if(image4.length){
+            if(image4.endsWith('.png') || image4.endsWith('.jpeg') || image4.endsWith('.jpg')){
+                let image = {
+                    url: image4,
+                    preview: false
+                }
+                images.push(image)
+            }else{
+                submitErrors.image4 = 'Image URL must end in .png, .jpg, or .jpeg'
+            }
+        }
+        setImageArr(images)
+
+        if(Object.values(submitErrors).length === 0){
+            let spotInfo = { address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price,
+                images
+            }
+    
+            let newSpot = await dispatch(createNewSpot(spotInfo))
+            console.log('----------------------Back to spots:',newSpot)
+            if(newSpot){
+                history.push(`/spots/${newSpot.id}`)
+            }
+        }
+
+        setErrors(submitErrors)
+    }
+
+    //CLASS NAMES TO AVOID MISTYPES
     const filloutSections = 'fillout-sections'
     const sectionDetails = 'section-details'
     const detailsTitle = 'details-title'
@@ -32,7 +153,7 @@ export default function CreateSpot(){
                 Create a New Spot
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className={sectionDetails}>
                     <div className={detailsTitle}>Where is your place located</div>
                     <div>Guests will only get your exact address once they booked a reservation</div>
@@ -122,7 +243,7 @@ export default function CreateSpot(){
                             type='text'
                             placeholder="Longitude"
                             onChange={e => setLong(e.target.value)}
-                            value={long}
+                            value={lng}
                         />
                     </label>
                 </div>
