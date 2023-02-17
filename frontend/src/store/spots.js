@@ -5,6 +5,7 @@ const GET_ONE_SPOT = 'spots/SINGLE_SPOT'
 const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
 const RESET_SPOT = 'spots/RESET_SPOT'
 const CREATE_SPOT = 'spot/CREATE'
+const CURRENT_USER_SPOTS = 'spots/CURRENT_USER'
 
 //Regular action creators
 const getAllSpots = (spots) => {
@@ -41,6 +42,13 @@ const createSpot = (spot) => {
     }
 }
 
+const loadUserSpots = (spots) => {
+    return {
+        type: CURRENT_USER_SPOTS,
+        spots
+    }
+}
+
 //Thunk action creators
 export const retrieveAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots')
@@ -48,6 +56,15 @@ export const retrieveAllSpots = () => async dispatch => {
     if(response.ok){
         const data =  await response.json()
         dispatch(getAllSpots(data.Spots))
+    }
+}
+
+export const retrieveUserSpots = () => async dispatch => {
+    const response = await csrfFetch('/api/spots/current')
+
+    if(response.ok){
+        const data =  await response.json()
+        dispatch(loadUserSpots(data.Spots))
     }
 }
 
@@ -117,7 +134,7 @@ export const createNewSpot = spotInfo => async dispatch => {
     return spotData
 }
 
-const initialState = {spots: null, singleSpot: null}
+const initialState = {spots: null, singleSpot: null, userSpots: null}
 export default function spotsReducer(state = initialState, action){
     let newState;
     switch(action.type){
@@ -147,8 +164,12 @@ export default function spotsReducer(state = initialState, action){
         }
         case CREATE_SPOT:{
             newState = {...state}
-            console.log(newState)
             newState.spots.push(action.spot)
+            return newState
+        }
+        case CURRENT_USER_SPOTS:{
+            newState = {...state}
+            newState.userSpots = action.spots
             return newState
         }
         default:
