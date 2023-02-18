@@ -19,7 +19,7 @@ export default function SingleSpot(){
     useEffect(() => {
         dispatch(restoreUser())
     },[dispatch])
-    console.log('user ------- ',user)
+    // console.log('user ------- ',user)
 
     const handleClick = () => {
         alert('FEATURE COMING SOON...')
@@ -34,6 +34,7 @@ export default function SingleSpot(){
     let preview;
     let spotImages = []
     let images = spot?.SpotImages
+    console.log('----------spot', spot)
     
     for(let image of images){
         if(image.preview === true){
@@ -93,7 +94,7 @@ export default function SingleSpot(){
             <div className="spot-images">
                 <img className="single-image" src={preview?.url} alt='house image'/>
                 <div className="image-group">
-                        {spotImages.map(image => (
+                        {spotImages?.map(image => (
                             <img key={image?.id}className='little-image'src={image?.url} />
                         ))}
                 </div>

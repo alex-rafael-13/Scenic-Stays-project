@@ -6,6 +6,7 @@ const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
 const RESET_SPOT = 'spots/RESET_SPOT'
 const CREATE_SPOT = 'spot/CREATE'
 const CURRENT_USER_SPOTS = 'spots/CURRENT_USER'
+const DELETE_SPOT = 'spot/DELETE'
 
 //Regular action creators
 const getAllSpots = (spots) => {
@@ -46,6 +47,13 @@ const loadUserSpots = (spots) => {
     return {
         type: CURRENT_USER_SPOTS,
         spots
+    }
+}
+
+const removeSpot = (id) => {
+    return {
+        type: DELETE_SPOT,
+        id
     }
 }
 
@@ -129,12 +137,21 @@ export const createNewSpot = spotInfo => async dispatch => {
         const newImage = await imageResponse.json()
         spotData.SpotImages.push(newImage)
     }
-    console.log(spotData)
     dispatch(createSpot(spotData))
     return spotData
 }
 
-const initialState = {spots: null, singleSpot: null, userSpots: null}
+export const deleteSpot = id => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'DELETE'
+    })
+
+    if(response.ok){
+        dispatch(removeSpot(id))
+    }
+}
+
+const initialState = {spots: [], singleSpot: null, userSpots: []}
 export default function spotsReducer(state = initialState, action){
     let newState;
     switch(action.type){
@@ -148,6 +165,7 @@ export default function spotsReducer(state = initialState, action){
             const newObj = {...action.spot}
             
             newState.singleSpot = {...newObj}
+            console.log('--------one spot', newObj)
 
             return newState
         }
@@ -170,6 +188,20 @@ export default function spotsReducer(state = initialState, action){
         case CURRENT_USER_SPOTS:{
             newState = {...state}
             newState.userSpots = action.spots
+            return newState
+        }
+        case DELETE_SPOT:{
+            let obj = {}
+            newState = {...state}
+            newState.userSpots.forEach(spot => {
+                obj[spot.id] = spot
+            })
+
+            delete obj[action.id]
+            let arr = Object.values(obj)
+
+            newState.userSpots = arr
+            console.log(newState)
             return newState
         }
         default:
