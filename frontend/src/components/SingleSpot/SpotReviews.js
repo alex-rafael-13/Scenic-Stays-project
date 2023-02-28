@@ -10,7 +10,7 @@ export default function SpotReviews({id}){
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
 
-    console.log(reviews?.Reviews)
+    // console.log(reviews?.Reviews)
 
     const setDate = (date) => {
         const newDate = new Date(date)

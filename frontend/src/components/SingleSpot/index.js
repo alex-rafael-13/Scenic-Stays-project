@@ -34,7 +34,7 @@ export default function SingleSpot(){
     let preview;
     let spotImages = []
     let images = spot?.SpotImages
-    console.log('----------spot', spot)
+    // console.log('----------spot', spot)
     
     for(let image of images){
         if(image.preview === true){
