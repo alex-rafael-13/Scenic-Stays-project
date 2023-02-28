@@ -65,7 +65,7 @@ export default function SingleSpot(){
 
     const setReviewHeader = (reviewNum) => {
 
-        if(reviewNum === 0 && user.id !== spot.Owner.id){
+        if(reviewNum === 0 && user?.id !== spot.Owner.id){
             return (<h1>Be The first to post a review!</h1>)
         } else{
             return(
