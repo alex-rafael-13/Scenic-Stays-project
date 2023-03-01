@@ -12,8 +12,11 @@ export default function SingleSpot(){
     let spot = useSelector(state => state.spots.singleSpot)
     const user = useSelector(state => state.session.user)
 
-    useEffect(() => {
+    useEffect((err) => {
         dispatch(retrieveSingleSpot(spotId))
+            .catch(err)(
+                
+            )
     }, [dispatch])
 
     useEffect(() => {
