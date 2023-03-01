@@ -72,7 +72,7 @@ module.exports = {
 
       for(let url of urls){
 
-        ReviewImage.create({...url, reviewId: spotReview.id})
+       await ReviewImage.create({...url, reviewId: spotReview.id})
       }
     }
 
@@ -84,10 +84,10 @@ module.exports = {
       const { review, urls} = images[i]
 
       const spotReview = await Review.findOne({where: {review}});
-
+      console.log(spotReview)
       for(let url of urls){
 
-        ReviewImage.destroy({where:{...url, reviewId: spotReview.id}})
+        await ReviewImage.destroy({where:{...url, reviewId: spotReview.id}})
       }
     }
   }
