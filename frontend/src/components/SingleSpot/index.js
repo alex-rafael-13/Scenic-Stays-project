@@ -12,14 +12,17 @@ export default function SingleSpot(){
     let spot = useSelector(state => state.spots.singleSpot)
     const user = useSelector(state => state.session.user)
 
-    useEffect(() => {
+    useEffect((err) => {
         dispatch(retrieveSingleSpot(spotId))
+            .catch(err)(
+                
+            )
     }, [dispatch])
 
     useEffect(() => {
         dispatch(restoreUser())
     },[dispatch])
-    console.log('user ------- ',user)
+    // console.log('user ------- ',user)
 
     const handleClick = () => {
         alert('FEATURE COMING SOON...')
@@ -34,6 +37,7 @@ export default function SingleSpot(){
     let preview;
     let spotImages = []
     let images = spot?.SpotImages
+    // console.log('----------spot', spot)
     
     for(let image of images){
         if(image.preview === true){
@@ -64,7 +68,7 @@ export default function SingleSpot(){
 
     const setReviewHeader = (reviewNum) => {
 
-        if(reviewNum === 0 && user.id !== spot.Owner.id){
+        if(reviewNum === 0 && user?.id !== spot.Owner.id){
             return (<h1>Be The first to post a review!</h1>)
         } else{
             return(
@@ -93,7 +97,7 @@ export default function SingleSpot(){
             <div className="spot-images">
                 <img className="single-image" src={preview?.url} alt='house image'/>
                 <div className="image-group">
-                        {spotImages.map(image => (
+                        {spotImages?.map(image => (
                             <img key={image?.id}className='little-image'src={image?.url} />
                         ))}
                 </div>
