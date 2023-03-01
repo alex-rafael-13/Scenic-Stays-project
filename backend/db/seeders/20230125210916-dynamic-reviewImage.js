@@ -65,14 +65,17 @@ const images = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const reviews = await Review.findAll()
+    // console.log(reviews)
     for(let i = 0; i < images.length; i++){
-      const { review, urls} = images[i]
-
-      const spotReview = await Review.findOne({where: {review}});
+      const {urls} = images[i]
+      const reviewId = reviews[i].id
+      // console.log(reviewId)
+      // const spotReview = await Review.findOne({where: {id:reviewId}});
 
       for(let url of urls){
 
-       await ReviewImage.create({...url, reviewId: spotReview.id})
+       await ReviewImage.create({...url, reviewId})
       }
     }
 
@@ -80,14 +83,17 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
+    const reviews = await Review.findAll()
+    
     for(let i = 0; i < images.length; i++){
-      const { review, urls} = images[i]
+      const {urls} = images[i]
+      const reviewId = reviews[i].id
 
-      const spotReview = await Review.findOne({where: {review}});
-      console.log(spotReview)
+      // const spotReview = await Review.findOne({where: {id:reviewId}});
+      
       for(let url of urls){
 
-        await ReviewImage.destroy({where:{...url, reviewId: spotReview.id}})
+        await ReviewImage.destroy({where:{...url, reviewId}})
       }
     }
   }
