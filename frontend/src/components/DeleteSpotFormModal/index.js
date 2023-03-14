@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal"
 import { deleteSpot } from "../../store/spots"
+import './DeleteSpotModal.css'
 
 
 export default function DeleteSpotFormModal({id}){
@@ -20,10 +21,12 @@ export default function DeleteSpotFormModal({id}){
     }
     return(
         <div className="delete-spot-modal">
-            <div className="delete-spot-title">Confirm Delete</div>
+            <h2 className="delete-spot-title">Confirm Delete</h2>
             <div className="delete-spot-description">Are you sure you want to remove this spot from the listings?</div>
-            <button className="delete-spot" onClick={removeSpot}>Yes (Delete Spot)</button>
-            <button className="keep-spot" onClick={keepSpot}>No (Keep Spot)</button>
+            <div className='button-layout'>
+                <button className="delete-spot-button" onClick={removeSpot}>Yes (Delete Spot)</button>
+                <button className="keep-spot-button" onClick={keepSpot}>No (Keep Spot)</button>
+            </div>
         </div>
     )
 }

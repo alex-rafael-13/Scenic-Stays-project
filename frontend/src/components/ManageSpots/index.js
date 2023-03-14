@@ -14,7 +14,7 @@ export default function ManageSpots(){
     useEffect(() => {
         dispatch(retrieveUserSpots())
     }, [dispatch])
-    
+        
     const createSpot = e => {
         e.preventDefault()
         history.push('/spots/new')
