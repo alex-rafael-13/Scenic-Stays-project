@@ -47,8 +47,9 @@
 }
 
 .profile-button{
-    background-color: transparent;
-    border: #5E8A75 solid;
+    /* background-color: transparent; */
+    border: black solid .5px;
+    background-color: #5E8A75;
     border-radius: 50px;
     
     position: relative;
@@ -61,11 +62,11 @@
 
 .profile-button:hover{
     box-shadow: .5px .5px 3px;
-    
 }
 
-.fa-solid {
-    color: #5E8A75;
+.profile-button > .fa-solid {
+    /* color: #5E8A75; */
+    color: #E3D3BD;
     font-size: 25px;
 }
 /* .fa-solid:hover{
