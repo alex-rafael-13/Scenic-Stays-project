@@ -10,8 +10,6 @@ export default function SpotReviews({id}){
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
 
-    console.log(reviews?.Reviews)
-
     const setDate = (date) => {
         const newDate = new Date(date)
 
@@ -21,7 +19,7 @@ export default function SpotReviews({id}){
 
     return(
         <>
-            {reviews?.Reviews.map(review => (
+            {reviews?.Reviews?.map(review => (
                 <div key={review.id} className="review-card">
                     <div className="review-user">{review.User.firstName}</div>
                     <div className="review-date">{setDate(review.createdAt)}</div>
