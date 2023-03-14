@@ -17,11 +17,22 @@ export default function SpotList(){
 
     useEffect(() => {
         dispatch(spotActions.retrieveAllSpots())
+            .catch(
+                async res => {
+                    const data = await res.json
+                    if(data && !data.length){
+                        return (
+                            <h1>Unable to Retrieve Details. Please Try Again Later</h1>
+                        )
+                    }
+                }                              
+            )
+        dispatch(spotActions.resetSpot())
     }, [dispatch])
 
     if(!spots || spots.length === 0){
         return(
-            <h1>Unable to Retrieve Spots, Try Again Shortly</h1>
+            <h1></h1>
         )
     }
     

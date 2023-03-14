@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -13,6 +13,7 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [allowButton, setAllowButton] = useState(true)
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
@@ -33,14 +34,23 @@ function SignupFormModal() {
     return setErrors(['Confirm Password field must be the same as the Password field']);
   };
 
+  useEffect(() => {
+    if(email.length > 0 && firstName.length > 0 && lastName.length > 0){
+      if(username.length >= 4 && password.length >= 6){
+        if(password === confirmPassword) setAllowButton(false)
+          else setAllowButton(true)
+      } else setAllowButton(true)
+    } else setAllowButton(true)
+  },[email,firstName, lastName,username, password, confirmPassword])
+
   return (
-    <>
+    <div className='signup-modal'>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='signup-form' onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-        <label>
+        <label className='input-labels'>
           Email
           <input
             type="text"
@@ -49,7 +59,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-labels'>
           Username
           <input
             type="text"
@@ -58,7 +68,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-labels'>
           First Name
           <input
             type="text"
@@ -67,7 +77,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-labels'>
           Last Name
           <input
             type="text"
@@ -76,7 +86,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-labels'>
           Password
           <input
             type="password"
@@ -85,7 +95,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-labels'>
           Confirm Password
           <input
             type="password"
@@ -94,9 +104,9 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button className={allowButton ? 'signup-disabled':'signup-button'} type="submit" disabled={allowButton}>Sign Up</button>
       </form>
-    </>
+    </ div>
   );
 }
 

@@ -35,7 +35,6 @@ export const login = (user) => async (dispatch) => {
             password
         })
     });
-
     if(response.ok){
         const data = await response.json()
         dispatch(loginUser(data.user));

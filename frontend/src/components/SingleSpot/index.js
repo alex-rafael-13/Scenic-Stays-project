@@ -14,8 +14,16 @@ export default function SingleSpot(){
 
     useEffect((err) => {
         dispatch(retrieveSingleSpot(spotId))
-            .catch(err)(
-                
+            .catch(
+                async res => {
+                    const data = await res.json
+                    if(data && !data.ok){
+                        console.log('in here')
+                        return (
+                            <h1>Unable to Retrieve Details. Please Try Again Later</h1>
+                        )
+                    }
+                }                              
             )
     }, [dispatch])
 
@@ -30,7 +38,7 @@ export default function SingleSpot(){
 
     if(!spot){
         return (
-            <h1>Unable to Retrieve Details. Please Try Again Later</h1>
+            <h1></h1>
         )
     }
 

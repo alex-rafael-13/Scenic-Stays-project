@@ -1,0 +1,49 @@
+.login-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 320px;
+    padding: 0px 10px;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* padding: 0px 10px; */
+}
+
+.input-label{
+    display: flex;
+    flex-direction: column;
+    /* padding: 0px 10px; */
+}
+
+.login-buttons, .login-disabled{
+    width: 100%;
+    margin: 5px 0px;
+    height: 30px;
+
+    background-color: #5E8A75;
+    color: white;
+    
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.login-disabled{
+    cursor: default;
+}
+
+.login-buttons:hover{
+    background-color: white;
+    color:  #5E8A75;
+
+    border: solid #5E8A75;
+}
+
+.errors{
+    color: red;
+}

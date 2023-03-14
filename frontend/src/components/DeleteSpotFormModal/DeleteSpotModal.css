@@ -1,0 +1,39 @@
+.delete-spot-modal{
+    display: flex;
+    flex-direction: column;
+    height: 220px;
+    width: 300px;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.delete-spot-title{
+    font-weight: 500;
+}
+
+.button-layout{
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+    justify-content: space-around;
+    height: 110px;
+    width: 100%;
+}
+
+.button-layout > button{
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.delete-spot-button{
+    background-color: rgb(224, 68, 68);
+}
+
+.keep-spot-button{
+    background-color: gray;
+}
+

@@ -33,11 +33,13 @@ export default function CurrentSpotCard({spot}){
                 </NavLink>
                 <div className="button-container">
                     <button className='manage-button' onClick={testClick}>Update</button>
+                    <div className='delete-button'>
                     <OpenModalButton 
-                        className='manage-button'
+                        className='delete-button'
                         buttonText='Delete'
                         modalComponent={<DeleteSpotFormModal id={spot.id}/>}
                     />
+                    </div>
                 </div>
             </div>
         </div>
