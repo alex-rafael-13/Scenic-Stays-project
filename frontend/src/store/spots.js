@@ -60,11 +60,11 @@ const removeSpot = (id) => {
 //Thunk action creators
 export const retrieveAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots')
-
     if(response.ok){
         const data =  await response.json()
         dispatch(getAllSpots(data.Spots))
     }
+    return response
 }
 
 export const retrieveUserSpots = () => async dispatch => {
@@ -177,7 +177,7 @@ export default function spotsReducer(state = initialState, action){
         }
         case RESET_SPOT:{
             newState = {...state}
-            newState.singleSpot = {}
+            newState.singleSpot = null
             return newState
         }
         case CREATE_SPOT:{
