@@ -1,0 +1,103 @@
+.create-spot-page{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 30%;
+    height: auto;
+}
+
+.create-page-title{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.create-spot-page > form{
+    display: flex;
+    flex-direction: column;
+}
+
+.section-details{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+}
+
+.details-title{
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+
+.label-title{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.label-title > div{
+    margin-right: 5px;
+}
+
+.fillout-sections > input, .fillout-sections > textarea{
+    width: 100%;
+    resize: none;
+}
+
+.city-state-fillout{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.city-fillout{
+    width: 70%;
+    margin-right: 5px;
+}
+.state-fillout{
+    width: 25%;
+}
+
+.price-fillout{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.price-input{
+    width: 96%;
+}
+
+.photo-inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-inputs > input{
+    margin: 5px 0px;
+}
+
+.create-spot-errors{
+    color: red;
+    font-size: 15px;
+}
+
+.create-spot-button-holder{
+    display: flex;
+    justify-content: center;
+}
+
+.create-spot-button-holder > button{
+    background-color: #5E8A75;
+    color: white;
+
+    border: none;
+    height: 30px;
+    width: 150px;
+    border-radius: 50px;
+
+    cursor: pointer;
+}
+
+.create-spot-button-holder > button:hover{
+    background-color: white;
+    color: #5E8A75; 
+    border:#5E8A75 solid;
+}

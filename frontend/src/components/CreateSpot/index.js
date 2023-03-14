@@ -2,14 +2,15 @@ import { useState} from "react"
 import { useDispatch } from "react-redux"
 import { createNewSpot } from "../../store/spots"
 import {Redirect, useHistory} from 'react-router-dom'
+import './CreateSpot.css'
 
 export default function CreateSpot(){
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
-    const [lat, setLat] = useState('')
-    const [lng, setLong] = useState('')
+    const [lat, setLat] = useState(0)
+    const [lng, setLong] = useState(0)
     const [description, setDescription] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
@@ -41,6 +42,9 @@ export default function CreateSpot(){
         }
         if(!state.length){
             submitErrors.state = 'State is required'
+        }
+        if(!name.length){
+            submitErrors.name = 'Name is required'
         }
         if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
             submitErrors.lat = 'Latitude not valid'
@@ -143,8 +147,8 @@ export default function CreateSpot(){
     const filloutSections = 'fillout-sections'
     const sectionDetails = 'section-details'
     const detailsTitle = 'details-title'
-    const labelTitle = 'label title'
-    const errClassName = 'errors'
+    const labelTitle = 'label-title'
+    const errClassName = 'create-spot-errors'
 
     return(
         <div className="create-spot-page">
@@ -188,6 +192,7 @@ export default function CreateSpot(){
                     />
                 </label>
                 <div className="city-state-fillout">
+                    <div className="city-fillout">
                     <label className={filloutSections}>
                         <div className={labelTitle}>
                             <div>City</div>
@@ -202,22 +207,25 @@ export default function CreateSpot(){
                             value={city}
                         />
                     </label>
-                    <label className={filloutSections}>
-                        <div className={labelTitle}>
-                            <div>State</div>
-                            {errors.state &&
-                                <div className={errClassName}>{errors.state}</div>
-                            }
-                        </div>
-                        <input
-                            type='text'
-                            placeholder="STATE"
-                            onChange={e => setState(e.target.value)}
-                            value={state}
-                        />
-                    </label>
+                    </div> ,
+                    <div className="state-fillout">    
+                        <label className={filloutSections}>
+                            <div className={labelTitle}>
+                                <div>State</div>
+                                {errors.state &&
+                                    <div className={errClassName}>{errors.state}</div>
+                                }
+                            </div>
+                            <input
+                                type='text'
+                                placeholder="STATE"
+                                onChange={e => setState(e.target.value)}
+                                value={state}
+                            />
+                        </label>
+                    </div>
                 </div>
-                <div className="lat-long-fillout"> 
+                {/* <div className="lat-long-fillout"> 
                     <label className={filloutSections}>
                         <div className={labelTitle}>
                             <div>Latitude</div>
@@ -246,7 +254,7 @@ export default function CreateSpot(){
                             value={lng}
                         />
                     </label>
-                </div>
+                </div> */}
 
                 <hr/>
 
@@ -255,12 +263,14 @@ export default function CreateSpot(){
                     <div>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about your neighborhood</div>
                 </div>
                 <label className={filloutSections}>
-                    <input
+                    <textarea
                         className="description-box"
                         type='text'
                         placeholder="Please write at least 30 characters"
                         onChange={e => setDescription(e.target.value)}
                         value={description}
+                        cols='5'
+                        rows='10'
                     />
                     {errors.description &&
                         <div className={errClassName}>{errors.description}</div>
@@ -296,12 +306,15 @@ export default function CreateSpot(){
                     </div>
                 </div>
                 <label className={filloutSections}>
-                    <input
-                        type='text'
-                        placeholder="Price per night (USD)"
-                        onChange={e => setPrice(e.target.value)}
-                        value={price}
-                    />
+                    <div className="price-fillout">
+                        $
+                        <input className="price-input"
+                            type='text'
+                            placeholder="Price per night (USD)"
+                            onChange={e => setPrice(e.target.value)}
+                            value={price}
+                        />
+                    </div>
                     {errors.price &&
                         <div className={errClassName}>{errors.price}</div>
                     }
@@ -368,7 +381,7 @@ export default function CreateSpot(){
 
                 <hr/>
 
-                <div>
+                <div className='create-spot-button-holder'>
                     <button type="submit">Create Spot</button>
                 </div>
 

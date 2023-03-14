@@ -1,7 +1,7 @@
 .manage-spots-page{
     width: 100%;
     max-width: 1200px;
-    margin-top: 60px;
+    margin: 60px 10%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
