@@ -22,7 +22,7 @@ function Navigation({ isLoaded }){
             {sessionUser && (
               <NavLink to='/spots/new'>
                 <div className='message' ref={ulRef}>
-                  Create a new spot
+                  Create a new spot!
                 </div> 
               </NavLink>
             )}

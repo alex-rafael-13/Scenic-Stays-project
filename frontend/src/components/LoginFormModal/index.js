@@ -27,13 +27,16 @@ function LoginFormModal() {
   const demoSignIn = () => {
     return dispatch(sessionActions.login({ credential:'Ironman', password:'password'}))
       .then(closeModal)
+      .then(
+        alert('Signed in as our demo user!')
+      )
   }
 
   return (
     <div className='login-modal'>
       <h1>Log In</h1>
       <form className='login-form' onSubmit={handleSubmit}>
-        <ul>
+        <ul className="errors">
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}

@@ -39,3 +39,7 @@
 
     border: solid #5E8A75;
 }
+
+.errors{
+    color: red;
+}
