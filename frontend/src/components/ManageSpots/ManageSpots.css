@@ -55,10 +55,29 @@
     color: black;
 }
 
-.manage-button{
+.button-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-button > button{
+    background-color: rgb(224, 68, 68);
+    color: white;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button > button:hover{
+    color: rgb(224, 68, 68);
+    border: solid rgb(224, 68, 68);
+    background-color: white;
+}
+
+.manage-button{
+    border: none;
     background-color: #5E8A75;
+    border-radius: 5px;
     color: white;
     cursor: pointer;
 }
@@ -68,6 +87,7 @@
     border: solid #5E8A75;
     background-color: white;
 }
+
 
 .button-container > button:first-child{
     margin-right: 5px;
