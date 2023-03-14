@@ -24,16 +24,21 @@ function LoginFormModal() {
       );
   };
 
+  const demoSignIn = () => {
+    return dispatch(sessionActions.login({ credential:'Ironman', password:'password'}))
+      .then(closeModal)
+  }
+
   return (
-    <>
+    <div className='login-modal'>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='login-form' onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
+        <label  className='input-label'>
           Username or Email
           <input
             type="text"
@@ -42,7 +47,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        <label>
+        <label className='input-label'>
           Password
           <input
             type="password"
@@ -51,9 +56,11 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button className='login-buttons' type="submit">Log In</button>
       </form>
-    </>
+      <> --- OR --- </>
+      <button onClick={demoSignIn} className='login-buttons'>Demo User</button>
+    </ div>
   );
 }
 
