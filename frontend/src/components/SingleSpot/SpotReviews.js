@@ -1,16 +1,16 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { retrieveSpotReviews } from "../../store/spots"
+import { retrieveSpotReviews } from "../../store/reviews"
 
 export default function SpotReviews({id}){
     const dispatch = useDispatch()
-    const reviews = useSelector(state => state.spots.spotReviews)
+    const reviews = useSelector(state => state.reviews.spotReviews)
 
     useEffect(() =>{
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
 
-    // console.log(reviews?.Reviews)
+    console.log(reviews?.Reviews)
 
     const setDate = (date) => {
         const newDate = new Date(date)

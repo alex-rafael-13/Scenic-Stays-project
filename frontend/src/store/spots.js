@@ -2,7 +2,6 @@ import {csrfFetch} from './csrf'
 
 const GET_ALL_SPOTS = 'spots/ALL_SPOTS'
 const GET_ONE_SPOT = 'spots/SINGLE_SPOT'
-const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
 const RESET_SPOT = 'spots/RESET_SPOT'
 const CREATE_SPOT = 'spot/CREATE'
 const CURRENT_USER_SPOTS = 'spots/CURRENT_USER'
@@ -20,13 +19,6 @@ const loadSingleSpot = (spot) => {
     return {
         type: GET_ONE_SPOT,
         spot
-    }
-}
-
-const loadSpotReviews = (reviews) => {
-    return {
-        type:GET_SPOT_REVIEWS,
-        reviews
     }
 }
 
@@ -83,16 +75,6 @@ export const retrieveSingleSpot = id => async dispatch => {
         const data = await response.json()
         console.log('data',data)
         dispatch(loadSingleSpot(data))
-    }
-}
-
-export const retrieveSpotReviews = id => async dispatch => {
-    const response = await csrfFetch(`/api/spots/${id}/reviews`)
-
-    if(response.ok){
-        const data = await response.json()
-        console.log('data',data)
-        dispatch(loadSpotReviews(data))
     }
 }
 
@@ -167,12 +149,6 @@ export default function spotsReducer(state = initialState, action){
             newState.singleSpot = {...newObj}
             console.log('--------one spot', newObj)
 
-            return newState
-        }
-        case GET_SPOT_REVIEWS:{
-            newState = {...state}
-            const reviewInfo = {...action.reviews}
-            newState.spotReviews = {...reviewInfo}
             return newState
         }
         case RESET_SPOT:{
