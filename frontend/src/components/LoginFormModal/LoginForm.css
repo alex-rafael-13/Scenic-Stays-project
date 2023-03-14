@@ -20,7 +20,7 @@
     /* padding: 0px 10px; */
 }
 
-.login-buttons{
+.login-buttons, .login-disabled{
     width: 100%;
     margin: 5px 0px;
     height: 30px;
@@ -31,6 +31,10 @@
     border: none;
     border-radius: 50px;
     cursor: pointer;
+}
+
+.login-disabled{
+    cursor: default;
 }
 
 .login-buttons:hover{

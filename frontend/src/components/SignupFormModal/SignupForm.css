@@ -19,7 +19,7 @@
     /* padding: 0px 10px; */
 }
 
-.signup-button{
+.signup-button, .signup-disabled{
     width: 100%;
     margin: 5px 0px;
     height: 30px;
@@ -30,6 +30,10 @@
     border: none;
     border-radius: 50px;
     cursor: pointer;
+}
+
+.signup-disabled{
+    cursor: default;
 }
 
 .signup-button:hover{

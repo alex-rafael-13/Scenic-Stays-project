@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -9,6 +9,7 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [button, setButton] = useState(true)
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
@@ -28,9 +29,15 @@ function LoginFormModal() {
     return dispatch(sessionActions.login({ credential:'Ironman', password:'password'}))
       .then(closeModal)
       .then(
-        alert('Signed in as our demo user!')
+        alert('Signed in as our Ironman!')
       )
   }
+
+  useEffect(() => { 
+    if(credential.length >= 4 && password.length >= 6) setButton(false)
+    else setButton(true)
+  }, [credential, password] )
+
 
   return (
     <div className='login-modal'>
@@ -59,10 +66,14 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button className='login-buttons' type="submit">Log In</button>
+        <button className={button ? 'login-disabled': 'login-buttons'}
+          type="submit" 
+          disabled={button}>
+            Log In
+          </button>
       </form>
       <> --- OR --- </>
-      <button onClick={demoSignIn} className='login-buttons'>Demo User</button>
+      <button onClick={demoSignIn} className='login-buttons'>Login as Demo User</button>
     </ div>
   );
 }

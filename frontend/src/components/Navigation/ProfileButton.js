@@ -56,9 +56,9 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className="dropdown-menu">
-            <li>Welcome {user.username}!</li>
+            <li>Hello, {user.firstName}!</li>
             {/* <hr /> */}
-            <li>{user.firstName} {user.lastName}</li>
+            {/* <li>{user.firstName} {user.lastName}</li> */}
             {/* <hr /> */}
             <li>{user.email}</li>
             <hr />
