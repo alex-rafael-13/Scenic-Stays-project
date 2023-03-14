@@ -1,0 +1,40 @@
+.signup-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 500px;
+    padding: 0px 10px;
+}
+
+.signup-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-labels{
+    display: flex;
+    flex-direction: column;
+    /* padding: 0px 10px; */
+}
+
+.signup-button{
+    width: 100%;
+    margin: 5px 0px;
+    height: 30px;
+
+    background-color: #5E8A75;
+    color: white;
+    
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.signup-button:hover{
+    background-color: white;
+    color:  #5E8A75;
+
+    border: solid #5E8A75;
+}
