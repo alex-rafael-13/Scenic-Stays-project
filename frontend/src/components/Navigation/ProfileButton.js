@@ -40,16 +40,17 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
-  const userSpots = e => {
-    e.preventDefault()
-    history.push('/spots/current')
-  }
+  // const userSpots = e => {
+  //   e.preventDefault()
+  //   history.push('/spots/current')
+  // }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div className="profile-button-cont">
       <button className='profile-button' onClick={openMenu}>
+        <i className="fa-solid fa-bars" />
         <i className="fa-solid fa-tree" />
       </button>
       <ul className={ulClassName} ref={ulRef}>

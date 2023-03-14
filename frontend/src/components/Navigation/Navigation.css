@@ -48,19 +48,29 @@
 
 .profile-button{
     background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 70px;
+    border: #5E8A75 solid;
+    border-radius: 50px;
+    
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    
+    width: 70px;
+    cursor: pointer;
+}
+
+.profile-button:hover{
+    box-shadow: .5px .5px 3px;
+    
 }
 
 .fa-solid {
     color: #5E8A75;
-    font-size: 30px;
+    font-size: 25px;
 }
-.fa-solid:hover{
+/* .fa-solid:hover{
     color: green; 
-}
+} */
 
 .message{
     font-size: 20px;
