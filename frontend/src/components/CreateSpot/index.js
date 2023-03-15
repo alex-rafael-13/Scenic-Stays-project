@@ -9,8 +9,8 @@ export default function CreateSpot(){
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
-    const [lat, setLat] = useState(0)
-    const [lng, setLong] = useState(0)
+    // const [lat, setLat] = useState(0)
+    // const [lng, setLong] = useState(0)
     const [description, setDescription] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
@@ -46,12 +46,12 @@ export default function CreateSpot(){
         if(!name.length){
             submitErrors.name = 'Name is required'
         }
-        if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
-            submitErrors.lat = 'Latitude not valid'
-        }
-        if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
-            submitErrors.lng = 'Longitude not valid'
-        }
+        // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
+        //     submitErrors.lat = 'Latitude not valid'
+        // }
+        // if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
+        //     submitErrors.lng = 'Longitude not valid'
+        // }
         if(description.length < 30){
             submitErrors.description = 'Description needs at least 30 characters '
         }
@@ -125,8 +125,8 @@ export default function CreateSpot(){
                 city,
                 state,
                 country,
-                lat,
-                lng,
+                lat: 0,
+                lng: 0,
                 name,
                 description,
                 price,
