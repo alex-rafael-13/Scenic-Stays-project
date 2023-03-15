@@ -73,7 +73,7 @@ export const retrieveSingleSpot = id => async dispatch => {
     // console.log(response)
     if(response.ok){
         const data = await response.json()
-        console.log('data',data)
+        // console.log('data',data)
         dispatch(loadSingleSpot(data))
     }
 }
@@ -147,7 +147,7 @@ export default function spotsReducer(state = initialState, action){
             const newObj = {...action.spot}
             
             newState.singleSpot = {...newObj}
-            console.log('--------one spot', newObj)
+            // console.log('--------one spot', newObj)
 
             return newState
         }

@@ -8,8 +8,8 @@ export default function CurrentSpotCard({spot}){
     const image = spot.previewImage
     const history = useHistory()
 
-    const testClick = () => {
-        history.push('/')
+    const updateSpot = () => {
+        history.push(`/spots/${spot.id}/edit`)
     }
 
     return(
@@ -32,7 +32,7 @@ export default function CurrentSpotCard({spot}){
                     </div>
                 </NavLink>
                 <div className="button-container">
-                    <button className='manage-button' onClick={testClick}>Update</button>
+                    <button className='manage-button' onClick={updateSpot}>Update</button>
                     <div className='delete-button'>
                     <OpenModalButton 
                         className='delete-button'

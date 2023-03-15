@@ -18,7 +18,7 @@ export default function SingleSpot(){
                 async res => {
                     const data = await res.json
                     if(data && !data.ok){
-                        console.log('in here')
+                        // console.log('in here')
                         return (
                             <h1>Unable to Retrieve Details. Please Try Again Later</h1>
                         )
@@ -26,6 +26,7 @@ export default function SingleSpot(){
                 }                              
             )
     }, [dispatch])
+    // console.log(spot)
 
     useEffect(() => {
         dispatch(restoreUser())
