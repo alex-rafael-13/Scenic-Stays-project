@@ -6,6 +6,7 @@ const RESET_SPOT = 'spots/RESET_SPOT'
 const CREATE_SPOT = 'spot/CREATE'
 const CURRENT_USER_SPOTS = 'spots/CURRENT_USER'
 const DELETE_SPOT = 'spot/DELETE'
+const UPDATE_SPOT = 'spots/UPDATE_SPOT'
 
 //Regular action creators
 const getAllSpots = (spots) => {
@@ -121,6 +122,41 @@ export const createNewSpot = spotInfo => async dispatch => {
     }
     dispatch(createSpot(spotData))
     return spotData
+}
+
+export const updateSpot = (spotId, spotInfo) => async dispatch => {
+        const { address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    } = spotInfo
+
+    const response = await csrfFetch(`/api/spots/${spotId}`,{
+    method:'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ 
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+        })
+    })
+
+    if(response.ok){
+        const data = await response.json()
+        dispatch(retrieveSingleSpot(data.id))
+        return data
+    }
 }
 
 export const deleteSpot = id => async dispatch => {

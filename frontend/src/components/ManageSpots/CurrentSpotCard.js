@@ -2,6 +2,7 @@ import { NavLink, useHistory } from "react-router-dom"
 import DeleteSpotFormModal from "../DeleteSpotFormModal"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import OpenModalButton from "../OpenModalButton"
+import UpdateSpot from "../UpdateSpotForm"
 
 
 export default function CurrentSpotCard({spot}){
@@ -9,7 +10,8 @@ export default function CurrentSpotCard({spot}){
     const history = useHistory()
 
     const updateSpot = () => {
-        history.push(`/spots/${spot.id}/edit`)
+        <UpdateSpot spot={spot}/>
+        history.push(`/spots/${spot.id}/edit`, {spot})
     }
 
     return(
