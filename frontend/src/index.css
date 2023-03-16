@@ -13,3 +13,8 @@ body{
 .fa-solid{
     color: #5E8A75;
 }
+
+#modal-content{
+    width: 25%;
+    border-radius: 10px;
+}

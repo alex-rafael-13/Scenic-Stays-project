@@ -1,6 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { retrieveSpotReviews } from "../../store/reviews"
+import CreateReviewModal from "../CreateReviewModal"
+import OpenModalButton from "../OpenModalButton"
 
 export default function SpotReviews({id, spot, user}){
     const dispatch = useDispatch()
@@ -66,20 +68,17 @@ export default function SpotReviews({id, spot, user}){
         }
     }
 
-    
-
-
-
-
     return(
         <>
             <div className="reviews-info-header">
                 {setReviewHeader(spot?.numReviews)}
             </div>
             {user && !(reviewObj.hasOwnProperty(user?.id)) && 
-            <button>
-                    Hello
-            </button>}
+        <OpenModalButton 
+            buttonText='Post Your Review'
+            modalComponent={<CreateReviewModal userId={user?.id} spotId={spot?.id}/>}
+        
+        />}
             <div className="review-container">
                 {reviews?.Reviews?.length > 0 ? (reviews?.Reviews?.map(review => (
                     <div key={review.id} className="review-card">

@@ -1,6 +1,7 @@
 import {csrfFetch} from './csrf'
 
 const GET_SPOT_REVIEWS = 'spots/SPOT_REVIEWS'
+const CREATE_SPOT_REVIEW = 'spots/CREATE_REVIEW'
 
 const loadSpotReviews = (reviews) => {
     return {
@@ -9,6 +10,12 @@ const loadSpotReviews = (reviews) => {
     }
 }
 
+const addSpotReview = (review) => {
+    return {
+        type: CREATE_SPOT_REVIEW,
+        review
+    }
+}
 
 //Thunk action creators
 export const retrieveSpotReviews = id => async dispatch => {
@@ -21,6 +28,31 @@ export const retrieveSpotReviews = id => async dispatch => {
     }
 }
 
+export const createSpotReview = (reviewInfo) => async dispatch => {
+    const {
+        userId,
+        spotId,
+        review,
+        stars
+    } = reviewInfo
+
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`,{
+        method:'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            userId,
+            spotId,
+            review,
+            stars
+        })
+    })
+        if(response.ok){
+            const data = await response.json()
+            dispatch(addSpotReview(data))
+        }
+        return response
+}
+
 const initialState = {spotReviews: []}
 export default function reviewsReducer(state = initialState, action){
     let newState
@@ -29,6 +61,12 @@ export default function reviewsReducer(state = initialState, action){
             newState = {...state}
             const reviewInfo = {...action.reviews}
             newState.spotReviews = {...reviewInfo}
+            return newState
+        }
+        case CREATE_SPOT_REVIEW:{
+            newState = {...state}
+            const newReview = action.review
+            newState.spotReviews.Reviews.push(newReview)
             return newState
         }
         default:
