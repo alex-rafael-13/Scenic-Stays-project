@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { retrieveSpotReviews } from "../../store/reviews"
 
-export default function SpotReviews({id}){
+export default function SpotReviews({id, spot, user}){
     const dispatch = useDispatch()
     const reviews = useSelector(state => state.reviews.spotReviews)
 
@@ -10,25 +10,89 @@ export default function SpotReviews({id}){
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
 
+    console.log(reviews)
+
+    let reviewObj = {}
+    const reviewData = reviews.Reviews
+
+    reviewData?.forEach(review => {
+        reviewObj[review.userId] = review
+    })
+    
+    // if(reviews.length > 0){
+    // }
+
+    console.log('Checking if own property works:',reviewObj.hasOwnProperty(user?.id))
+    
+
     const setDate = (date) => {
         const newDate = new Date(date)
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-        return(<>{newDate.getMonth() + 1} / {newDate.getFullYear()} </>)
+        return(<>{months[newDate.getMonth()]} {newDate.getFullYear()} </>)
 
     }
 
+    const reviewCount = (reviewNum) => {
+        if(reviewNum === 1){
+            return (<>
+            {parseFloat(spot?.avgStarRating).toFixed(1)} 
+            <i className="fa-solid fa-circle"></i> 
+            {reviewNum} Review</>)
+        }
+        else{
+            return (<>
+            {parseFloat(spot?.avgStarRating).toFixed(1)} 
+            <i className="fa-solid fa-circle"></i> 
+            {reviewNum} Reviews</>)
+        }
+    }
+
+    const setReviewHeader = (reviewNum) => {
+        if(reviewNum === 0){
+            return (
+                <>
+                    <i className="fa-solid fa-star"></i>
+                    <div> New! </div>
+                </>
+            )
+        } else{
+            return(
+                <>
+                    <i className="fa-solid fa-star"></i>
+                    {reviewCount(spot?.numReviews)}
+                </>
+            )
+        }
+    }
+
+    
+
+
+
+
     return(
         <>
-            {reviews?.Reviews?.map(review => (
-                <div key={review.id} className="review-card">
-                    <div className="review-user">{review.User.firstName}</div>
-                    <div className="review-date">{setDate(review.createdAt)}</div>
-                    <div className="review-content">
-                        {review.review}
+            <div className="reviews-info-header">
+                {setReviewHeader(spot?.numReviews)}
+            </div>
+            {user && !(reviewObj.hasOwnProperty(user?.id)) && 
+            <button>
+                    Hello
+            </button>}
+            <div className="review-container">
+                {reviews?.Reviews?.length > 0 ? (reviews?.Reviews?.map(review => (
+                    <div key={review.id} className="review-card">
+                        <div className="review-user">{review.User.firstName}</div>
+                        <div className="review-date">{setDate(review.createdAt)}</div>
+                        <div className="review-content">
+                            {review.review}
+                        </div>
+                        {user?.id === review?.userId && <button>Delete Review</button>}
                     </div>
-                </div>
-            ))}
-        
+                ))) : (<>Be the first one to post!</>)}
+            
+            </ div>
         </>
     )
 }

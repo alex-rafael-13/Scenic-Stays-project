@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { restoreUser } from "../../store/session"
 import { retrieveSingleSpot } from "../../store/spots"
+import { retrieveSpotReviews } from "../../store/reviews"
 import './SingleSpot.css'
 import SpotReviews from "./SpotReviews"
 
@@ -12,7 +13,7 @@ export default function SingleSpot(){
     let spot = useSelector(state => state.spots.singleSpot)
     const user = useSelector(state => state.session.user)
 
-    useEffect((err) => {
+    useEffect(() => {
         dispatch(retrieveSingleSpot(spotId))
             .catch(
                 async res => {
@@ -26,11 +27,11 @@ export default function SingleSpot(){
                 }                              
             )
     }, [dispatch])
-    // console.log(spot)
-
+    
     useEffect(() => {
         dispatch(restoreUser())
     },[dispatch])
+
     // console.log('user ------- ',user)
 
     const handleClick = () => {
@@ -57,7 +58,7 @@ export default function SingleSpot(){
     }
     
 
-    const reviews = (reviewNum) => {
+    const reviewCount = (reviewNum) => {
         if(reviewNum === 0){
             return(<>New!</>)
         }
@@ -75,21 +76,7 @@ export default function SingleSpot(){
         }
     }
 
-    const setReviewHeader = (reviewNum) => {
 
-        if(reviewNum === 0 && user?.id !== spot.Owner.id){
-            return (<h1>Be The first to post a review!</h1>)
-        } else{
-            return(
-                <>
-                    <i className="fa-solid fa-star"></i>
-                    {reviews(spot?.numReviews)}
-                </>
-            )
-        }
-
-
-    }
 
     return(
         <div className="spot-page">
@@ -127,7 +114,7 @@ export default function SingleSpot(){
                             <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
                             <nav className="review-info">
                                 <i className="fa-solid fa-star"></i>
-                                {reviews(spot?.numReviews)}
+                                {reviewCount(spot?.numReviews)}
                             </nav>
                         </div>
                         <div className="lower-box">
@@ -138,13 +125,7 @@ export default function SingleSpot(){
             </div>
             <hr />
             <div className="review-section">
-                <div className="reviews-info-header">
-                    {setReviewHeader(spot?.numReviews)}
-                </div>
-                <div className="review-container">
-                    {/* {spot?.numReviews > 0 && <SpotReviews id={spotId}/>} */}
-                    <SpotReviews id={spotId}/>
-                </div>
+                <SpotReviews id={spotId} spot={spot} user={user}/>
             </div>
 
         </div>
