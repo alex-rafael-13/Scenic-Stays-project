@@ -53,6 +53,18 @@ export const createSpotReview = (reviewInfo) => async dispatch => {
         return response
 }
 
+export const deleteSpotReview = (reviewId) => async dispatch => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`,{
+        method: 'DELETE'
+    })
+
+    if(response.ok){
+        dispatch(loadSpotReviews())
+    }
+
+    return response
+}
+
 const initialState = {spotReviews: []}
 export default function reviewsReducer(state = initialState, action){
     let newState

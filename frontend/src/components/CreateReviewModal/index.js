@@ -3,6 +3,7 @@ import {Rating} from 'react-simple-star-rating'
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSpotReview } from "../../store/reviews";
+import { useHistory } from "react-router-dom";
 
 export default function CreateReviewModal({userId, spotId}){
     const {closeModal} = useModal()
@@ -11,10 +12,7 @@ export default function CreateReviewModal({userId, spotId}){
     const [stars, setStars] = useState(0)
     const [disableButton, setDisableButton] = useState(true)
     const [errors, setErrors] = useState([]) 
-
-    const testClick = () => {
-        closeModal()
-    }
+    const history = useHistory()
 
     const handleRating = (rate) => {
         setStars(rate)
@@ -44,8 +42,9 @@ export default function CreateReviewModal({userId, spotId}){
                     if(data && data.errors) setErrors(data.errors)
                 }
             );
+        
+        history.push(`/spots/${spotId}`)
     }   
-
     
     return(
         <div className="create-review-modal">

@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { retrieveSpotReviews } from "../../store/reviews"
 import CreateReviewModal from "../CreateReviewModal"
+import DeleteSpotReview from "../DeleteSpotReview/DeleteSpotReview"
 import OpenModalButton from "../OpenModalButton"
 
 export default function SpotReviews({id, spot, user}){
@@ -73,7 +74,7 @@ export default function SpotReviews({id, spot, user}){
             <div className="reviews-info-header">
                 {setReviewHeader(spot?.numReviews)}
             </div>
-            {user && !(reviewObj.hasOwnProperty(user?.id)) && 
+            {user && !(reviewObj.hasOwnProperty(user?.id)) && user.id !== spot.ownerId &&
         <OpenModalButton 
             buttonText='Post Your Review'
             modalComponent={<CreateReviewModal userId={user?.id} spotId={spot?.id}/>}
@@ -87,7 +88,11 @@ export default function SpotReviews({id, spot, user}){
                         <div className="review-content">
                             {review.review}
                         </div>
-                        {user?.id === review?.userId && <button>Delete Review</button>}
+                        {user?.id === review?.userId && 
+                        <OpenModalButton 
+                            buttonText='Delete Review'
+                            modalComponent={<DeleteSpotReview spotId={spot?.id} reviewId={review.id}/>}
+                        />}
                     </div>
                 ))) : (<>Be the first one to post!</>)}
             
