@@ -35,15 +35,13 @@ export default function CreateReviewModal({userId, spotId}){
         }
 
         dispatch(createSpotReview(reviewInfo))
-            .then(closeModal())
+            .then(closeModal)
             .catch(
                 async (res) => {
                     const data = await res.json()
                     if(data && data.errors) setErrors(data.errors)
                 }
             );
-        
-        history.push(`/spots/${spotId}`)
     }   
     
     return(

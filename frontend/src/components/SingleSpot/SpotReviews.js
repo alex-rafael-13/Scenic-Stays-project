@@ -10,9 +10,12 @@ export default function SpotReviews({id, spot, user}){
     const reviewState = useSelector(state => state.reviews.spotReviews)
     const [reviews, setReviews] = useState([])
 
+    console.log(reviewState)
+
     useEffect(() => {
         setReviews(reviewState)
     }, [reviewState])
+
     useEffect(() =>{
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])

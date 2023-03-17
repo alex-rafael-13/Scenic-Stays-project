@@ -48,18 +48,19 @@ export const createSpotReview = (reviewInfo) => async dispatch => {
     })
         if(response.ok){
             const data = await response.json()
-            dispatch(addSpotReview(data))
+            // dispatch(addSpotReview(data))
+            dispatch(retrieveSpotReviews(spotId))
         }
         return response
 }
 
-export const deleteSpotReview = (reviewId) => async dispatch => {
+export const deleteSpotReview = (reviewId, spotId) => async dispatch => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`,{
         method: 'DELETE'
     })
 
     if(response.ok){
-        dispatch(loadSpotReviews())
+        dispatch(retrieveSpotReviews(spotId))
     }
 
     return response
@@ -78,7 +79,9 @@ export default function reviewsReducer(state = initialState, action){
         case CREATE_SPOT_REVIEW:{
             newState = {...state}
             const newReview = action.review
+            console.log('before', newState)
             newState.spotReviews['Reviews'] = [...newState.spotReviews.Reviews, newReview]  
+            console.log('After', newState)
             return newState
         }
         default:
