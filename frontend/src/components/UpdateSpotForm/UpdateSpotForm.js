@@ -1,76 +1,64 @@
-import { useEffect, useState} from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createNewSpot, retrieveSingleSpot, updateSpot } from "../../store/spots"
-import {Redirect, useHistory, useParams} from 'react-router-dom'
+import { Redirect, useHistory, useParams } from 'react-router-dom'
 
-export default function UpdateSpotForm({spot, spotId}){
-    console.log(spot)
+export default function UpdateSpotForm({ spotId }) {
+    const spot = useSelector(state => state.spots.singleSpot)
     const history = useHistory()
     const dispatch = useDispatch()
-    const [country, setCountry] = useState(spot?.country)
-    const [address, setAddress] = useState(spot?.address)
-    const [city, setCity] = useState(spot?.city)
-    const [state, setState] = useState(spot?.state)
+    const [country, setCountry] = useState()
+    const [address, setAddress] = useState()
+    const [city, setCity] = useState()
+    const [state, setState] = useState()
     // const [lat, setLat] = useState(0)
     // const [lng, setLong] = useState(0)
-    const [description, setDescription] = useState(spot?.description)
-    const [name, setName] = useState(spot?.name)
-    const [price, setPrice] = useState(spot?.price)
+    const [description, setDescription] = useState()
+    const [name, setName] = useState()
+    const [price, setPrice] = useState()
     const [errors, setErrors] = useState({})
 
+    useEffect(() => {
+        setCountry(spot?.country)
+        setAddress(spot?.address)
+        setCity(spot?.city)
+        setState(spot?.state)
+        setDescription(spot?.description)
+        setName(spot?.name)
+        setPrice(spot?.price)
+
+    }, [spot])
+
     //HANDLE SUBMIT FORM 
-    const handleSubmit = async e =>{
+    const handleSubmit = async e => {
         e.preventDefault()
-        let submitErrors = {}
-        //CHECKING FOR ERRORS
-        
-        if(!country.length){
-            submitErrors.country = 'Country Required' 
-        }
-        if(!address.length){
-            submitErrors.address = 'Address is required'
-        }
-        if(!city.length){
-            submitErrors.city = 'City is required'
-        }
-        if(!state.length){
-            submitErrors.state = 'State is required'
-        }
-        if(!name.length){
-            submitErrors.name = 'Name is required'
-        }
-        // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
-        //     submitErrors.lat = 'Latitude not valid'
-        // }
-        // if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
-        //     submitErrors.lng = 'Longitude not valid'
-        // }
-        if(description.length < 30){
-            submitErrors.description = 'Description needs at least 30 characters '
-        }
-        if(!price.length || Number.isNaN(price)){
-            submitErrors.price = 'Invalid price'
-        }
-        
-        if(Object.values(submitErrors).length === 0){
-            let spotInfo = { address,
-                city,
-                state,
-                country,
-                lat: 0,
-                lng: 0,
-                name,
-                description,
-                price
-            }
-    
-            let updatedSpot = await dispatch(updateSpot(spotId, spotInfo))
-            if(updatedSpot){
-                history.push(`/spots/${updatedSpot.id}`)
-            }
+
+        let spotInfo = {
+            address,
+            city,
+            state,
+            country,
+            lat: 0,
+            lng: 0,
+            name,
+            description,
+            price
         }
 
-        setErrors(submitErrors)
+        dispatch(updateSpot(spotId, spotInfo))
+            .then(
+                async (res) => {
+                    if(res.id){
+                        history.push(`/spots/${spotId}`)
+                    }
+                }
+            )
+            .catch(
+                async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrors(data.errors)
+                }
+            )
     }
 
     //CLASS NAMES TO AVOID MISTYPES
@@ -80,7 +68,7 @@ export default function UpdateSpotForm({spot, spotId}){
     const labelTitle = 'label-title'
     const errClassName = 'create-spot-errors'
 
-    return(
+    return (
         <div className="create-spot-page">
 
             <div className="create-page-title">
@@ -99,15 +87,14 @@ export default function UpdateSpotForm({spot, spotId}){
                             <div className={errClassName}>{errors.country}</div>
                         }
                     </div>
-                    <input 
-                    type='text'
-                    placeholder="Country"
-                    // defaultValue={spot?.country}
-                    value={country}
-                    onChange={e => setCountry(e.target.value)}
+                    <input
+                        type='text'
+                        placeholder="Country"
+                        value={country}
+                        onChange={e => setCountry(e.target.value)}
                     />
                 </label>
-                
+
                 <label className={filloutSections}>
                     <div className={labelTitle}>
                         <div>Street Address</div>
@@ -116,30 +103,30 @@ export default function UpdateSpotForm({spot, spotId}){
                         }
                     </div>
                     <input
-                    type='text'
-                    placeholder="Address"
-                    onChange={e => setAddress(e.target.value)}
-                    value={address}
+                        type='text'
+                        placeholder="Address"
+                        onChange={e => setAddress(e.target.value)}
+                        value={address}
                     />
                 </label>
                 <div className="city-state-fillout">
                     <div className="city-fillout">
-                    <label className={filloutSections}>
-                        <div className={labelTitle}>
-                            <div>City</div>
-                            {errors.city &&
-                                <div className={errClassName}>{errors.city}</div>
-                            }
-                        </div>
-                        <input
-                            type='text'
-                            placeholder="City"
-                            onChange={e => setCity(e.target.value)}
-                            value={city}
-                        />
-                    </label>
+                        <label className={filloutSections}>
+                            <div className={labelTitle}>
+                                <div>City</div>
+                                {errors.city &&
+                                    <div className={errClassName}>{errors.city}</div>
+                                }
+                            </div>
+                            <input
+                                type='text'
+                                placeholder="City"
+                                onChange={e => setCity(e.target.value)}
+                                value={city}
+                            />
+                        </label>
                     </div> ,
-                    <div className="state-fillout">    
+                    <div className="state-fillout">
                         <label className={filloutSections}>
                             <div className={labelTitle}>
                                 <div>State</div>
@@ -187,7 +174,7 @@ export default function UpdateSpotForm({spot, spotId}){
                     </label>
                 </div> */}
 
-                <hr/>
+                <hr />
 
                 <div className={sectionDetails}>
                     <div className={detailsTitle}>Describe your place to guest</div>
@@ -251,7 +238,7 @@ export default function UpdateSpotForm({spot, spotId}){
                     }
                 </label>
 
-                <hr/>
+                <hr />
 
                 {/* <div className={sectionDetails}>
                     <div className={detailsTitle}>Liven up your spot with photos</div>
@@ -311,7 +298,7 @@ export default function UpdateSpotForm({spot, spotId}){
                    
                 </label> */}
 
-                <hr/>
+                <hr />
 
                 <div className='create-spot-button-holder'>
                     <button type="submit">Edit Spot</button>

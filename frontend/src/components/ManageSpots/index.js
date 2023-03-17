@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { retrieveUserSpots } from "../../store/spots"
+import { retrieveUserSpots, resetSpot } from "../../store/spots"
 import CurrentSpotCard from "./CurrentSpotCard"
 import './ManageSpots.css'
 
@@ -13,6 +13,7 @@ export default function ManageSpots(){
 
     useEffect(() => {
         dispatch(retrieveUserSpots())
+        dispatch(resetSpot())
     }, [dispatch])
         
     const createSpot = e => {

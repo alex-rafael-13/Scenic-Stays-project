@@ -13,7 +13,6 @@ export default function DeleteSpotFormModal({id}){
     const removeSpot = () => {
         dispatch(deleteSpot(id))
         closeModal()
-        history.push('/spots/current')
     }
 
     const keepSpot = () => {

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux"
 import { NavLink, useHistory } from "react-router-dom"
 import DeleteSpotFormModal from "../DeleteSpotFormModal"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"

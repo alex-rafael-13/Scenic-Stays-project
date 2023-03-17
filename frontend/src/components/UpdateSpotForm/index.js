@@ -19,7 +19,6 @@ export default function UpdateSpot({}){
          <UpdateSpotForm spot={targetSpot} spotId={spotId}/>
         )
     }
-
 }
 
 
