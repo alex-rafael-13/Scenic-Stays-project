@@ -78,7 +78,7 @@ export default function reviewsReducer(state = initialState, action){
         case CREATE_SPOT_REVIEW:{
             newState = {...state}
             const newReview = action.review
-            newState.spotReviews.Reviews.push(newReview)
+            newState.spotReviews['Reviews'] = [...newState.spotReviews.Reviews, newReview]  
             return newState
         }
         default:

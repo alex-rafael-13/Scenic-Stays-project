@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { retrieveSpotReviews } from "../../store/reviews"
 import CreateReviewModal from "../CreateReviewModal"
@@ -7,8 +7,12 @@ import OpenModalButton from "../OpenModalButton"
 
 export default function SpotReviews({id, spot, user}){
     const dispatch = useDispatch()
-    const reviews = useSelector(state => state.reviews.spotReviews)
+    const reviewState = useSelector(state => state.reviews.spotReviews)
+    const [reviews, setReviews] = useState([])
 
+    useEffect(() => {
+        setReviews(reviewState)
+    }, [reviewState])
     useEffect(() =>{
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
@@ -22,9 +26,6 @@ export default function SpotReviews({id, spot, user}){
         reviewObj[review.userId] = review
     })
     
-    // if(reviews.length > 0){
-    // }
-
     console.log('Checking if own property works:',reviewObj.hasOwnProperty(user?.id))
     
 
