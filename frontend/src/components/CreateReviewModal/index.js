@@ -37,6 +37,7 @@ export default function CreateReviewModal({userId, spotId}){
 
         dispatch(createSpotReview(reviewInfo))
             .then(closeModal)
+            // .then(dispatch(retrieveSingleSpot(spotId)))
             .catch(
                 async (res) => {
                     const data = await res.json()

@@ -10,13 +10,14 @@ import SpotReviews from "./SpotReviews"
 export default function SingleSpot(){
     const {spotId} = useParams()
     const dispatch = useDispatch()
+    let spot = useSelector(state => state.spots.singleSpot)
     let spotData = useSelector(state => state.spots.singleSpot)
-    const [spot, setSpot] = useState({})
+    // const [spot, setSpot] = useState({})
     const user = useSelector(state => state.session.user)
 
-    useEffect(() => {
-        setSpot(spotData)
-    }, [spotData])
+    // useEffect(() => {
+    //     setSpot(spotData)
+    // }, [spotData])
 
 
     useEffect(() => {
@@ -44,11 +45,17 @@ export default function SingleSpot(){
         alert('FEATURE COMING SOON...')
     }
 
-    if(Object.values(spot).length === 0){
+    if(!spot){
         return (
             <h1></h1>
         )
     }
+
+    // if(Object.values(spot).length === 0){
+    //     return (
+    //         <h1></h1>
+    //     )
+    // }
 
     let preview;
     let spotImages = []
