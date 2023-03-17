@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { restoreUser } from "../../store/session"
@@ -10,8 +10,14 @@ import SpotReviews from "./SpotReviews"
 export default function SingleSpot(){
     const {spotId} = useParams()
     const dispatch = useDispatch()
-    let spot = useSelector(state => state.spots.singleSpot)
+    let spotData = useSelector(state => state.spots.singleSpot)
+    const [spot, setSpot] = useState({})
     const user = useSelector(state => state.session.user)
+
+    useEffect(() => {
+        setSpot(spotData)
+    }, [spotData])
+
 
     useEffect(() => {
         dispatch(retrieveSingleSpot(spotId))
@@ -38,7 +44,7 @@ export default function SingleSpot(){
         alert('FEATURE COMING SOON...')
     }
 
-    if(!spot){
+    if(Object.values(spot).length === 0){
         return (
             <h1></h1>
         )

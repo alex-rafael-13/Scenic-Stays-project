@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSpotReview } from "../../store/reviews";
 import { useHistory } from "react-router-dom";
+import { retrieveSingleSpot } from "../../store/spots";
 
 export default function CreateReviewModal({userId, spotId}){
     const {closeModal} = useModal()

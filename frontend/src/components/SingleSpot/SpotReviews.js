@@ -7,20 +7,18 @@ import OpenModalButton from "../OpenModalButton"
 
 export default function SpotReviews({id, spot, user}){
     const dispatch = useDispatch()
-    const reviewState = useSelector(state => state.reviews.spotReviews)
-    const [reviews, setReviews] = useState([])
+    const reviews = useSelector(state => state.reviews.spotReviews)
+    // const [reviews, setReviews] = useState([])
 
-    console.log(reviewState)
-
-    useEffect(() => {
-        setReviews(reviewState)
-    }, [reviewState])
+    // useEffect(() => {
+    //     setReviews(reviewState)
+    // }, [reviewState])
 
     useEffect(() =>{
         dispatch(retrieveSpotReviews(id))
     }, [dispatch])
 
-    console.log(reviews)
+    // console.log(reviews)
 
     let reviewObj = {}
     const reviewData = reviews.Reviews
@@ -29,7 +27,7 @@ export default function SpotReviews({id, spot, user}){
         reviewObj[review.userId] = review
     })
     
-    console.log('Checking if own property works:',reviewObj.hasOwnProperty(user?.id))
+    // console.log('Checking if own property works:',reviewObj.hasOwnProperty(user?.id))
     
 
     const setDate = (date) => {

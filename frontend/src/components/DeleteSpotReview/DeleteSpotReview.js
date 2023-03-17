@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal"
 import { deleteSpotReview } from "../../store/reviews"
+import { retrieveSingleSpot } from "../../store/spots"
 
 
 export default function DeleteSpotReview({spotId,reviewId}){
@@ -12,6 +13,7 @@ export default function DeleteSpotReview({spotId,reviewId}){
     const handleDelete = () => {
         dispatch(deleteSpotReview(reviewId, spotId))
         .then(closeModal())
+        .then(dispatch(retrieveSingleSpot(spotId)))
 
         history.push(`/spots/${spotId}`)
     }
