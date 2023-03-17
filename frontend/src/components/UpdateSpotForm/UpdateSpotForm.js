@@ -11,8 +11,6 @@ export default function UpdateSpotForm({ spotId }) {
     const [address, setAddress] = useState()
     const [city, setCity] = useState()
     const [state, setState] = useState()
-    // const [lat, setLat] = useState(0)
-    // const [lng, setLong] = useState(0)
     const [description, setDescription] = useState()
     const [name, setName] = useState()
     const [price, setPrice] = useState()
