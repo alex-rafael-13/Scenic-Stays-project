@@ -1,0 +1,35 @@
+.delete-spot-modal{
+    gap: 5px;
+}
+
+.delete-review-button{
+    width: 40%;
+    height: 30px;
+    cursor: pointer;
+
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(224, 68, 68);
+}
+
+.delete-review-button:hover{
+    border: solid rgb(224, 68, 68);
+    color: rgb(224, 68, 68);
+    background-color: white;
+}
+
+.keep-review-button{
+    width: 40%;
+    height: 30px;
+    cursor: pointer;
+
+    border: none;
+    border-radius: 50px;
+    background-color: grey;
+}
+
+.keep-review-button:hover{
+    border: solid grey;
+    color: grey;
+    background-color: white;
+}
