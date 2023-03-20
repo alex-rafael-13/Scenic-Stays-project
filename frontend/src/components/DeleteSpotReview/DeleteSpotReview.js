@@ -13,7 +13,7 @@ export default function DeleteSpotReview({spotId,reviewId}){
 
     const handleDelete = () => {
         dispatch(deleteSpotReview(reviewId, spotId))
-        .then(closeModal())
+        .then(closeModal)
         .then(dispatch(retrieveSingleSpot(spotId)))
 
         history.push(`/spots/${spotId}`)

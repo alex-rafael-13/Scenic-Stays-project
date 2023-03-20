@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { retrieveSpotReviews } from "../../store/reviews"
+import { retrieveSingleSpot } from "../../store/spots"
 import CreateReviewModal from "../CreateReviewModal"
 import DeleteSpotReview from "../DeleteSpotReview/DeleteSpotReview"
 import OpenModalButton from "../OpenModalButton"
 import './SingleSpot.css'
 
-export default function SpotReviews({id, spot, user}){
+export default function SpotReviews({id, user}){
     const dispatch = useDispatch()
     const reviews = useSelector(state => state.reviews.spotReviews)
+    const spot = useSelector(state => state.spots.singleSpot)
     // const [reviews, setReviews] = useState([])
 
     // useEffect(() => {
@@ -17,6 +19,7 @@ export default function SpotReviews({id, spot, user}){
 
     useEffect(() =>{
         dispatch(retrieveSpotReviews(id))
+        dispatch(retrieveSingleSpot(id))
     }, [dispatch])
 
     // console.log(reviews)

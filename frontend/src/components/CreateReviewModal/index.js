@@ -38,6 +38,7 @@ export default function CreateReviewModal({userId, spotId}){
 
         dispatch(createSpotReview(reviewInfo))
             .then(closeModal)
+            .then(dispatch(retrieveSingleSpot(spotId)))
             // .then(dispatch(retrieveSingleSpot(spotId)))
             .catch(
                 async (res) => {
@@ -45,6 +46,7 @@ export default function CreateReviewModal({userId, spotId}){
                     if(data && data.errors) setErrors(data.errors)
                 }
             );
+            history.push(`/spots/${spotId}`)
     }   
     
     return(
