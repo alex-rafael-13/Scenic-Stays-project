@@ -1,5 +1,7 @@
 
-# Scenic-Stays, an Airbnb inspired Site
+# Scenic-Stays, an Airbnb Inspired Site
+
+
 
 This website is a copy of Airbnb, where users are allowed to sign up/sign in, create their own fun spots for other users to stay at, book a spot from other users, and interact with one another by writing reviews from a spot that they have recently stayed at
 
