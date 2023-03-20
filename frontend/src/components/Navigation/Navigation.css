@@ -117,8 +117,12 @@ ul{
 
 .modal-button {
     cursor: pointer;
-    width:fit-content;
-    /* background-color: grey; */
+    width:100%;
+    cursor: pointer;
+}
+
+.modal-button:hover{
+    font-weight: 500;
 }
 
 
@@ -136,4 +140,13 @@ ul{
     background-color: white;
     color:  #5E8A75;
     border: solid; 
+}
+
+.manage-spots-a:first-child{
+    width: 100%;
+    cursor: pointer;
+}
+
+.manage-spots-a:first-child:hover{
+    font-weight: 500;
 }
