@@ -23,7 +23,7 @@ export const retrieveSpotReviews = id => async dispatch => {
 
     if(response.ok){
         const data = await response.json()
-        console.log('data',data)
+        // console.log('data',data)
         dispatch(loadSpotReviews(data))
     }
 }
@@ -79,9 +79,9 @@ export default function reviewsReducer(state = initialState, action){
         case CREATE_SPOT_REVIEW:{
             newState = {...state}
             const newReview = action.review
-            console.log('before', newState)
+            // console.log('before', newState)
             newState.spotReviews['Reviews'] = [ newReview, ...newState.spotReviews.Reviews]  
-            console.log('After', newState)
+            // console.log('After', newState)
             return newState
         }
         default:

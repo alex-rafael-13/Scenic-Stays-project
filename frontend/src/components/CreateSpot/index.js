@@ -47,7 +47,7 @@ export default function CreateSpot(){
             submitErrors.name = 'Name is required'
         }
         for(let spot of spots){
-            console.log(spot)
+            // console.log(spot)
             if(name.length > 0 && name === spot.name){
                 submitErrors.name = 'Name must be unique'
             }

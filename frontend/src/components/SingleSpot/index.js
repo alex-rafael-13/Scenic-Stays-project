@@ -25,13 +25,13 @@ export default function SingleSpot() {
         dispatch(retrieveSingleSpot(spotId))
             .catch(
                 async res => {
-                    console.log('in catch', res)
+                    // console.log('in catch', res)
                     const data = await res.json()
-                    console.log('in catch after data', data)
+                    // console.log('in catch after data', data)
                     if (data && data.statusCode > 200) {
-                        console.log('in here')
+                        // console.log('in here')
                         setSpotErr(data)
-                        console.log('spotErr', spotErr)
+                        // console.log('spotErr', spotErr)
                     }
                 }
             )
