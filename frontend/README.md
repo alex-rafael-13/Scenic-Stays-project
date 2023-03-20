@@ -4,7 +4,7 @@
 This website is a copy of Airbnb, where users are allowed to sign up/sign in, create their own fun spots for other users to stay at, book a spot from other users, and interact with one another by writing reviews from a spot that they have recently stayed at
 
 
-##To Test locally:
+## To Test locally:
 
 You first must enter the root directory and npm install all dependencies:
 ```sh
@@ -18,7 +18,7 @@ After all dependencies are installed, you need to start both frontend and backen
   ```sh
 npm start
 ```
-  -Once both are running, you should be redirected to a localhost site, if not you can manually go there by typing `http://localhost:3000/`
+  Once both are running, you should be redirected to a localhost site, if not you can manually go there by typing `http://localhost:3000/`
 
 ## Available Scripts
 
