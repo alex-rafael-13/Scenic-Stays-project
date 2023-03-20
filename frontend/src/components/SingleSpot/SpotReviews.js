@@ -80,7 +80,7 @@ export default function SpotReviews({id, user}){
             <div className="reviews-info-header">
                 {setReviewHeader(spot?.numReviews)}
             </div>
-            {user && !(reviewObj.hasOwnProperty(user?.id)) && user.id !== spot.ownerId &&
+            {user && !(reviewObj.hasOwnProperty(user?.id)) && user.id !== spot?.ownerId &&
             <div className="create-button-cont">
                 <OpenModalButton 
                     buttonText='Post Your Review'
