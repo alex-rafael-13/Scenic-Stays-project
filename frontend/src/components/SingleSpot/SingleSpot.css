@@ -165,6 +165,7 @@ hr{
 .review-card{
     display: flex;
     flex-direction: column;
+    gap: 3px;
     margin: 20px 0px;
 }
 
@@ -191,4 +192,22 @@ hr{
     border: #5E8A75 solid;
     background-color: white;
     color: #5E8A75;
+}
+
+.delete-review-button-cont > button{
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(224, 68, 68);
+    color: white;
+
+    height: auto;
+    min-height: 20px;
+    width: 7%;
+    cursor: pointer;
+}
+
+.delete-review-button-cont > button:hover{
+    border: rgb(224, 68, 68) solid;
+    background-color: white;
+    color: rgb(224, 68, 68);
 }
