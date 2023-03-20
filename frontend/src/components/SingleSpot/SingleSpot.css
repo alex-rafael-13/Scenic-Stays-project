@@ -176,3 +176,19 @@ hr{
     margin: 5px 0px;
     color:#5E8A75;
 }
+
+.create-button-cont > button{
+    border:none;
+    border-radius: 50px;
+    background-color: #5E8A75;
+    color: white;
+    cursor: pointer;
+    height: 30px;
+    width: 150px;
+}
+
+.create-button-cont > button:hover{
+    border: #5E8A75 solid;
+    background-color: white;
+    color: #5E8A75;
+}

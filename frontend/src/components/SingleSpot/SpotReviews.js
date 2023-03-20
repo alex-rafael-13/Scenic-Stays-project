@@ -4,6 +4,7 @@ import { retrieveSpotReviews } from "../../store/reviews"
 import CreateReviewModal from "../CreateReviewModal"
 import DeleteSpotReview from "../DeleteSpotReview/DeleteSpotReview"
 import OpenModalButton from "../OpenModalButton"
+import './SingleSpot.css'
 
 export default function SpotReviews({id, spot, user}){
     const dispatch = useDispatch()
@@ -77,11 +78,14 @@ export default function SpotReviews({id, spot, user}){
                 {setReviewHeader(spot?.numReviews)}
             </div>
             {user && !(reviewObj.hasOwnProperty(user?.id)) && user.id !== spot.ownerId &&
-        <OpenModalButton 
-            buttonText='Post Your Review'
-            modalComponent={<CreateReviewModal userId={user?.id} spotId={spot?.id}/>}
-        
-        />}
+            <div className="create-button-cont">
+                <OpenModalButton 
+                    buttonText='Post Your Review'
+                    modalComponent={<CreateReviewModal userId={user?.id} spotId={spot?.id}/>}
+                
+                />
+            </div>
+        }
             <div className="review-container">
                 {reviews?.Reviews?.length > 0 ? (reviews?.Reviews?.map(review => (
                     <div key={review.id} className="review-card">
@@ -91,10 +95,14 @@ export default function SpotReviews({id, spot, user}){
                             {review.review}
                         </div>
                         {user?.id === review?.userId && 
-                        <OpenModalButton 
-                            buttonText='Delete Review'
-                            modalComponent={<DeleteSpotReview spotId={spot?.id} reviewId={review.id}/>}
-                        />}
+                        <div>
+                            <OpenModalButton 
+                                // className="create-review-button"
+                                buttonText='Delete Review'
+                                modalComponent={<DeleteSpotReview spotId={spot?.id} reviewId={review.id}/>}
+                            />
+                        </div>
+                        }
                     </div>
                 ))) : (<>Be the first one to post!</>)}
             

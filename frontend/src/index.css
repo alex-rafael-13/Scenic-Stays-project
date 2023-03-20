@@ -16,5 +16,10 @@ body{
 
 #modal-content{
     width: 25%;
+    padding: 10px;
+    height: auto;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
