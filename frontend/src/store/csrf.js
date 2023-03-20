@@ -23,7 +23,7 @@ export async function csrfFetch(url, options = {}) {
 
   // if the response status code is under 400, then return the response to the
     // next promise chain
-    console.log(res)
+    // console.log(res)
   return res;
 }
 
