@@ -1,0 +1,23 @@
+.create-review-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.review-text-input{
+    width: 100%;
+    resize: none;
+}
+
+.stars-cont > :first-child{
+    font-size: 10px;
+}
+
+.review-submit-button{
+    background-color: #5e8a75;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    height: 30px;
+    width: 50%;
+}

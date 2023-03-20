@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createSpotReview } from "../../store/reviews";
 import { useHistory } from "react-router-dom";
+import './createReviewModal.css'
 import { retrieveSingleSpot } from "../../store/spots";
 
 export default function CreateReviewModal({userId, spotId}){
@@ -53,18 +54,22 @@ export default function CreateReviewModal({userId, spotId}){
                 <li key={idx}>{error}</li>
             ))}
             <textarea 
+                className="review-text-input"
                 rows='6'
                 value={review}
                 onChange={e => setReview(e.target.value)}
             />
-            <div>
+            <div className="stars-cont">
                 <Rating
                     // allowFraction={true}
                     initialValue={stars}
                     onClick={handleRating}
+                    fillColor='#5E8A75'
                 />
             </div>
-            <button onClick={handleSubmit}
+            <button
+                className="review-submit-button" 
+                onClick={handleSubmit}
                 disabled={disableButton}
             >Submit Your Review</button>
         </ div>
