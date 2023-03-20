@@ -80,7 +80,7 @@ export default function reviewsReducer(state = initialState, action){
             newState = {...state}
             const newReview = action.review
             console.log('before', newState)
-            newState.spotReviews['Reviews'] = [...newState.spotReviews.Reviews, newReview]  
+            newState.spotReviews['Reviews'] = [ newReview, ...newState.spotReviews.Reviews]  
             console.log('After', newState)
             return newState
         }
