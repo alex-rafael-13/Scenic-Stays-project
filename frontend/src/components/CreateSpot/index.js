@@ -1,5 +1,5 @@
-import { useState} from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useState} from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { createNewSpot } from "../../store/spots"
 import {Redirect, useHistory} from 'react-router-dom'
 import './CreateSpot.css'
@@ -23,7 +23,7 @@ export default function CreateSpot(){
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const history = useHistory()
-
+    const spots = useSelector(state => state.spots.spots)
 
     //HANDLE SUBMIT FORM 
     const handleSubmit = async e =>{
@@ -46,6 +46,12 @@ export default function CreateSpot(){
         if(!name.length){
             submitErrors.name = 'Name is required'
         }
+        for(let spot of spots){
+            console.log(spot)
+            if(name.length > 0 && name === spot.name){
+                submitErrors.name = 'Name must be unique'
+            }
+        }
         // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
         //     submitErrors.lat = 'Latitude not valid'
         // }
@@ -55,7 +61,7 @@ export default function CreateSpot(){
         if(description.length < 30){
             submitErrors.description = 'Description needs at least 30 characters '
         }
-        if(!price.length || Number.isNaN(price)){
+        if(!price.length || isNaN(price)){
             submitErrors.price = 'Invalid price'
         }
         if(!previewImage.length){
@@ -134,7 +140,7 @@ export default function CreateSpot(){
             }
     
             let newSpot = await dispatch(createNewSpot(spotInfo))
-            console.log('----------------------Back to spots:',newSpot)
+            // console.log('----------------------Back to spots:',newSpot)
             if(newSpot){
                 history.push(`/spots/${newSpot.id}`)
             }
