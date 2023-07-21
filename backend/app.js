@@ -22,8 +22,8 @@ app.use(morgan('dev'))
 
 //cookieParser and json
 app.use(cookieParser())
-app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 // Security Middlewares
 if (!isProduction) {
     // enable cors only in development
