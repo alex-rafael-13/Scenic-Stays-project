@@ -52,7 +52,9 @@ const validateSpot = [
     check('price', 'Price per day is required')
         .notEmpty()
         .bail()
-        .isDecimal()
+        .isDecimal(),
+    check('previewImage', 'Preview Image is required')
+        .notEmpty()
     ,handleValidationErrors
 ]
 
@@ -370,7 +372,7 @@ router.get('/:spotId', async (req, res, next) => {
     - get user.id from req.user created by restoreUser
     - use validateSpot middleware to validate req.body
 */
-router.post('/', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+router.post('/', [singleMulterUpload('previewImage'),restoreUser, requireAuth, validateSpot], async (req, res, next) => {
     //extract user from req.user attr created by restoreUser
     const { user } = req
     //extract spot info from body
