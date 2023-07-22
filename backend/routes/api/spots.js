@@ -372,7 +372,7 @@ router.get('/:spotId', async (req, res, next) => {
     - get user.id from req.user created by restoreUser
     - use validateSpot middleware to validate req.body
 */
-router.post('/', [singleMulterUpload('previewImage'),restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+router.post('/', [singleMulterUpload('previewImage')  ,restoreUser, requireAuth, validateSpot], async (req, res, next) => {
     //extract user from req.user attr created by restoreUser
     const { user } = req
     //extract spot info from body
