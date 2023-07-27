@@ -31,100 +31,100 @@ export default function CreateSpot(){
         let submitErrors = {}
         //CHECKING FOR ERRORS
         
-        if(!country.length){
-            submitErrors.country = 'Country Required' 
-        }
-        if(!address.length){
-            submitErrors.address = 'Address is required'
-        }
-        if(!city.length){
-            submitErrors.city = 'City is required'
-        }
-        if(!state.length){
-            submitErrors.state = 'State is required'
-        }
-        if(!name.length){
-            submitErrors.name = 'Name is required'
-        }
-        for(let spot of spots){
-            // console.log(spot)
-            if(name.length > 0 && name === spot.name){
-                submitErrors.name = 'Name must be unique'
-            }
-        }
-        // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
-        //     submitErrors.lat = 'Latitude not valid'
+        // if(!country.length){
+        //     submitErrors.country = 'Country Required' 
         // }
-        // if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
-        //     submitErrors.lng = 'Longitude not valid'
+        // if(!address.length){
+        //     submitErrors.address = 'Address is required'
         // }
-        if(description.length < 30){
-            submitErrors.description = 'Description needs at least 30 characters '
-        }
-        if(!price.length || isNaN(price)){
-            submitErrors.price = 'Invalid price'
-        }
-        if(!previewImage.length){
-            submitErrors.previewImage = 'Preview image is required'
-        }
+        // if(!city.length){
+        //     submitErrors.city = 'City is required'
+        // }
+        // if(!state.length){
+        //     submitErrors.state = 'State is required'
+        // }
+        // if(!name.length){
+        //     submitErrors.name = 'Name is required'
+        // }
+        // for(let spot of spots){
+        //     // console.log(spot)
+        //     if(name.length > 0 && name === spot.name){
+        //         submitErrors.name = 'Name must be unique'
+        //     }
+        // }
+        // // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
+        // //     submitErrors.lat = 'Latitude not valid'
+        // // }
+        // // if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
+        // //     submitErrors.lng = 'Longitude not valid'
+        // // }
+        // if(description.length < 30){
+        //     submitErrors.description = 'Description needs at least 30 characters '
+        // }
+        // if(!price.length || isNaN(price)){
+        //     submitErrors.price = 'Invalid price'
+        // }
+        // if(!previewImage.length){
+        //     submitErrors.previewImage = 'Preview image is required'
+        // }
 
-        let images = []
-        if(previewImage.length){
-            if(previewImage.endsWith('.png') || previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')){
-                let previewImg = {
-                    url: previewImage,
-                    preview: true
-                }
-                images.push(previewImg)
-            }else{
-                submitErrors.previewImage = 'Preview image must end in .png, .jpg, or .jpeg'
-            }
-        }
-        if(image1.length){
-            if(image1.endsWith('.png') || image1.endsWith('.jpeg') || image1.endsWith('.jpg')){
-                let image = {
-                    url: image1,
-                    preview: false
-                }
-                images.push(image)
-            }else{
-                submitErrors.image1 = 'Image URL must end in .png, .jpg, or .jpeg'
-            }
-        }
-        if(image2.length){
-            if(image2.endsWith('.png') || image2.endsWith('.jpeg') || image2.endsWith('.jpg')){
-                let image = {
-                    url: image2,
-                    preview: false
-                }
-                images.push(image)
-            }else{
-                submitErrors.image2 = 'Image URL must end in .png, .jpg, or .jpeg'
-            }
-        }
-        if(image3.length){
-            if(image3.endsWith('.png') || image3.endsWith('.jpeg') || image3.endsWith('.jpg')){
-                let image = {
-                    url: image3,
-                    preview: false
-                }
-                images.push(image)
-            }else{
-                submitErrors.image3 = 'Image URL must end in .png, .jpg, or .jpeg'
-            }
-        }
-        if(image4.length){
-            if(image4.endsWith('.png') || image4.endsWith('.jpeg') || image4.endsWith('.jpg')){
-                let image = {
-                    url: image4,
-                    preview: false
-                }
-                images.push(image)
-            }else{
-                submitErrors.image4 = 'Image URL must end in .png, .jpg, or .jpeg'
-            }
-        }
-        setImageArr(images)
+        // let images = []
+        // if(previewImage.length){
+        //     if(previewImage.endsWith('.png') || previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')){
+        //         let previewImg = {
+        //             url: previewImage,
+        //             preview: true
+        //         }
+        //         images.push(previewImg)
+        //     }else{
+        //         submitErrors.previewImage = 'Preview image must end in .png, .jpg, or .jpeg'
+        //     }
+        // }
+        // if(image1.length){
+        //     if(image1.endsWith('.png') || image1.endsWith('.jpeg') || image1.endsWith('.jpg')){
+        //         let image = {
+        //             url: image1,
+        //             preview: false
+        //         }
+        //         images.push(image)
+        //     }else{
+        //         submitErrors.image1 = 'Image URL must end in .png, .jpg, or .jpeg'
+        //     }
+        // }
+        // if(image2.length){
+        //     if(image2.endsWith('.png') || image2.endsWith('.jpeg') || image2.endsWith('.jpg')){
+        //         let image = {
+        //             url: image2,
+        //             preview: false
+        //         }
+        //         images.push(image)
+        //     }else{
+        //         submitErrors.image2 = 'Image URL must end in .png, .jpg, or .jpeg'
+        //     }
+        // }
+        // if(image3.length){
+        //     if(image3.endsWith('.png') || image3.endsWith('.jpeg') || image3.endsWith('.jpg')){
+        //         let image = {
+        //             url: image3,
+        //             preview: false
+        //         }
+        //         images.push(image)
+        //     }else{
+        //         submitErrors.image3 = 'Image URL must end in .png, .jpg, or .jpeg'
+        //     }
+        // }
+        // if(image4.length){
+        //     if(image4.endsWith('.png') || image4.endsWith('.jpeg') || image4.endsWith('.jpg')){
+        //         let image = {
+        //             url: image4,
+        //             preview: false
+        //         }
+        //         images.push(image)
+        //     }else{
+        //         submitErrors.image4 = 'Image URL must end in .png, .jpg, or .jpeg'
+        //     }
+        // }
+        // setImageArr(images)
 
         if(Object.values(submitErrors).length === 0){
             let spotInfo = { address,
@@ -136,7 +136,7 @@ export default function CreateSpot(){
                 name,
                 description,
                 price,
-                images
+                previewImage
             }
     
             let newSpot = await dispatch(createNewSpot(spotInfo))
@@ -329,62 +329,47 @@ export default function CreateSpot(){
                 <hr/>
 
                 <div className={sectionDetails}>
-                    <div className={detailsTitle}>Liven up your spot with photos</div>
+                    <div className={detailsTitle}>Add a preview image</div>
                     <div>
-                        Submit a link to at least one photo to publish your spot
+                        Upload an preview image to show off your place  
                     </div>
                 </div>
                 <label className={filloutSections}>
                     <div className='photo-inputs'>
                         <input
-                            type='text'
-                            placeholder="Preview image URL"
+                            type='file'
                             onChange={e => setPreviewImage(e.target.value)}
                             value={previewImage}
+                            accept="image/*"
                         />
                         {errors.previewImage &&
                             <div className={errClassName}>{errors.previewImage}</div>
                         }
-                        <input 
-                            type='text'
-                            placeholder="Image URL"
-                            onChange={e => setImage1(e.target.value)}
-                            value={image1}
-                        />
-                        {errors.image1 &&
-                            <div className={errClassName}>{errors.image1}</div>
-                        }
-                        <input 
-                            type='text'
-                            placeholder="Image URL"
-                            onChange={e => setImage2(e.target.value)}
-                            value={image2}
-                        />
-                        {errors.image2 &&
-                            <div className={errClassName}>{errors.image2}</div>
-                        }
-                        <input 
-                            type='text'
-                            placeholder="Image URL"
-                            onChange={e => setImage3(e.target.value)}
-                            value={image3}
-                        />
-                        {errors.image3 &&
-                            <div className={errClassName}>{errors.image3}</div>
-                        }
-                        <input 
-                            type='text'
-                            placeholder="Image URL"
-                            onChange={e => setImage4(e.target.value)}
-                            value={image4}
-                        />
-                        {errors.image4 &&
-                            <div className={errClassName}>{errors.image4}</div>
-                        }
+                        
                     </div>
-                   
                 </label>
-
+                <hr />
+                <div className={sectionDetails}>
+                    <div className={detailsTitle}>More images?</div>
+                    <div>
+                        Got more to show? You can import up to 4 more images here!  
+                    </div>
+                </div>
+                <label className={filloutSections}>
+                    <div className='photo-inputs'>
+                        <input
+                            type='file'
+                            multiple
+                            onChange={e => setPreviewImage(e.target.value)}
+                            value={previewImage}
+                            accept="image/*"
+                        />
+                        {errors.previewImage &&
+                            <div className={errClassName}>{errors.previewImage}</div>
+                        }
+                        
+                    </div>
+                </label>
                 <hr/>
 
                 <div className='create-spot-button-holder'>
