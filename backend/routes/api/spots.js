@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize')
+const {singleFileUpload, singleMulterUpload} = require('../../awsS3')
 
 //Import middleware from utils folder and Validation library
 const { restoreUser ,requireAuth } = require('../../utils/auth');
@@ -11,6 +12,22 @@ const { check, withMessage } = require('express-validator');
 //Import models needed
 const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 const { query } = require('express');
+
+const fileNotEmpty = (value, { req }) => {
+
+    //Checks if file is uploaded
+    if (!req.file || req.file.fieldname !== 'previewImage') {
+      throw new Error('File upload is required.');
+    }
+
+    //Checks if file uploaded is an image
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedImageTypes.includes(req.file.mimetype)) {
+        throw new Error('Only image files (JPEG, PNG, GIF) are allowed.');
+    }
+  
+    return true;
+  };
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -51,7 +68,9 @@ const validateSpot = [
     check('price', 'Price per day is required')
         .notEmpty()
         .bail()
-        .isDecimal()
+        .isDecimal(),
+    check('previewImage', 'Preview Image is required')
+        .custom(fileNotEmpty)
     ,handleValidationErrors
 ]
 
@@ -369,7 +388,10 @@ router.get('/:spotId', async (req, res, next) => {
     - get user.id from req.user created by restoreUser
     - use validateSpot middleware to validate req.body
 */
-router.post('/', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+
+router.post('/', 
+[ restoreUser, requireAuth, singleMulterUpload('previewImage'), validateSpot],
+ async (req, res, next) => {
     //extract user from req.user attr created by restoreUser
     const { user } = req
     //extract spot info from body
@@ -734,24 +756,24 @@ router.post('/:spotId/reviews', [restoreUser, requireAuth, valReview], async(req
 
 })
 
-const valImage = [
-    check('url', 'URL needed')
-        .notEmpty()
-        .bail()
-        .isString(),
-    check('preview', 'Preview needs to be a boolean')
-        .notEmpty()
-        .bail()
-        .isBoolean(),
-    handleValidationErrors
-]
+// const valImage = [
+//     check('url', 'URL needed')
+//         .notEmpty()
+//         .bail()
+//         .isString(),
+//     check('preview', 'Preview needs to be a boolean')
+//         .notEmpty()
+//         .bail()
+//         .isBoolean(),
+//     handleValidationErrors
+// ]
 
 /* Add image to spot using its id
     - Logged in user needs to be logged in
     - POST /:spotId/images
     - Auth required
 */
-router.post('/:spotId/images', [restoreUser, requireAuth, valImage], async(req, res, next) => {
+router.post('/:spotId/images', [ singleMulterUpload('previewImage'), restoreUser, requireAuth], async(req, res, next) => {
     const { user } = req
     const { url, preview } = req.body
     const spotId = req.params.spotId
@@ -771,9 +793,12 @@ router.post('/:spotId/images', [restoreUser, requireAuth, valImage], async(req, 
 
         next(err)
     } else {
+        const profileImageUrl = req.file ? 
+        await singleFileUpload({ file: req.file, public: true }) :
+        null;
         const image = await SpotImage.create({
             spotId: spotId,
-            url: url,
+            url: profileImageUrl,
             preview: preview
         })
 

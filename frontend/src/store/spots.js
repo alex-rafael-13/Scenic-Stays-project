@@ -89,7 +89,7 @@ export const createNewSpot = spotInfo => async dispatch => {
         name,
         description,
         price,
-        images
+        previewImage
     } = spotInfo
 
     const spotResponse = await csrfFetch('/api/spots',{
@@ -104,22 +104,23 @@ export const createNewSpot = spotInfo => async dispatch => {
         lng,
         name,
         description,
-        price
+        price,
+        previewImage
         })
     })
     
     const spotData = await spotResponse.json()
-    spotData.SpotImages = []
-    for(let image of images){
-        const imageResponse = await csrfFetch(`/api/spots/${spotData.id}/images`,{
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(image)
-        })
+    // spotData.SpotImages = []
+    // for(let image of images){
+    //     const imageResponse = await csrfFetch(`/api/spots/${spotData.id}/images`,{
+    //         method:'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify(image)
+    //     })
 
-        const newImage = await imageResponse.json()
-        spotData.SpotImages.push(newImage)
-    }
+    //     const newImage = await imageResponse.json()
+    //     spotData.SpotImages.push(newImage)
+    // }
     dispatch(createSpot(spotData))
     return spotData
 }
