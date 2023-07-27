@@ -1,3 +1,4 @@
+import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory'
 import {csrfFetch} from './csrf'
 
 const GET_ALL_SPOTS = 'spots/ALL_SPOTS'
@@ -92,37 +93,26 @@ export const createNewSpot = spotInfo => async dispatch => {
         previewImage
     } = spotInfo
 
+    const formData = new FormData()
+    formData.append('address', address)
+    formData.append('city', city)
+    formData.append('state', state)
+    formData.append('country', country)
+    formData.append('lat', lat)
+    formData.append('lng', lng)
+    formData.append('name', name)
+    formData.append('description',description)
+    formData.append('price', price)
+    formData.append('previewImage', previewImage)
+
     const spotResponse = await csrfFetch('/api/spots',{
         method:'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price,
-        previewImage
-        })
+        body: formData,
     })
     
     const spotData = await spotResponse.json()
-    // spotData.SpotImages = []
-    // for(let image of images){
-    //     const imageResponse = await csrfFetch(`/api/spots/${spotData.id}/images`,{
-    //         method:'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: JSON.stringify(image)
-    //     })
-
-    //     const newImage = await imageResponse.json()
-    //     spotData.SpotImages.push(newImage)
-    // }
-    dispatch(createSpot(spotData))
-    return spotData
+    // dispatch(createSpot(spotData))
+    return spotResponse
 }
 
 export const updateSpot = (spotId, spotInfo) => async dispatch => {
