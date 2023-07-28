@@ -116,7 +116,14 @@ export const createNewSpot = spotInfo => async dispatch => {
     
     if(spotResponse.ok){
         const spotData = await spotResponse.json()
+        const previewForm = new FormData()
+        previewForm.append('image', previewImage)
+        previewForm.append('preview', true)
 
+        const previewResponse = await csrfFetch(`/api/spots/${spotData.id}/images`,{
+            method: 'POST',
+            body: previewForm
+        })
     }
     // dispatch(createSpot(spotData))
     return spotResponse

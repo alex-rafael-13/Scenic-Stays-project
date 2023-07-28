@@ -788,7 +788,7 @@ router.post('/:spotId/reviews', [restoreUser, requireAuth, valReview], async(req
     - POST /:spotId/images
     - Auth required
 */
-router.post('/:spotId/images', [ singleMulterUpload('previewImage'), restoreUser, requireAuth], async(req, res, next) => {
+router.post('/:spotId/images', [ singleMulterUpload('image'), restoreUser, requireAuth], async(req, res, next) => {
     const { user } = req
     const { url, preview } = req.body
     const spotId = req.params.spotId
