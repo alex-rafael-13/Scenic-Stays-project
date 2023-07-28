@@ -90,7 +90,8 @@ export const createNewSpot = spotInfo => async dispatch => {
         name,
         description,
         price,
-        previewImage
+        previewImage,
+        otherImages
     } = spotInfo
 
     const formData = new FormData()
@@ -103,7 +104,10 @@ export const createNewSpot = spotInfo => async dispatch => {
     formData.append('name', name)
     formData.append('description',description)
     formData.append('price', price)
-    formData.append('previewImage', previewImage)
+    formData.append('images', previewImage)
+    const images = Array.from(otherImages)
+    console.log(previewImage)
+    images.forEach(image => formData.append("images", image));
 
     const spotResponse = await csrfFetch('/api/spots',{
         method:'POST',
@@ -112,7 +116,7 @@ export const createNewSpot = spotInfo => async dispatch => {
     
     if(spotResponse.ok){
         const spotData = await spotResponse.json()
-        
+
     }
     // dispatch(createSpot(spotData))
     return spotResponse

@@ -15,11 +15,11 @@ export default function CreateSpot(){
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [previewImage, setPreviewImage] = useState(null)
-    const [image1, setImage1] = useState('')
-    const [image2, setImage2] = useState('')
-    const [image3, setImage3] = useState('')
-    const [image4, setImage4] = useState('')
-    const [imageArr, setImageArr] = useState([])
+    const [images, setImages] = useState(null)
+    // const [image2, setImage2] = useState('')
+    // const [image3, setImage3] = useState('')
+    // const [image4, setImage4] = useState('')
+    const [otherImages, setOtherImages] = useState([])
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const history = useHistory()
@@ -27,6 +27,11 @@ export default function CreateSpot(){
 
     const handleSubmit = async e =>{
         e.preventDefault()
+
+        //Image array setup
+        let allImages = []
+        if(previewImage !== null) allImages.push(previewImage)
+
 
         let spotInfo = { address,
             city,
@@ -38,7 +43,7 @@ export default function CreateSpot(){
             description,
             price,
             previewImage,
-            imageArr
+            otherImages
         }
         
         return dispatch(createNewSpot(spotInfo))
@@ -46,6 +51,7 @@ export default function CreateSpot(){
             .catch(
                 async res => {
                     const data = await res.json()
+                    console.log(data.errors)
                     if(data && data.errors) setErrors(data.errors)
                 }
             )
@@ -58,9 +64,9 @@ export default function CreateSpot(){
     };
 
     const updateImages = e => {
-        console.log( typeof e.target.files)
+        console.log(e.target.files)
         const files = e.target.files;
-        if (files) setImageArr(files);
+        if (files) setOtherImages(files);
     };
 
     //CLASS NAMES TO AVOID MISTYPES
@@ -257,8 +263,8 @@ export default function CreateSpot(){
                             accept="image/*"
                             onChange={updatePreview}
                         />
-                        {errors?.previewImage &&
-                            <div className={errClassName}>{errors.previewImage}</div>
+                        {errors?.images &&
+                            <div className={errClassName}>{errors.images}</div>
                         }
                         
                     </div>
@@ -280,8 +286,8 @@ export default function CreateSpot(){
                                 accept="image/*"
                                 multiple
                             />
-                            {errors?.previewImage &&
-                                <div className={errClassName}>{errors.previewImage}</div>
+                            {errors?.images &&
+                                <div className={errClassName}>{errors.images}</div>
                             }
                             {}
                             
