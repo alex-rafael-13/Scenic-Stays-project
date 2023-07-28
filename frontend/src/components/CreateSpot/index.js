@@ -37,7 +37,8 @@ export default function CreateSpot(){
             name,
             description,
             price,
-            previewImage
+            previewImage,
+            imageArr
         }
         
         return dispatch(createNewSpot(spotInfo))
@@ -49,12 +50,18 @@ export default function CreateSpot(){
                 }
             )
     }
-    console.log(errors)
 
-    const updateFile = e => {
+    const updatePreview = e => {
+        console.log(e.target.files)
         const file = e.target.files[0];
         if (file) setPreviewImage(file);
-      };
+    };
+
+    const updateImages = e => {
+        console.log( typeof e.target.files)
+        const files = e.target.files;
+        if (files) setImageArr(files);
+    };
 
     //CLASS NAMES TO AVOID MISTYPES
     const filloutSections = 'fillout-sections'
@@ -248,7 +255,7 @@ export default function CreateSpot(){
                         <input
                             type='file'
                             accept="image/*"
-                            onChange={updateFile}
+                            onChange={updatePreview}
                         />
                         {errors?.previewImage &&
                             <div className={errClassName}>{errors.previewImage}</div>
@@ -257,27 +264,32 @@ export default function CreateSpot(){
                     </div>
                 </label>
                 <hr />
-                <div className={sectionDetails}>
-                    <div className={detailsTitle}>More images?</div>
-                    <div>
-                        Got more to show? You can import up to 4 more images here!  
+                { previewImage &&
+                <>
+                    <div className={sectionDetails}>
+                        <div className={detailsTitle}>More images?</div>
+                        <div>
+                            Got more to show? You can import up to 4 more images here!  
+                        </div>
                     </div>
-                </div>
-                <label className={filloutSections}>
-                    <div className='photo-inputs'>
-                        <input
-                            type='file'
-                            multiple
-                            onChange={e => setPreviewImage(e.target.files)}
-                            accept="image/*"
-                        />
-                        {errors?.previewImage &&
-                            <div className={errClassName}>{errors.previewImage}</div>
-                        }
-                        
-                    </div>
-                </label>
-                <hr/>
+                    <label className={filloutSections}>
+                        <div className='photo-inputs'>
+                            <input
+                                type='file'
+                                onChange={updateImages}
+                                accept="image/*"
+                                multiple
+                            />
+                            {errors?.previewImage &&
+                                <div className={errClassName}>{errors.previewImage}</div>
+                            }
+                            {}
+                            
+                        </div>
+                    </label>
+                    <hr/>
+                </>
+                }
 
                 <div className='create-spot-button-holder'>
                     <button type="submit">Create Spot</button>

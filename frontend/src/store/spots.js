@@ -110,7 +110,10 @@ export const createNewSpot = spotInfo => async dispatch => {
         body: formData,
     })
     
-    const spotData = await spotResponse.json()
+    if(spotResponse.ok){
+        const spotData = await spotResponse.json()
+        
+    }
     // dispatch(createSpot(spotData))
     return spotResponse
 }
