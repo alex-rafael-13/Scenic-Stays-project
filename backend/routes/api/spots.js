@@ -21,7 +21,10 @@ const fileNotEmpty = (value, { req }) => {
     if(req.files.length === 0){
       throw new Error('Must upload a preview image')
     }
-    
+    if(req.files.length> 5){
+        throw new Error('Only 5 images allowed')
+      }
+
     // Checks if files uploaded are images
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
     const images = Array.isArray(req.files) ? req.files : [req.files];
