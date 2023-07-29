@@ -47,7 +47,12 @@ export default function CreateSpot(){
         }
         
         return dispatch(createNewSpot(spotInfo))
-            .then()
+            .then( async res => {
+                // const data = await res.json()
+                console.log(res)
+                history.push(`/spots/${res.id}`)
+            }
+            )
             .catch(
                 async res => {
                     const data = await res.json()

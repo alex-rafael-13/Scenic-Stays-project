@@ -114,8 +114,9 @@ export const createNewSpot = spotInfo => async dispatch => {
         body: formData,
     })
     
+    let spotData
     if(spotResponse.ok){
-        const spotData = await spotResponse.json()
+        spotData = await spotResponse.json()
         const previewForm = new FormData()
         previewForm.append('image', previewImage)
         previewForm.append('preview', true)
@@ -138,7 +139,7 @@ export const createNewSpot = spotInfo => async dispatch => {
         })
     }
     // dispatch(createSpot(spotData))
-    return spotResponse
+    return spotData
 }
 
 export const updateSpot = (spotId, spotInfo) => async dispatch => {
