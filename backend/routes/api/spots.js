@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize')
-const {singleFileUpload, singleMulterUpload} = require('../../awsS3')
+const {singleFileUpload, singleMulterUpload, multipleMulterUpload} = require('../../awsS3')
 
 //Import middleware from utils folder and Validation library
 const { restoreUser ,requireAuth } = require('../../utils/auth');
@@ -15,19 +15,34 @@ const { query } = require('express');
 
 const fileNotEmpty = (value, { req }) => {
 
-    //Checks if file is uploaded
-    if (!req.file || req.file.fieldname !== 'previewImage') {
-      throw new Error('File upload is required.');
+    console.log(req.files)
+    
+    //Checks if there is at least one file
+    if(req.files.length === 0){
+      throw new Error('Must upload a preview image')
     }
+    if(req.files.length> 5){
+        throw new Error('Only 5 images allowed')
+      }
 
-    //Checks if file uploaded is an image
+    // Checks if files uploaded are images
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!allowedImageTypes.includes(req.file.mimetype)) {
-        throw new Error('Only image files (JPEG, PNG, GIF) are allowed.');
+    const images = Array.isArray(req.files) ? req.files : [req.files];
+    
+    
+  for (const image of images) {
+    if (!allowedImageTypes.includes(image.mimetype)) {
+      throw new Error('Only image files (JPEG, PNG, GIF) are allowed.');
     }
-  
-    return true;
-  };
+  }
+
+  return true;
+};
+
+const isImageFile = (file) => {
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    return allowedImageTypes.includes(file.mimetype);
+};
 
 //Create validation middleware for creating and editing spots
 const validateSpot = [
@@ -69,7 +84,7 @@ const validateSpot = [
         .notEmpty()
         .bail()
         .isDecimal(),
-    check('previewImage', 'Preview Image is required')
+    check('images', 'Preview Image is required')
         .custom(fileNotEmpty)
     ,handleValidationErrors
 ]
@@ -390,7 +405,7 @@ router.get('/:spotId', async (req, res, next) => {
 */
 
 router.post('/', 
-[ restoreUser, requireAuth, singleMulterUpload('previewImage'), validateSpot],
+[ restoreUser, requireAuth, multipleMulterUpload('images'), validateSpot],
  async (req, res, next) => {
     //extract user from req.user attr created by restoreUser
     const { user } = req
@@ -773,7 +788,7 @@ router.post('/:spotId/reviews', [restoreUser, requireAuth, valReview], async(req
     - POST /:spotId/images
     - Auth required
 */
-router.post('/:spotId/images', [ singleMulterUpload('previewImage'), restoreUser, requireAuth], async(req, res, next) => {
+router.post('/:spotId/images', [ singleMulterUpload('image'), restoreUser, requireAuth], async(req, res, next) => {
     const { user } = req
     const { url, preview } = req.body
     const spotId = req.params.spotId
