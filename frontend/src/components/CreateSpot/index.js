@@ -14,140 +14,65 @@ export default function CreateSpot(){
     const [description, setDescription] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
-    const [previewImage, setPreviewImage] = useState('')
-    const [image1, setImage1] = useState('')
-    const [image2, setImage2] = useState('')
-    const [image3, setImage3] = useState('')
-    const [image4, setImage4] = useState('')
-    const [imageArr, setImageArr] = useState([])
+    const [previewImage, setPreviewImage] = useState(null)
+    const [images, setImages] = useState(null)
+    // const [image2, setImage2] = useState('')
+    // const [image3, setImage3] = useState('')
+    // const [image4, setImage4] = useState('')
+    const [otherImages, setOtherImages] = useState([])
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const history = useHistory()
     const spots = useSelector(state => state.spots.spots)
 
-    //HANDLE SUBMIT FORM 
     const handleSubmit = async e =>{
         e.preventDefault()
-        let submitErrors = {}
-        //CHECKING FOR ERRORS
-        
-        // if(!country.length){
-        //     submitErrors.country = 'Country Required' 
-        // }
-        // if(!address.length){
-        //     submitErrors.address = 'Address is required'
-        // }
-        // if(!city.length){
-        //     submitErrors.city = 'City is required'
-        // }
-        // if(!state.length){
-        //     submitErrors.state = 'State is required'
-        // }
-        // if(!name.length){
-        //     submitErrors.name = 'Name is required'
-        // }
-        // for(let spot of spots){
-        //     // console.log(spot)
-        //     if(name.length > 0 && name === spot.name){
-        //         submitErrors.name = 'Name must be unique'
-        //     }
-        // }
-        // // if(!lat.length || Number.isNaN(lat) || lat >= 90 || lat <= -90){
-        // //     submitErrors.lat = 'Latitude not valid'
-        // // }
-        // // if(!lng.length || Number.isNaN(lng) || lat >= 180 || lat <= -180){
-        // //     submitErrors.lng = 'Longitude not valid'
-        // // }
-        // if(description.length < 30){
-        //     submitErrors.description = 'Description needs at least 30 characters '
-        // }
-        // if(!price.length || isNaN(price)){
-        //     submitErrors.price = 'Invalid price'
-        // }
-        // if(!previewImage.length){
-        //     submitErrors.previewImage = 'Preview image is required'
-        // }
 
-        // let images = []
-        // if(previewImage.length){
-        //     if(previewImage.endsWith('.png') || previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')){
-        //         let previewImg = {
-        //             url: previewImage,
-        //             preview: true
-        //         }
-        //         images.push(previewImg)
-        //     }else{
-        //         submitErrors.previewImage = 'Preview image must end in .png, .jpg, or .jpeg'
-        //     }
-        // }
-        // if(image1.length){
-        //     if(image1.endsWith('.png') || image1.endsWith('.jpeg') || image1.endsWith('.jpg')){
-        //         let image = {
-        //             url: image1,
-        //             preview: false
-        //         }
-        //         images.push(image)
-        //     }else{
-        //         submitErrors.image1 = 'Image URL must end in .png, .jpg, or .jpeg'
-        //     }
-        // }
-        // if(image2.length){
-        //     if(image2.endsWith('.png') || image2.endsWith('.jpeg') || image2.endsWith('.jpg')){
-        //         let image = {
-        //             url: image2,
-        //             preview: false
-        //         }
-        //         images.push(image)
-        //     }else{
-        //         submitErrors.image2 = 'Image URL must end in .png, .jpg, or .jpeg'
-        //     }
-        // }
-        // if(image3.length){
-        //     if(image3.endsWith('.png') || image3.endsWith('.jpeg') || image3.endsWith('.jpg')){
-        //         let image = {
-        //             url: image3,
-        //             preview: false
-        //         }
-        //         images.push(image)
-        //     }else{
-        //         submitErrors.image3 = 'Image URL must end in .png, .jpg, or .jpeg'
-        //     }
-        // }
-        // if(image4.length){
-        //     if(image4.endsWith('.png') || image4.endsWith('.jpeg') || image4.endsWith('.jpg')){
-        //         let image = {
-        //             url: image4,
-        //             preview: false
-        //         }
-        //         images.push(image)
-        //     }else{
-        //         submitErrors.image4 = 'Image URL must end in .png, .jpg, or .jpeg'
-        //     }
-        // }
-        // setImageArr(images)
+        //Image array setup
+        let allImages = []
+        if(previewImage !== null) allImages.push(previewImage)
 
-        if(Object.values(submitErrors).length === 0){
-            let spotInfo = { address,
-                city,
-                state,
-                country,
-                lat: 0,
-                lng: 0,
-                name,
-                description,
-                price,
-                previewImage
-            }
-    
-            let newSpot = await dispatch(createNewSpot(spotInfo))
-            // console.log('----------------------Back to spots:',newSpot)
-            if(newSpot){
-                history.push(`/spots/${newSpot.id}`)
-            }
+
+        let spotInfo = { address,
+            city,
+            state,
+            country,
+            lat: 0,
+            lng: 0,
+            name,
+            description,
+            price,
+            previewImage,
+            otherImages
         }
-
-        setErrors(submitErrors)
+        
+        return dispatch(createNewSpot(spotInfo))
+            .then( async res => {
+                // const data = await res.json()
+                console.log(res)
+                history.push(`/spots/${res.id}`)
+            }
+            )
+            .catch(
+                async res => {
+                    const data = await res.json()
+                    console.log(data.errors)
+                    if(data && data.errors) setErrors(data.errors)
+                }
+            )
     }
+
+    const updatePreview = e => {
+        console.log(e.target.files)
+        const file = e.target.files[0];
+        if (file) setPreviewImage(file);
+    };
+
+    const updateImages = e => {
+        console.log(e.target.files)
+        const files = e.target.files;
+        if (files) setOtherImages(files);
+    };
 
     //CLASS NAMES TO AVOID MISTYPES
     const filloutSections = 'fillout-sections'
@@ -163,7 +88,7 @@ export default function CreateSpot(){
                 Create a New Spot
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className={sectionDetails}>
                     <div className={detailsTitle}>Where is your place located</div>
                     <div>Guests will only get your exact address once they booked a reservation</div>
@@ -171,7 +96,7 @@ export default function CreateSpot(){
                 <label className={filloutSections}>
                     <div className={labelTitle}>
                         <div>Country</div>
-                        {errors.country &&
+                        {errors?.country &&
                             <div className={errClassName}>{errors.country}</div>
                         }
                     </div>
@@ -186,7 +111,7 @@ export default function CreateSpot(){
                 <label className={filloutSections}>
                     <div className={labelTitle}>
                         <div>Street Address</div>
-                        {errors.address &&
+                        {errors?.address &&
                             <div className={errClassName}>{errors.address}</div>
                         }
                     </div>
@@ -202,7 +127,7 @@ export default function CreateSpot(){
                     <label className={filloutSections}>
                         <div className={labelTitle}>
                             <div>City</div>
-                            {errors.city &&
+                            {errors?.city &&
                                 <div className={errClassName}>{errors.city}</div>
                             }
                         </div>
@@ -218,7 +143,7 @@ export default function CreateSpot(){
                         <label className={filloutSections}>
                             <div className={labelTitle}>
                                 <div>State</div>
-                                {errors.state &&
+                                {errors?.state &&
                                     <div className={errClassName}>{errors.state}</div>
                                 }
                             </div>
@@ -231,6 +156,8 @@ export default function CreateSpot(){
                         </label>
                     </div>
                 </div>
+
+                {/*Will implement once google maps api is added*/}
                 {/* <div className="lat-long-fillout"> 
                     <label className={filloutSections}>
                         <div className={labelTitle}>
@@ -278,7 +205,7 @@ export default function CreateSpot(){
                         cols='5'
                         rows='10'
                     />
-                    {errors.description &&
+                    {errors?.description &&
                         <div className={errClassName}>{errors.description}</div>
                     }
                 </label>
@@ -298,7 +225,7 @@ export default function CreateSpot(){
                         onChange={e => setName(e.target.value)}
                         value={name}
                     />
-                    {errors.name &&
+                    {errors?.name &&
                         <div className={errClassName}>{errors.name}</div>
                     }
                 </label>
@@ -321,7 +248,7 @@ export default function CreateSpot(){
                             value={price}
                         />
                     </div>
-                    {errors.price &&
+                    {errors?.price &&
                         <div className={errClassName}>{errors.price}</div>
                     }
                 </label>
@@ -338,39 +265,42 @@ export default function CreateSpot(){
                     <div className='photo-inputs'>
                         <input
                             type='file'
-                            onChange={e => setPreviewImage(e.target.value)}
-                            value={previewImage}
                             accept="image/*"
+                            onChange={updatePreview}
                         />
-                        {errors.previewImage &&
-                            <div className={errClassName}>{errors.previewImage}</div>
+                        {errors?.images &&
+                            <div className={errClassName}>{errors.images}</div>
                         }
                         
                     </div>
                 </label>
                 <hr />
-                <div className={sectionDetails}>
-                    <div className={detailsTitle}>More images?</div>
-                    <div>
-                        Got more to show? You can import up to 4 more images here!  
+                { previewImage &&
+                <>
+                    <div className={sectionDetails}>
+                        <div className={detailsTitle}>More images?</div>
+                        <div>
+                            Got more to show? You can import up to 4 more images here!  
+                        </div>
                     </div>
-                </div>
-                <label className={filloutSections}>
-                    <div className='photo-inputs'>
-                        <input
-                            type='file'
-                            multiple
-                            onChange={e => setPreviewImage(e.target.value)}
-                            value={previewImage}
-                            accept="image/*"
-                        />
-                        {errors.previewImage &&
-                            <div className={errClassName}>{errors.previewImage}</div>
-                        }
-                        
-                    </div>
-                </label>
-                <hr/>
+                    <label className={filloutSections}>
+                        <div className='photo-inputs'>
+                            <input
+                                type='file'
+                                onChange={updateImages}
+                                accept="image/*"
+                                multiple
+                            />
+                            {errors?.images &&
+                                <div className={errClassName}>{errors.images}</div>
+                            }
+                            {}
+                            
+                        </div>
+                    </label>
+                    <hr/>
+                </>
+                }
 
                 <div className='create-spot-button-holder'>
                     <button type="submit">Create Spot</button>
