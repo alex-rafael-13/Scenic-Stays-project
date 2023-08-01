@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom"
 import { restoreUser } from "../../store/session"
 import { retrieveSingleSpot } from "../../store/spots"
 import { retrieveSpotReviews } from "../../store/reviews"
+import CreateBooking from '../CreateBooking/index'
 import './SingleSpot.css'
 import SpotReviews from "./SpotReviews"
 
 export default function SingleSpot() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
+    const [loaded, setLoaded] = useState(false)
     let spot = useSelector(state => state.spots.singleSpot)
     let spotData = useSelector(state => state.spots.singleSpot)
     // const [spot, setSpot] = useState({})
@@ -23,6 +25,7 @@ export default function SingleSpot() {
 
     useEffect(() => {
         dispatch(retrieveSingleSpot(spotId))
+            .then(() => setLoaded(true))
             .catch(
                 async res => {
                     // console.log('in catch', res)
@@ -96,60 +99,62 @@ export default function SingleSpot() {
 
 
     return (
-        <div className="spot-page">
-            {spotErr?.statusCode > 200 && <h1>Unable to retrieve details. Please try again shortly</h1>}
-            {spot &&
-                <>
+        <>
+        {loaded && 
+            <div className="spot-page">
+                {spotErr?.statusCode > 200 && <h1>Unable to retrieve details. Please try again shortly</h1>}
+                {spot &&
+                    <>
 
-                    <div className="spot-header">
-                        <div className="spot-name">
-                            {spot?.name}
-                        </div>
-                        <div className="spot-location">
-                            {spot?.city}, {spot?.state}, {spot?.country}
-                        </div>
-                    </div>
-
-                    <div className="spot-images">
-                        <img className="single-image" src={preview?.url} alt='house image' />
-                        <div className="image-group">
-                            {spotImages?.map(image => (
-                                <img key={image?.id} className='little-image' src={image?.url} />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="information-section">
-                        <div className="spot-info">
-                            <div className="spot-host">
-                                Hosted by {spot?.Owner.firstName} {spot?.Owner.lastName}
+                        <div className="spot-header">
+                            <div className="spot-name">
+                                {spot?.name}
                             </div>
-                            <p className="spot-description">
-                                {spot?.description}
-                            </p>
-                        </div>
-                        <div className="spot-reservation">
-                            <div className="reservation-box">
-                                <div className="upper-box">
-                                    <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
-                                    <nav className="review-info">
-                                        <i className="fa-solid fa-star"></i>
-                                        {reviewCount(spot?.numReviews)}
-                                    </nav>
-                                </div>
-                                <div className="lower-box">
-                                    <button onClick={handleClick}>Reserve</button>
-                                </div>
+                            <div className="spot-location">
+                                {spot?.city}, {spot?.state}, {spot?.country}
                             </div>
                         </div>
-                    </div>
-                    <hr />
-                    <div className="review-section">
-                        <SpotReviews id={spotId} spot={spot} user={user} />
-                    </div>
-                </>
-            }
 
-        </div>
+                        <div className="spot-images">
+                            <img className="single-image" src={preview?.url} alt='house image' />
+                            <div className="image-group">
+                                {spotImages?.map(image => (
+                                    <img key={image?.id} className='little-image' src={image?.url} />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="information-section">
+                            <div className="spot-info">
+                                <div className="spot-host">
+                                    Hosted by {spot?.Owner.firstName} {spot?.Owner.lastName}
+                                </div>
+                                <p className="spot-description">
+                                    {spot?.description}
+                                </p>
+                            </div>
+                            <div className="spot-reservation">
+                                <div className="reservation-box">
+                                    <div className="upper-box">
+                                        <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
+                                        {/* <nav className="review-info">
+                                            <i className="fa-solid fa-star"></i>
+                                            {reviewCount(spot?.numReviews)}
+                                        </nav> */}
+                                    </div>
+                                    <CreateBooking spot={spot}/>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div className="review-section">
+                            <SpotReviews id={spotId} spot={spot} user={user} />
+                        </div>
+                    </>
+                }
+
+            </div>
+        }
+        </>
     )
 }
