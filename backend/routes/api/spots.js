@@ -614,7 +614,7 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
         err.status = 400
 
         next(err)
-    } 
+    }
     else{
         //Get data
         const bookings = await Booking.findAll({
@@ -624,28 +624,52 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
         })
         // const renter = await User.findByPk(user.id)
 
-        //Check if dates are available
         let errMessages = {}
-        for(let booking of bookings){
-            const startBooking = new Date(booking.startDate).getTime()
-            const endBooking = new Date(booking.endDate).getTime()
+        //Check if dates are available
+        let checkStart = new Date(startDate)
+        if(checkStart.toString() === "Invalid Date"){
+            errMessages.startDate = 'Invalid Date'
+        }
+        let checkEnd = new Date(endDate)
+        if(checkEnd.toString() === "Invalid Date"){
+            errMessages.endDate = 'Invalid Date'
+        }
 
-            if(start >= startBooking && start <= endBooking ){
-                errMessages.startDate = "Start date conflicts with an existing booking"
-            } 
-            if(end >= startBooking && end <= endBooking ){
-                errMessages.endDate = "End date conflicts with an existing booking"
+        const today = Date.now()
+        if(start < today){
+            errMessages.startDate = 'Date must be past today\'s date'
+        }
+        if(end < today){
+            errMessages.endDate = 'Date must be past today\'s date'
+        }
 
-            }
-            if(start < startBooking && end > endBooking){
-                errMessages.startDate = "Start date conflicts with an existing booking"   
-                errMessages.endDate = "End date conflicts with an existing booking"
+
+        //Checking for booking conflicts
+        if(Object.keys(errMessages).length === 0){
+            for(let booking of bookings){
+                const startBooking = new Date(booking.startDate).getTime()
+                const endBooking = new Date(booking.endDate).getTime()
+    
+                if(start >= startBooking && start <= endBooking ){
+                    errMessages.startDate = "Start date conflicts with an existing booking"
+                } 
+                if(end >= startBooking && end <= endBooking ){
+                    errMessages.endDate = "End date conflicts with an existing booking"
+    
+                }
+                if(start < startBooking && end > endBooking){
+                    errMessages.startDate = "Start date conflicts with an existing booking"   
+                    errMessages.endDate = "End date conflicts with an existing booking"
+                }
             }
         }
-        //Check if there is error messafes
+
+        
+
+        //Check if there is error messages
         if(Object.keys(errMessages).length !== 0){
             const err = Error('Booking conflict')
-            err.status = 403
+            err.status = 400
             err.errors = errMessages
 
             next(err)
