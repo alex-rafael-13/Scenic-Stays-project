@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/alex-rafael-13/API-proeject/issues"
   },
-  "homepage": "https://github.com/alex-rafael-13/API-proeject#readme"
+  "homepage": "https://github.com/alex-rafael-13/API-proeject#readme",
+  "dependencies": {
+    "react-calendar": "^4.6.0"
+  }
 }
