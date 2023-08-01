@@ -610,7 +610,7 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
     //Check if start date is after end date
     else if(start > end){
         const err = Error('Validation error')
-        err.message = "endDate cannot be on or before startDate"
+        err.errors = {format:"End date cannot be on or before start date"}
         err.status = 400
 
         next(err)

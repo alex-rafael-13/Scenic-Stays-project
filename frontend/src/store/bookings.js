@@ -21,8 +21,10 @@ export const createBooking = (booking, spotId) => async dispatch => {
         })
     })
 
-    return response
-
+    if(response.ok){
+        const bookingData = await response.json()
+        return bookingData
+    }
 }
 
 
