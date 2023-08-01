@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Calendar from "react-calendar"
+import { createBooking } from "../../store/bookings";
+import { useDispatch } from "react-redux";
 
 function formatDateToYYYYMMDD(date) {
     const year = date.getFullYear();
@@ -13,25 +14,23 @@ function formatDateToYYYYMMDD(date) {
 const day = new Date()
 const fiveDays = new Date(day.getTime() + 432000000)
 const today = formatDateToYYYYMMDD(day)
-const secondDate =  formatDateToYYYYMMDD(fiveDays) 
+const secondDate =  formatDateToYYYYMMDD(fiveDays)
+/* -------------------------------------------------------- */
 
 export default function CreateBooking({spot}){
-    const [isLoaded, setLoaded] = useState(false)
     const [startDate, setStartDate] = useState(today)
     const [endDate, setEndDate] = useState(secondDate)
+    const dispatch = useDispatch()
 
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault()
-        
         const booking = {
             startDate,
             endDate
         }
 
-        
-
-        alert('test')
+        dispatch(createBooking(booking, spot.id))
     }
 
     return (
