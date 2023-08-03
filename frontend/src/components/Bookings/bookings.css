@@ -1,0 +1,44 @@
+.bookings-page{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.bookings-list{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.booking-card{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 150px;
+    gap: 5px;
+    /* border: 1px black solid; */
+
+}
+
+.preview-img{
+    object-fit: cover;
+    width: 25%;
+}
+
+.booking-info{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.booking-name{
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.cancel-booking{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

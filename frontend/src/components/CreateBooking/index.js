@@ -7,7 +7,7 @@ function formatDateToYYYYMMDD(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const day = String(date.getDate()).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
 }
 
@@ -34,7 +34,7 @@ export default function CreateBooking({spot}){
 
         return dispatch(createBooking(booking, spot.id))
             .then(() => {
-                history.push('/')
+                history.push('/bookings/current')
             }    
             )
             .catch(async res => {
