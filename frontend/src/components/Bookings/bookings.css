@@ -1,8 +1,12 @@
 .bookings-page{
     display: flex;
     flex-direction: column;
-    gap: 5px;
     width: 70%;
+}
+.bookings-list{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .booking-card{
@@ -11,6 +15,8 @@
     width: 100%;
     height: 150px;
     gap: 5px;
+    /* border: 1px black solid; */
+
 }
 
 .preview-img{
