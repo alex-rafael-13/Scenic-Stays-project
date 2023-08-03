@@ -1,14 +1,24 @@
-import { useDispatch } from "react-redux"
 import { csrfFetch } from "./csrf"
 
+const USER_BOOKINGS = 'bookings/USER'
 
-// export const createBooking = (booking, spotId) => async dispatch => {
-//     const {startDate,
-//         endDate
-//     } = booking
+const setUserBookings = (bookings) => {
+    return {
+        type: USER_BOOKINGS,
+        bookings
+    }
+}
 
-//     console.log(startDate)
-// }
+export const userBookings = () => async dispatch => {
+    const response = await csrfFetch('/api/bookings/current')
+
+    if(response.ok){
+        const data = await response.json()
+        dispatch(setUserBookings(data.Bookings))
+    }
+}
+
+
 
 export const createBooking = (booking, spotId) => async dispatch => {
     const {startDate, endDate} = booking
@@ -27,12 +37,15 @@ export const createBooking = (booking, spotId) => async dispatch => {
     }
 }
 
-
-
 const initialState = {spotBookings: [], booking: null, userBookings:[]}
 export default function bookingsReducer(state = initialState, action){
     let newState;
     switch(action.type){
+        case USER_BOOKINGS:{
+            newState = {...state}
+            newState.userBookings = action.bookings
+            return newState
+        }
         default:
             return state
     }
