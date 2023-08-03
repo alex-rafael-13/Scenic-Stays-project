@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { userBookings } from "../../store/bookings"
 import BookingCard from "./booking-card"
+import './bookings.css'
 
 
 export default function Bookings(){
