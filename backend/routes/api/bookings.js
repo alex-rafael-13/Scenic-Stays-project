@@ -1,6 +1,7 @@
 //Init express
 const express = require('express');
 const router = express.Router();
+const{Sequelize} = require('sequelize')
 
 //Import middleware from utils and validation library
 const { restoreUser, requireAuth} = require('../../utils/auth');
@@ -18,9 +19,16 @@ const { Booking, Spot, sequelize } = require('../../db/models');
 */
 router.get('/current', [ restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req
+    const today = new Date()
     const bookings = await Booking.findAll({
         where:{
-            userId: user.id
+            userId: user.id,
+            startDate:{
+                [Sequelize.Op.gt]: today
+            },
+            endDate: {
+                [Sequelize.Op.gt]: today
+            }
         },
         include: [
             {
