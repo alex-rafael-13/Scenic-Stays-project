@@ -26,9 +26,9 @@ export default function Bookings(){
                         <BookingCard key={booking.id} booking={booking}/>
                     ))}
                 </div>
-                ) :(
-                    <div>No Bookings</div>
-                )}
+            ) :(
+                <div>No Bookings</div>
+            )}
             </>
         }
     </div>)
