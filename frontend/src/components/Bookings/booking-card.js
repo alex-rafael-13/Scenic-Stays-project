@@ -42,7 +42,6 @@ export default function BookingCard({booking}){
         dispatch(deleteBooking(booking.id))
     }
 
-
     return(
         <div className="booking-card">
             <img className='preview-img' src={imgUrl} onClick={handleClick}/>

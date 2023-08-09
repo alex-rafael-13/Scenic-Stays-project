@@ -588,8 +588,8 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
     const spotId = req.params.spotId
 
     const spot = await Spot.findByPk(spotId)
-    const start = new Date(startDate).getTime()
-    const end = new Date(endDate).getTime()
+    const start = new Date(startDate)
+    const end = new Date(endDate)
 
     //Check if spot exists
     if(!spot){
@@ -635,7 +635,8 @@ router.post('/:spotId/bookings', [restoreUser, requireAuth], async (req, res, ne
             errMessages.endDate = 'Invalid Date'
         }
 
-        const today = Date.now()
+        const today = new Date()
+        console.log('\n\n\n\n',today.getDate(), start.getMonth())
         if(start < today){
             errMessages.startDate = 'Date must be past today\'s date'
         }
