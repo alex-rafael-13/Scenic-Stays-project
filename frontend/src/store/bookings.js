@@ -37,6 +37,19 @@ export const createBooking = (booking, spotId) => async dispatch => {
     }
 }
 
+export const deleteBooking = (bookingId) => async dispatch => {
+
+    const response = await csrfFetch(`/api/bookings/${bookingId}`,{
+        method: 'DELETE'
+    })
+
+    if(response.ok){
+        dispatch(userBookings())
+    }
+
+    return response
+}
+
 const initialState = {spotBookings: [], booking: null, userBookings:[]}
 export default function bookingsReducer(state = initialState, action){
     let newState;
