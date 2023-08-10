@@ -1,0 +1,8 @@
+.title-error{
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+}
+.error-message{
+    color: red;
+}

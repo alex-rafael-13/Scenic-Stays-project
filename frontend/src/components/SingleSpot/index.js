@@ -137,10 +137,10 @@ export default function SingleSpot() {
                                 <div className="reservation-box">
                                     <div className="upper-box">
                                         <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
-                                        {/* <nav className="review-info">
+                                        <nav className="review-info">
                                             <i className="fa-solid fa-star"></i>
                                             {reviewCount(spot?.numReviews)}
-                                        </nav> */}
+                                        </nav>
                                     </div>
                                     <CreateBooking spot={spot}/>
                                 </div>
