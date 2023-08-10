@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { restoreUser } from "../../store/session"
 import { retrieveSingleSpot } from "../../store/spots"
 import { retrieveSpotReviews } from "../../store/reviews"
 import CreateBooking from '../CreateBooking/index'
 import './SingleSpot.css'
 import SpotReviews from "./SpotReviews"
+import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
+// import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
+import OpenModalButton from '../OpenModalButton'
 
 export default function SingleSpot() {
     const { spotId } = useParams()
@@ -16,10 +20,31 @@ export default function SingleSpot() {
     let spotData = useSelector(state => state.spots.singleSpot)
     // const [spot, setSpot] = useState({})
     const user = useSelector(state => state.session.user)
+    const [showMenu, setShowMenu] = useState(false);
+    const ulRef = useRef();
+    const history = useHistory()
 
-    // useEffect(() => {
-    //     setSpot(spotData)
-    // }, [spotData])
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+    };
+
+    useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = (e) => {
+        if (!ulRef.current.contains(e.target)) {
+            setShowMenu(false);
+        }
+        };
+
+        document.addEventListener('click', closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+    }, [showMenu]);
+
+    const closeMenu = () => setShowMenu(false);
+
 
     const [spotErr, setSpotErr] = useState({})
 
@@ -137,12 +162,43 @@ export default function SingleSpot() {
                                 <div className="reservation-box">
                                     <div className="upper-box">
                                         <nav className="price">${parseFloat(spot?.price).toFixed(2)} a Night</nav>
-                                        {/* <nav className="review-info">
+                                        <nav className="review-info">
                                             <i className="fa-solid fa-star"></i>
                                             {reviewCount(spot?.numReviews)}
-                                        </nav> */}
+                                        </nav>
                                     </div>
-                                    <CreateBooking spot={spot}/>
+                                    {user ? (
+                                        <>
+                                            {(user.id === spot.ownerId) ? (
+                                                <>
+                                                    <div className="lower-box">
+                                                        <div>Manage bookings for this spot</div>
+                                                        <button onClick={() => alert('Feature coming soon')}>Check Bookings</button>
+                                                    </div>
+                                                </>
+                                            ):(
+                                                <>
+                                                    <CreateBooking spot={spot}/>
+                                                </>
+                                            )}
+                                        </>
+                                    ):(
+                                        <>
+                                            <div className='lower-box'>
+                                                <div>You must log in or sign up to book a spot</div>
+                                                <OpenModalButton 
+                                                    buttonText='Login'
+                                                    modalComponent={<LoginFormModal />}
+                                                />
+                                                <OpenModalButton 
+                                                    buttonText='Sign Up'
+                                                    modalComponent={<SignupFormModal />}
+                                                />
+                                                {/* <button>Sign Up</button> */}
+                                            </div>
+
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>

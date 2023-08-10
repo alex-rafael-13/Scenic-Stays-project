@@ -59,7 +59,7 @@ export default function BookingCard({booking}){
             </div>
             <div className="cancel-booking">
                 <div onClick={handleCancel}>
-                    Cancel
+                    <div className="cancel-button">Cancel</div>
                 </div>
             </div>
         </div>
