@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createBooking } from "../../store/bookings";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import './createBooking.css'
 
 function formatDateToYYYYMMDD(date) {
     const year = date.getFullYear();
@@ -48,14 +49,16 @@ export default function CreateBooking({spot}){
         <form onSubmit={handleSubmit}>
             <div className="date-picks">
                 {errors?.format && 
-                    <div>{errors.format}</div>
+                    <div className='error-message'>{errors.format}</div>
                 }
                 <div className="date">
                     <label>
-                        Start Date
-                        {errors?.startDate &&
-                            <div>{errors.startDate}</div>
-                        }
+                        <div className='title-error'>
+                            <div>Start Date:</div>
+                            {errors?.startDate &&
+                                <div className='error-message' >{errors.startDate}</div>
+                            }
+                        </div>
                         <input
                             type="date"
                             value={startDate}
@@ -65,7 +68,18 @@ export default function CreateBooking({spot}){
                 </div>
                 <div className="date">
                     <label>
-                        End Date
+                    <div className='title-error'>
+                            <div>End Date:</div>
+                            {errors?.endDate &&
+                                <div className='error-message' >{errors.endDate}</div>
+                            }
+                        </div>
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={e => setEndDate(e.target.value)}
+                        /> 
+                        {/* End Date
                         {errors?.endDate && 
                             <div>{errors.endDate}</div>
                         }
@@ -73,7 +87,7 @@ export default function CreateBooking({spot}){
                         type="date"
                         value={endDate}
                         onChange={e => setEndDate(e.target.value)}
-                        />
+                        /> */}
                     </label>
                 </div>
             </div>
