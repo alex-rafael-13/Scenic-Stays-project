@@ -120,14 +120,18 @@
 
 .lower-box{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     /* height: 50%; */
     padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
 }
 
 .lower-box > button{
-    height: 60%;
-    width: 100%;
+    height: 20px;
+    width: 75%;
     background-color: #5E8A75;
     color: white;
     cursor: pointer;
