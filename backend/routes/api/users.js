@@ -61,4 +61,15 @@ router.post('/', validateSignup, async (req, res, next) => {
     })
 })
 
+//Work in Progress
+router.get('/all', async(req, res, next) => {
+
+  // const users = await 
+
+  return res.json({
+    test: 'test'
+  })
+
+})
+
 module.exports = router;
