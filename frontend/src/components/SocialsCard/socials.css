@@ -1,0 +1,31 @@
+.socials-card {
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    /* width: 100px; */
+    background-color: #E3D3BD;
+    color: #5E8A75;
+    padding: 10px;
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+    border-top-right-radius: 10px; 
+    border-bottom-right-radius: 10px; 
+    padding: 10px;
+}
+
+.socials-title{
+    font-size: 20px;
+}
+
+.icon-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+#icon{
+    color: #5E8A75;
+    font-size: 35px;
+}

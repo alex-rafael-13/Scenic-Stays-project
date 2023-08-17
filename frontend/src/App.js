@@ -9,6 +9,7 @@ import CreateSpot from "./components/CreateSpot";
 import ManageSpots from "./components/ManageSpots";
 import UpdateSpot from "./components/UpdateSpotForm";
 import Bookings from "./components/Bookings";
+import SocialsCard from "./components/SocialsCard";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
           </Route>
         </Switch>
       )}
+      <SocialsCard />
     </>
   );
 }
