@@ -29,7 +29,7 @@ const randomPrice = () => {
 }
 
 const spots = [
-  //1
+  //1 !
   {
     username: randomUser(),
     spot:{
@@ -44,7 +44,7 @@ const spots = [
       price: randomPrice()
     }
   },
-  //2
+  //2 !
   {
     username: randomUser(),
     spot:{
@@ -59,7 +59,7 @@ const spots = [
       price: randomPrice()
     }
   },
-  //3
+  //3 !
   {
     username: randomUser(),
     spot: {
