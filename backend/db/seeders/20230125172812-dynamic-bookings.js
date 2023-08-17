@@ -4,37 +4,73 @@ const { Spot, User , Booking} = require('../models')
 
 const bookingInfo = [
   {
-    name: 'Modern Style in Nature',
+    name: 'Aurora Cabin',
     bookings:[
       {
         username: 'Ironman',
         dates:{
-          startDate: '2022-10-09',
-          endDate: '2022-10-24'
+          startDate: '2030-10-09',
+          endDate: '2030-10-24'
         }
       }
     ]
   },
   {
-    name: 'Home by the Clouds',
+    name: 'Rustic Mountains',
     bookings:[
       {
-        username: 'Captain-America',
+        username: 'Ironman',
         dates:{
-          startDate: '2022-10-09',
-          endDate: '2022-10-24'
+          startDate: '2030-11-09',
+          endDate: '2030-11-24'
         }
       }
     ]
   },
   {
-    name: 'Ski Haven',
+    name: 'Classical Villa',
     bookings:[
       {
-        username: 'Black-Panther',
+        username: 'Ironman',
         dates:{
-          startDate: '2022-10-09',
-          endDate: '2022-10-24'
+          startDate: '2030-12-09',
+          endDate: '2030-12-24'
+        }
+      }
+    ]
+  },
+  {
+    name: 'Hill Residence',
+    bookings:[
+      {
+        username: 'Ironman',
+        dates:{
+          startDate: '2030-01-09',
+          endDate: '2030-01-24'
+        }
+      }
+    ]
+  },
+  {
+    name: 'Nani Resort',
+    bookings:[
+      {
+        username: 'Ironman',
+        dates:{
+          startDate: '2030-02-09',
+          endDate: '2030-02-24'
+        }
+      }
+    ]
+  },
+  {
+    name: 'Mountain Luxury',
+    bookings:[
+      {
+        username: 'Ironman',
+        dates:{
+          startDate: '2030-03-09',
+          endDate: '2030-03-24'
         }
       }
     ]
