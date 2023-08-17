@@ -171,10 +171,10 @@ export default function SingleSpot() {
                                         <>
                                             {(user.id === spot.ownerId) ? (
                                                 <>
-                                                    <div className="lower-box">
+                                                    {/* <div className="lower-box">
                                                         <div>Manage bookings for this spot</div>
                                                         <button onClick={() => alert('Feature coming soon')}>Check Bookings</button>
-                                                    </div>
+                                                    </div> */}
                                                 </>
                                             ):(
                                                 <>
