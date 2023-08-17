@@ -153,14 +153,14 @@ const spots = [
   {
     username: 'Black-Panther',
     spot: {
-      address: "456 Mountain Way",
+      address: "456 Romeo Way",
       city: "Vittoriosa",
       state: "Valleta",
       country: "Malta",
       lat: 0,
       lng: 0,
       name: "Classical Villa",
-      description: "Cape lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi ipsum faucibus vitae aliquet nec. Mauris augue neque gravida in. Hendrerit gravida rutrum quisque non tellus orci. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Nibh cras pulvinar mattis nunc sed blandit libero. Felis eget nunc lobortis mattis aliquam. Malesuada nunc vel risus commodo viverra maecenas accumsan lacus vel. Congue quisque egestas diam in arcu cursus. Massa ultricies mi quis hendrerit dolor magna eget est. Adipiscing at in tellus integer feugiat scelerisque. Arcu non sodales neque sodales ut etiam sit amet. Faucibus in ornare quam viverra orci sagittis.",
+      description: "Juliet lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mi ipsum faucibus vitae aliquet nec. Mauris augue neque gravida in. Hendrerit gravida rutrum quisque non tellus orci. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Nibh cras pulvinar mattis nunc sed blandit libero. Felis eget nunc lobortis mattis aliquam. Malesuada nunc vel risus commodo viverra maecenas accumsan lacus vel. Congue quisque egestas diam in arcu cursus. Massa ultricies mi quis hendrerit dolor magna eget est. Adipiscing at in tellus integer feugiat scelerisque. Arcu non sodales neque sodales ut etiam sit amet. Faucibus in ornare quam viverra orci sagittis.",
       price: randomPrice()
     }
   },
